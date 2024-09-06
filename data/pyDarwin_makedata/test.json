@@ -1,0 +1,142 @@
+{
+    "ADVAN": [	
+        [
+            "ADVAN2 ;; advan2",
+            ";; PK 1 compartment ",
+            ";; THETA 1 compartment",
+            "{K23ETA[3]}_0"
+        ],
+        [
+            "ADVAN4 ;; advan4",
+            [
+                "K23=THETA(ADVANA){K23ETA[1]}",
+                "  K32=THETA(ADVANB)"
+            ],
+            [
+                "(0.001,0.02)\t ;; THETA(ADVANA) K23",
+                "  (0.001,0.3) \t ;; THETA(ADVANB) K32",
+                "{K23ETA[2]}"
+            ],
+            "{K23ETA[3]}_1"
+        ],
+        [
+			"ADVAN12 ;; advan12",
+        [
+            " K23=THETA(ADVANA)",
+            " K32=THETA(ADVANB)",
+            " K24=THETA(ADVANC)",
+            " K42=THETA(ADVAND)"
+        ],
+        [
+            "(0.001,1) \t;; THETA(ADVANA) k23",
+            "(0.001,2) \t;; THETA(ADVANB) k32",
+            "(0.001,0.01) \t;; THETA(ADVANC) k24",
+            "(0.001,0.04) \t;; THETA(ADVAND) k42"
+        ],
+        "2"
+		]
+    ],
+    "K23ETA": [
+        [
+            "",
+            "",
+            "0"
+        ],
+        [
+            "*EXP(ETA(K23ETA)) ",
+            "   0.1\t\t; ETA(K23ETA) ETA ON KA",
+            "1"
+        ]
+    ],
+    "ALLETAs": [
+        [
+            "",
+            "",
+            "",
+            "",
+            "0"
+        ],
+        [
+            "",
+            "",
+            "*EXP(ETA(KAETA)) ",
+            [
+                "",
+                "",
+                "$OMEGA ;; 2nd??OMEGA block ",
+                "   0.1\t\t; ETA(KAETA) ETA ON KA"
+            ],
+            "1"
+        ],
+        [
+            "*EXP(ETA(V2ETA)) ",
+            "",
+            "",
+            [
+                "$OMEGA ;; 2nd??OMEGA block ",
+                "   0.1\t\t; ETA(V2ETA) ETA ON KA",
+                "",
+                ""
+            ],
+            "2"
+        ],
+        [
+            "*EXP(ETA(V2ETA)) ",
+            "*EXP(ETA(ALAGETA)) ",
+            "",
+            [
+                "$OMEGA ;; 2nd??OMEGA block ",
+                "   0.1\t\t; ETA(V2ETA) ETA ON V",
+                "   0.1\t\t; ETA(ALAGETA) ETA ON LAG",
+                ""
+            ],
+            "3"
+        ],
+        [
+            "*EXP(ETA(V2ETA)) ",
+            "*EXP(ETA(ALAGETA)) ",
+            "*EXP(ETA(KAETA)) ",
+            [
+                "$OMEGA ;; 2nd??OMEGA block ",
+                "   0.1\t\t; ETA(V2ETA) ETA ON V",
+                "   0.1\t\t; ETA(ALAGETA) ETA ON LAG",
+                "   0.1\t\t; ETA(KAETA) ETA ON KA"
+            ],
+            "4"
+        ],
+        [
+            "*EXP(ETA(V2ETA)) ",
+            "*EXP(ETA(ALAGETA)) ",
+            "*EXP(ETA(KAETA)) ",
+            [
+                "$OMEGA BLOCK(3) ;; 2nd??OMEGA block ",
+                "   0.1\t\t; ETA(V2ETA) ETA ON V",
+                "   0.05 0.1\t\t; ETA(ALAGETA) ETA ON LAG",
+                "   0.05 0.05 0.1\t\t; ETA(KAETA) ETA ON KA"
+            ],
+            "5"
+        ],
+        [
+            "*EXP(ETA(V2ETA)) ",
+            "*EXP(ETA(ALAGETA)) ",
+            "",
+            [
+                "$OMEGA BLOCK(2) ;; 2nd??OMEGA block ",
+                "   0.1\t\t; ETA(V2ETA) ETA ON V",
+                "   0.05 0.1\t\t; ETA(ALAGETA) ETA ON LAG",
+                ""
+            ],
+            "6"
+        ]
+    ],
+    "BQL": [
+        [
+            "",
+            "0"
+        ],
+        [
+            "IF(IOBS<LLOQ)THEN\n BQL=1\nIOBS=LLOQ/2\nEND IF",
+            "1"
+        ]
+    ]
+}

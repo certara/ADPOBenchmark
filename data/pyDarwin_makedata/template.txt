@@ -1,0 +1,50 @@
+  $PROBLEM    Dual Numbers benchmark - NONMEM
+  $ABBR DERIV2=NO 
+  $INPUT   ID TIME AMT DV EVID BQL WT
+  $DATA      c:/git/adpoBenchMark/data/pydarwin_makedata/data_sim.csv IGNORE=@
+  $SUBROUTINE ADVAN6 TOL=7
+  $MODEL
+   COMP=(DEPOT,DEFDOSE)
+   COMP=(CENTRAL,NODOSE,DEFOBS)
+   {COMP[1]}
+  $PK      
+  CWT = WT/70 
+ 
+  TVVMAX= THETA(1)   
+  VMAX=TVVMAX{ETAs[1]}
+  TVKM = THETA(2)
+  KM = TVKM {ETAs[2]} 
+  TVV2=THETA(3) {V~WT[1]}
+  V2=TVV2 {ETAs[3]}   
+  TVKA=THETA(4) 
+  KA=TVKA {ETAs[4]}  
+  {COMP[2]}
+  SC = V2
+  $ERROR    
+  IOBS = F*EXP(EPS(2)) + EPS(1)
+  Y=F*EXP(EPS(2)) + EPS(1)
+$DES
+  CONC = A(2)/SC
+  DADT(1) = -KA*A(1)
+  DADT(2) =  KA*A(1)-VMAX*CONC{GAMMA[1]}/(KM{GAMMA[1]}+CONC{GAMMA[1]}) {COMP[3]}
+  {COMP[4]}
+ 
+$THETA   
+  (100,4000,10000)	; THETA(1) VMAX UNITS =  mass/time
+  (100,1000,3000)	; THETA(2) KM UNITS = mass/volume
+  (1,50) 		; THETA(3) V  UNITS = volume
+  (0.01,1.2,3) 		; THETA(4) KA UNITS = 1/time    
+  {GAMMA[2]}
+  {V~WT[2]}
+  {COMP[5]} 
+;; Start OMEGA5
+$OMEGA  {ETAs[5]}
+  {ETAs[6]}
+  $SIGMA     
+  (1) ;; EPS(1) ADDITIVE
+  (0.3) ;; EPS(2) PROPORTIONAL
+$SIM (2345) ONLYSIM 
+$TABLE ID TIME AMT IOBS EVID WT FILE=c:\git\adpoBenchmark\data\OUT_{COMP[6]}_{ETAs[7]}_{V~WT[3]}_{GAMMA[3]}.DAT NOPRINT NOHEADER NOAPPEND
+;;; Model Identifier =  {COMP[6]},{ETAs[7]},{V~WT[3]},{GAMMA[3]}
+$TABLE ID VMAX KM V2 KA FIRSTONLY NOAPPEND NOPRINT FILE= c:\git\adpoBenchmark\data\PARMS_{COMP[6]}_{ETAs[7]}_{V~WT[3]}_{GAMMA[3]}.DAT
+$TABLE ID TIME IPRED DV NOAPPEND NOPRINT FILE= Preds_{COMP[6]}_{ETAs[7]}_{V~WT[3]}_{GAMMA[3]}.DAT
