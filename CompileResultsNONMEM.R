@@ -1,4 +1,5 @@
 #  setwd("c:/git/adpoBenchmark/")
+library(Metrics)
 run_NONMEM <- function(home_dir){
   working_dir <- file.path(home_dir,"NONMEM")
   setwd(working_dir)
@@ -8,7 +9,6 @@ run_NONMEM <- function(home_dir){
   library(ggplot2)
   library(dplyr)
   # run all models for time, reboot computer first
-  source("CleanUp.R")
   # define values for the models/data sets to be used
   CompNTHETA <- c(0,2,4)
   VWTNTHETA <- c(0,1)
@@ -67,7 +67,7 @@ run_NONMEM <- function(home_dir){
                   setwd(wd)
                   filenameStem <- paste0("Run",Curr_model)
                   command <- paste0("nmfe74 ", paste0(filenameStem,".mod "), paste0(filenameStem,".lst"))
-                  StartTime <-  as.ITime(Sys.time())
+                  StartTime <- Sys.time() # as.ITime(Sys.time())
                   shell(command)
                   xml_file <- file.path(wd, paste0(filenameStem,".xml"))
                   parms <- GetNMParms(xml_file)
@@ -84,9 +84,12 @@ run_NONMEM <- function(home_dir){
                   TVV <- as.numeric(parms$theta[3])
                   TVKA <-as.numeric(parms$theta[4])
                   CVVmax <- sqrt(parms$omega[1])
-                  Rval = CalcRMSE(wd)
-                  RMSE = Rval$RMSE
-                  MAE = Rval$MAE
+                  data <- read.table(file.path(wd,"Run1Preds.dat"),skip = 1, header = TRUE) %>%
+                    filter(TIME > 0) %>%
+                    mutate(IPRED = log(IPRED), DV = log(DV))
+                  # log to get proportional
+                  RMSE = rmse(data$DV, data$IPRED)
+                  MAE = mae(data$DV, data$IPRED)
                   message("############ Estimation time for ", wd , " = ",
                       Est_time," seconds ############")
 
@@ -100,7 +103,7 @@ run_NONMEM <- function(home_dir){
               )
 
               EndTime <- Sys.time()
-              CleanUp(wd)
+              CleanUp(getwd())
               NOMEGA <- ETANOMEGA[this_eta+1]
 
               This_Result = data.frame(
@@ -121,7 +124,7 @@ run_NONMEM <- function(home_dir){
                 Algorithm = "NONMEM",
                 Good_inits = TRUE,
                 log_path = xml_file,
-                control_file = paste0(filenameStem, ".mod "),
+                control_file = file.path(home_dir,"","NONMEM",Curr_model,paste0("Run",Curr_model,".mod ")),
                 data_set = data_file,
                 nparms = NTHETA + NOMEGA ,
                 messages = paste(messages, collapse = "-"),

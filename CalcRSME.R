@@ -1,12 +1,7 @@
 library(Metrics)
-CalcRMSE <- function(wd){
-  data <- read.table(file.path(wd,"Run1Preds.dat"),skip = 1, header = TRUE) %>%
-    filter(TIME > 0) %>%
-    mutate(IPRED = log(IPRED), DV = log(DV))
-  # log to get proportional
-
-  RMSE <- rmse(data$DV, data$IPRED)
-  MAE <- mae(data$DV, data$IPRED)
+CalcRMSE <- function(DV,IPRED){
+  RMSE <- rmse(DV, IPRED)
+  MAE <- mae(DV, IPRED)
   return <- list(
     RMSE = RMSE,
     MAE = MAE

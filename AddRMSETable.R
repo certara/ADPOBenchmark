@@ -17,6 +17,11 @@ setwd("c:/git/adpoBenchmark/nlme")
 i = 1
 for(i in 1:72){
   control <- read_file(file.path(i,paste0("run",i,".mmdl")))
-  control <- str_replace(control,"c:/git/adpo_speed/data/","c:/git/adpoBenchmark/data/")
+ # control <- str_replace(control,"c:/git/adpo_speed/data/","c:/git/adpoBenchmark/data/")
+  #control <- str_replace(control,"1200, 3000","4000")
+  #control <- str_replace(control,"1200, 3000","4000")
+  #control <- str_replace(control,"1, 15, 40","1,50")
+  control <- str_replace_all(control,"4000","4000,")
+  control <- str_replace(control,"1,50","1,50, ")
   write_file(control,file.path(i,paste0("run",i,".mmdl")))
 }

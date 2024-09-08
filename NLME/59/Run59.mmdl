@@ -11,12 +11,12 @@
   observe(CObs=C + CEps * sqrt(1 + C^2 * (CMultStdev/sigma())^2)) 
   fixef( CMultStdev = c(0,1,))
   stparm(Vmax = tvVmax * exp( nVmax ))
-  fixef(tvVmax= c(100, 1200, 3000 ))  
+  fixef(tvVmax= c(100, 4000, ))  
   stparm(Km = tvKm )
-  fixef(tvKm= c(100, 1200, 3000 ))  
+  fixef(tvKm= c(100, 4000, ))  
   fcovariate(WT)
   stparm(V = tvV *(WT/70)^dVdWT * exp( nV ))
-  fixef(tvV= c(1, 15, 40 )) 
+  fixef(tvV= c(1, 50, )) 
   stparm(Ka = tvKa )
   fixef(tvKa= c(0.01, 1.2, 3))   
 
@@ -24,7 +24,7 @@
 
 
   ranef(block(nVmax,nV) = c(0.31,0.1,0.31))
-  fixef(dVdWT=c(0, 1.1, 10 )) 
+  fixef(dVdWT=c(0, 1.1, 10 ))  
   } 
 ##ESTARGS
   ODE=DVERK sort=FALSE method=FOCE-ELS stdErr=Auto-Detect numIterations = 9999 maxStepsODE = 100000000

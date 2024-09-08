@@ -1,5 +1,5 @@
-
-$INSTALLDIR="c:\program files\Certara\nlme_engine"
+\n$env:NLME_HASH = 1770978959
+$INSTALLDIR="c:\program files\Certara\nnlme_engine_dualmay21_old"
 if($INSTALLDIR -eq "" -or $INSTALLDIR -eq $null)
 {
   "Installation directory is not specified"

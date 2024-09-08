@@ -1,4 +1,4 @@
-  $PROBLEM    Dual Numbers benchmark - NONMEM
+  $PROBLEM    ADPO benchmark - NONMEM
   $ABBR DERIV2=NO 
   $INPUT   ID TIME AMT DV EVID BQL WT
   $DATA      c:/git/adpoBenchMark/data/pydarwin_makedata/data_sim.csv IGNORE=@
@@ -21,6 +21,7 @@
   {COMP[2]}
   SC = V2
   $ERROR    
+  IPRED = F
   IOBS = F*EXP(EPS(2)) + EPS(1)
   Y=F*EXP(EPS(2)) + EPS(1)
 $DES
@@ -47,4 +48,4 @@ $SIM (2345) ONLYSIM
 $TABLE ID TIME AMT IOBS EVID WT FILE=c:\git\adpoBenchmark\data\OUT_{COMP[6]}_{ETAs[7]}_{V~WT[3]}_{GAMMA[3]}.DAT NOPRINT NOHEADER NOAPPEND
 ;;; Model Identifier =  {COMP[6]},{ETAs[7]},{V~WT[3]},{GAMMA[3]}
 $TABLE ID VMAX KM V2 KA FIRSTONLY NOAPPEND NOPRINT FILE= c:\git\adpoBenchmark\data\PARMS_{COMP[6]}_{ETAs[7]}_{V~WT[3]}_{GAMMA[3]}.DAT
-$TABLE ID TIME IPRED DV NOAPPEND NOPRINT FILE= Preds_{COMP[6]}_{ETAs[7]}_{V~WT[3]}_{GAMMA[3]}.DAT
+ 

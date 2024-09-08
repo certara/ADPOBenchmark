@@ -1,13 +1,8 @@
-$PROBLEM    Dual Numbers benchmark - NONMEM
-$ABBR DERIV2=NO 
+$PROBLEM    Dual Numbers benchmark
 $INPUT       ID TIME AMT DV WT
-$DATA      c:/git/adpoBenchmark/data/sim_2_2_1_1.csv IGNORE=@
-  ;; data file name must match out file name in the template file for simulations in data folder
-  ;;from data\template.txt
-  ;; $TABLE ID TIME AMT IOBS EVID WT FILE=c:\git\dual_numbers\data\OUT_2_2_1_1.DAT NOPRINT NOHEADER NOAPPEND
-  ;; and file read/write in make_data.r
-  ;; file_name <- paste0(this_comp,"_",this_eta,"_",this_vwt,"_",this_gamma)
-$SUBROUTINE ADVAN6 TOL=7
+$DATA      C:/git/adpoBenchmark/data/sim_2_2_1_1.csv IGNORE=@
+
+$SUBROUTINE ADVAN6 TOL=7 
 $MODEL
   COMP=(DEPOT,DEFDOSE)
   COMP=(CENTRAL,NODOSE,DEFOBS)
@@ -29,9 +24,8 @@ $PK
   K24=THETA(9)
   K42=THETA(10)
   SC = V2
-$ERROR 
- IPRED = F   
-
+$ERROR    
+  IPRED = F
   Y=F*EXP(EPS(2)) + EPS(1)
 $DES
   CONC = A(2)/SC
@@ -41,30 +35,29 @@ $DES
   DADT(4) = K24*A(2)-K42*A(4)
 
 $THETA   
-  (100,4000)	; THETA(1) VMAX UNITS =  mass/time
-  (100,4000)	; THETA(2) KM UNITS = mass/volume
-  (1,50) 		; THETA(3) V  UNITS = volume
-  (0.01,1.2,3) 		; THETA(4) KA UNITS = 1/time    
-  (0.0001,1.6,3) 	;; THETA(5) GAMMA
-  (0,1.1,10) 	;; THETA(6) V~WT
-  (0.0001,2,10)	 ;; THETA(7) K23
-  (0.0001,3,10)	 ;; THETA(8) K32
-  (0.0001,0.1,10)	 ;; THETA(9) K24
-  (0.0001,0.05,10)	 ;; THETA(10) K42 
-  ;; Start OMEGA
-$OMEGA  
-  0.1		; ETA(1) ETA ON VMAX
-  0.1		; ETA(2) ETA ON KM
-  0.1		; ETA(3) ETA ON V2
+  (100,4000)	; THETA(1) VMAX UNITS =  MG/HR
+  (100,4000)	; THETA(2) KM UNITS =  CONC
+  (0,50) 	; THETA(3) V  UNITS = L
+  (0,1.2) 	; THETA(4) KA UNITS = 1/HR    
+  (0,1.7) 	;; THETA(5) GAMMA
+  (0,1.1) 	;; THETA(6) V~WT
+  (0,2)	 ;; THETA(7) K23
+  (0,3)	 ;; THETA(8) K32
+  (0.0001,0.1,10) 	 ;; THETA(9) K24
+  (0.0001,0.05,10) 	 ;; THETA(10) K42
+; empty $OMEGA    
+$OMEGA 
+  0.3		; ETA(1) ETA ON VMAX
+  0.3		; ETA(2) ETA ON KM
+  0.3		; ETA(3) ETA ON V2
 $SIGMA     
   (1) ;; EPS(1) ADDITIVE
   (0.3) ;; EPS(2) PROPORTIONAL
-$EST METHOD=COND INTER MAXEVALS=9999 NOHABORT NOOMEGABOUNDTEST NOSIGMABOUNDTEST NOTHETABOUNDTEST
-$COV UNCOND PRECOND=2
+  $EST METHOD=COND INTER MAXEVALS=9999 NOHABORT NOOMEGABOUNDTEST NOSIGMABOUNDTEST NOTHETABOUNDTEST
+  $COV UNCOND PRECOND=2
   ;;; Model Identifier =  2,2,1,1
 
+$TABLE ID TIME IPRED DV NOAPPEND ONEHEADER NOPRINT FILE= Run1Preds.dat
 ;; Phenotype: ([('COMP', 2), ('ETAs', 2), ('V~WT', 1), ('GAMMA', 1)])
 ;; Genotype: [2, 2, 1, 1]
 ;; Num non-influential tokens: 0
-
-$TABLE ID TIME IPRED DV NOAPPEND ONEHEADER NOPRINT FILE= Run1Preds.dat

@@ -1,4 +1,4 @@
-run_nlme <- function(home_dir, version = "standard"){
+run_nlme <- function(home_dir, which_version = "standard"){
   nreps <- 200
   library(stringr)
   library(dplyr)
@@ -6,12 +6,14 @@ run_nlme <- function(home_dir, version = "standard"){
   library(data.table)
   library(tidyvpc)
   library(lubridate)
-  if(version == "dual"){
-     Sys.setenv("NLME_HASH" = 1788678031) # don't need for standard NLME
-     installationDirectory <- "c:/program files/Certara/nlme_engine_dualMay21"
+  if(which_version == "ADPO"){
+     Sys.setenv("NLME_HASH" = 1770978959)
+     installationDirectory <- "c:/program files/Certara/nnlme_engine_dualmay21_old"
      syngrads <- TRUE
+     outputfilename <-  "NLMEResults_ADPO.csv"
   }else{
     installationDirectory <- "c:/program files/Certara/nlme_engine"
+    outputfilename <-  "NLMEResults_Standard.csv"
     syngrads <- FALSE
   }
   ETANOMEGA <- c(1,2,3,4,3,6) # no simple way to get n_omega from fit object
@@ -47,10 +49,10 @@ run_nlme <- function(home_dir, version = "standard"){
     crash = as.logical()
 
   )
-
-
   this_gamma <- this_vwt <- this_eta <- this_comp <- 0
   Curr_model <- 0
+
+
   for(this_gamma in 0:1){
     for(this_vwt in 0:1){
       for(this_comp in 0:2){
@@ -82,12 +84,14 @@ run_nlme <- function(home_dir, version = "standard"){
                           installationDirectory = installationDirectory,
                           runInBackground = TRUE)
 
+          EndTime <- Sys.time()
           if(file.exists(file.path(model_orig@modelInfo@workingDir,"err2.txt"))){
             EndTime <- Sys.time()
+            control_file <- file.path(home_dir,"nlme",Curr_model,paste0("Run",Curr_model,".mmdl"))
             file_conn <- file(model_orig@modelInfo@workingDirm,"err2.txt")
             messages <- readLines(file_conn)
             close(file_conn)
-            CurResults <- data.frame(
+            This_Result <- data.frame(
               StartTime = strptime(StartTime,format = "%Y-%m-%d %H:%M"),
               EndTime = EndTime,
               Model_num = Curr_model,
@@ -109,6 +113,13 @@ run_nlme <- function(home_dir, version = "standard"){
               data_set = data_file,
               nparms = -999,
               messages = messages,
+              TVVmax = -99,
+              TVKM = -99,
+              TVV = -99,
+              TVKA = -99,
+              CVVmax =-99,
+              RMSE = -99,
+              MAE = -99,
               crash = TRUE,
 
             )
@@ -127,6 +138,11 @@ run_nlme <- function(home_dir, version = "standard"){
               Cov_time <-  as.numeric(str_trim(str_replace(Cov_time," stderr runtime \\(secs\\) =","")))
               Overall <- colnames(read.csv(file.path(model_orig@modelInfo@workingDir,"overall.csv")))
               Covar <- "Condition" %in% Overall
+              TVVmax = fit$theta$Estimate[2]
+              TVKM = fit$theta$Estimate[3]
+              TVV = fit$theta$Estimate[4]
+              TVKA = fit$theta$Estimate[5]
+              CVVmax = fit$omega$nVmax
               Iterations <- max(fit$ConvergenceData$Iter)
               # data set only in mmdl file
               control_file <- file.path(home_dir,"nlme",Curr_model,paste0("Run",Curr_model,".mmdl"))
@@ -135,7 +151,10 @@ run_nlme <- function(home_dir, version = "standard"){
               close(file_conn)
               data_file <- str_replace(control[1],"##DATA ","")
               log_path <- file.path(model_orig@modelInfo@workingDir, "nlme7engine.log")
-
+              DV <- log(fit$residuals$DV)
+              IPRED <- log(fit$residuals$IPRED)
+              RMSE = rmse(DV, IPRED)
+              MAE = mae(DV, IPRED)
               This_Result = data.frame(
                 StartTime = as.character(StartTime),
                 EndTime = as.character(EndTime),
@@ -144,20 +163,20 @@ run_nlme <- function(home_dir, version = "standard"){
                 this_eta = this_eta,
                 this_vwt = this_vwt,
                 this_gamma = this_gamma,
-                n_theta = NTHETA,
-                n_omega = NOMEGA,
+                n_theta = n_theta,
+                n_omega = n_omega,
                 Est_time = Est_time,
                 Cov_time = Cov_time,
-                Success = success,
+                Success = Success,
                 Covar = Covar,
-                Iterations = iterations,
-                Algorithm = "NONMEM",
+                Iterations = Iterations,
+                Algorithm = "NLME",
                 Good_inits = TRUE,
-                log_path = xml_file,
-                control_file = paste0(filenameStem, ".mod "),
+                log_path = log_path,
+                control_file = file.path(home_dir,"nlme",Curr_model,paste0("Run",Curr_model,".mmdl")),
                 data_set = data_file,
-                nparms = NTHETA + NOMEGA ,
-                messages = paste(messages, collapse = "-"),
+                nparms = n_theta + n_omega,
+                messages = fit$Overall$RetCode,
                 TVVmax = TVVmax,
                 TVKM = TVKM,
                 TVV = TVV,
@@ -167,15 +186,13 @@ run_nlme <- function(home_dir, version = "standard"){
                 MAE = MAE,
                 crash = FALSE
               )
-
             }
           Results <- rbind(Results, This_Result)
-          write.csv(Results,file.path(home_dir,"NLMEResults.csv"),quote= FALSE, row.names = FALSE)
+          write.csv(Results,file.path(home_dir,outputfilename),quote= FALSE, row.names = FALSE)
         }
       }
-    s}
+    }
   }
 
-  write.csv(Results,file.path(home_dir,"NLMEResults.csv"),quote= FALSE, row.names = FALSE)
   message("Done at ", format(Sys.time(), format = "%F %R %Z"))
 }

@@ -1,0 +1,28 @@
+WORKING_DIR=c:/git/adpoBenchmark/NLME/run/0/28/1-est, MPIFLAG=MPINO, LOCAL_HOST=YES, NUM_NODES=1, SHARED_DRIVE=
+model=test.mdl, nlmeDir=C:\Program Files\Certara\NLME_Engine
+---------------------
+> md .\Work
+---------------------
+Translating...
+---------------------
+> "C:\Program Files\Certara\NLME_Engine\TDL5.exe"  /L .\test.mdl .\Work 1> log.txt 2>&1
+---------------------
+Compiling...
+---------------------
+> "C:\Program Files\Certara\mingw64\bin\gcc.exe" -std=c++11 -m64 -I"C:\Program Files\Certara\NLME_Engine" -malign-double -fverbose-asm -c -g .\Work\Model.cpp
+---------------------
+---------------------
+> move /y Model.o .\Work
+---------------------
+        1 file(s) moved.
+Linking...
+---------------------
+> "C:\Program Files\Certara\mingw64\bin\gfortran.exe" -g --enable-stdcall-fixup -static .\Work\Model.o "C:\Program Files\Certara\NLME_Engine\libNLME7.a" "C:\Program Files\Certara\NLME_Engine\libcrlibm.a" "C:\Program Files\Certara\NLME_Engine\libNLME7_FORT.a" "C:\Program Files\Certara\NLME_Engine\libLAPACK.a" "C:\Program Files\Certara\NLME_Engine\libBLAS.a" "C:\Program Files\Certara\NLME_Engine\libMPI_STUB.a" -lstdc++ -o NLME7_0_28.exe
+---------------------
+---------------------
+> .\NLME7_0_28.exe @nlmeargs.txt 1> err1.txt 2> err2.txt
+---------------------
+
+  SUCCESS
+ =========
+
