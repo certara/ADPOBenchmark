@@ -1,7 +1,7 @@
 $PROBLEM    ADPO benchmark - NONMEM
 $ABBR DERIV2=NO 
 $INPUT   ID TIME AMT DV EVID BQL WT
-$DATA      c:/git/adpoBenchMark/data/pydarwin_makedata/data_sim.csv IGNORE=@
+$DATA      ..\..\..\data_sim.csv IGNORE=@
 $SUBROUTINE ADVAN6 TOL=7
 $MODEL
   COMP=(DEPOT,DEFDOSE)
@@ -50,9 +50,9 @@ $SIGMA
   (1) ;; EPS(1) ADDITIVE
   (0.3) ;; EPS(2) PROPORTIONAL
 $SIM (2345) ONLYSIM 
-$TABLE ID TIME AMT IOBS EVID WT FILE=c:\git\adpoBenchmark\data\OUT_1_3_1_1.DAT NOPRINT NOHEADER NOAPPEND
+$TABLE ID TIME AMT IOBS EVID WT FILE=../../../OUT_1_3_1_1.DAT NOPRINT NOHEADER NOAPPEND
   ;;; Model Identifier =  1,3,1,1
-$TABLE ID VMAX KM V2 KA FIRSTONLY NOAPPEND NOPRINT FILE= c:\git\adpoBenchmark\data\PARMS_1_3_1_1.DAT
+$TABLE ID VMAX KM V2 KA FIRSTONLY NOAPPEND NOPRINT FILE= ../../../PARMS_1_3_1_1.DAT
 
 ;; Phenotype: ([('COMP', 1), ('ETAs', 3), ('V~WT', 1), ('GAMMA', 1)])
 ;; Genotype: [1, 3, 1, 1]
