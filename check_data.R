@@ -6,15 +6,16 @@ check_data <- function(home_dir, curr_model){
   phenotype <- control[[1]][phenotype[[1]]]
   phenotype <- str_trim(str_replace(phenotype,"  ;;; Model Identifier = ",""))
   phenotype <- str_split(phenotype,",")[[1]]
-  datafile <-  control[[1]][grep(paste0("DATA      ",home_dir), unlist(control))]
-  datafile <- str_trim(str_replace(datafile,"\\$DATA" ,""))
-  datafile <- str_trim(str_replace(datafile,paste0(home_dir,"/data/sim_"),""))
-  datafile <- str_trim(str_replace(datafile,".csv IGNORE=@",""))
+  datafile <-  control[[1]][grep(tolower(paste0("DATA      ",home_dir)), tolower(unlist(control)))]
+  datafile <- tolower(datafile)
+  datafile <- str_trim(str_replace(datafile,"\\$data" ,""))
+  datafile <- str_trim(str_replace(datafile,tolower(paste0(home_dir,"/data/sim_")),""))
+  datafile <- str_trim(str_replace(datafile,".csv ignore=@",""))
   datafile <- str_split(datafile,"_")[[1]]
-  curr_data_type <- c(as.character(this_comp),as.character(this_eta),as.character(this_vwt),as.character(this_gamma))
+  #curr_data_type <- c(as.character(this_comp),as.character(this_eta),as.character(this_vwt),as.character(this_gamma))
   if(!(all(datafile==phenotype))){
     message("NONMEN Phenotype not matched in ", datafile, " current model = ", curr_model)
-  s}
+  }
 
   # same for NLME
   control <- readtext::readtext(file.path(home_dir,"NLME",curr_model,paste0("Run",curr_model,".mmdl")),verbosity =0)$text
@@ -30,7 +31,6 @@ check_data <- function(home_dir, curr_model){
   datafile <- str_trim(str_replace(datafile,tolower(paste0(home_dir,"/data/sim_")),""))
   datafile <- str_trim(str_replace(datafile,".csv",""))
   datafile <- str_split(datafile,"_")[[1]]
-  curr_data_type <- c(as.character(this_comp),as.character(this_eta),as.character(this_vwt),as.character(this_gamma))
   if(!(all(datafile==phenotype))){
     message("NLME Phenotype not matched in ", datafile, " current model = ", curr_model)
   }

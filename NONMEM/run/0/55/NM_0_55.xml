@@ -5,11 +5,12 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 xsi:schemaLocation="http://namespaces.oreilly.com/xmlnut/address output.xsd"
 xmlns:nm="http://namespaces.oreilly.com/xmlnut/address"
 >
-<nm:start_datetime>2024-09-08T08:51:02.402</nm:start_datetime>
+<nm:start_datetime>2024-09-08T15:56:20.567</nm:start_datetime>
 <nm:control_stream><![CDATA[
 $PROBLEM    Dual Numbers benchmark
 $INPUT       ID TIME AMT DV WT
-$DATA      C:/git/adpoBenchmark/data/sim_0_0_1_1.csv IGNORE=@
+  ;; $DATA      c:/git/adpoBenchmark/data/sim_0_0_1_1.csv IGNORE=@
+$DATA      D:/git/adpoBenchmark/data/sim_0_0_1_1.csv IGNORE=@
 
 $SUBROUTINE ADVAN6 TOL=7
 $MODEL
@@ -65,12 +66,8 @@ $TABLE ID TIME IPRED DV NOAPPEND ONEHEADER NOPRINT FILE= Run1Preds.dat
  WARNINGS AND ERRORS (IF ANY) FOR PROBLEM    1
 
  (WARNING  2) NM-TRAN INFERS THAT THE DATA ARE POPULATION.
-
-Note: Analytical 2nd Derivatives are constructed in FSUBS but are never used.
-      You may insert $ABBR DERIV2=NO after the first $PROB to save FSUBS construction and compilation time
-
 ]]></nm:nmtran>
-<nm:nonmem nm:version='7.5.1'>
+<nm:nonmem nm:version='7.4.3'>
 <nm:license_information><![CDATA[
 License Registered to: Certara USA
 Expiration Date:    14 MAR 2025
@@ -78,12 +75,36 @@ Current Date:        8 SEP 2024
 Days until program expires : 191
 ]]></nm:license_information>
 <nm:program_information><![CDATA[
-1NONLINEAR MIXED EFFECTS MODEL PROGRAM (NONMEM) VERSION 7.5.1
+1NONLINEAR MIXED EFFECTS MODEL PROGRAM (NONMEM) VERSION 7.4.3
  ORIGINALLY DEVELOPED BY STUART BEAL, LEWIS SHEINER, AND ALISON BOECKMANN
  CURRENT DEVELOPERS ARE ROBERT BAUER, ICON DEVELOPMENT SOLUTIONS,
  AND ALISON BOECKMANN. IMPLEMENTATION, EFFICIENCY, AND STANDARDIZATION
  PERFORMED BY NOUS INFOSYSTEMS.
 ]]></nm:program_information>
+<nm:theta_lb>
+<nm:val nm:name='1'>100.00000000000000</nm:val>
+<nm:val nm:name='2'>100.00000000000000</nm:val>
+<nm:val nm:name='3'>0.0000000000000000</nm:val>
+<nm:val nm:name='4'>0.0000000000000000</nm:val>
+<nm:val nm:name='5'>0.0000000000000000</nm:val>
+<nm:val nm:name='6'>0.0000000000000000</nm:val>
+</nm:theta_lb>
+<nm:theta_in>
+<nm:val nm:name='1'>4000.0000000000000</nm:val>
+<nm:val nm:name='2'>4000.0000000000000</nm:val>
+<nm:val nm:name='3'>50.000000000000000</nm:val>
+<nm:val nm:name='4'>1.2000000000000000</nm:val>
+<nm:val nm:name='5'>1.7000000000000000</nm:val>
+<nm:val nm:name='6'>1.1000000000000001</nm:val>
+</nm:theta_in>
+<nm:theta_ub>
+<nm:val nm:name='1'>1000000.0000000000</nm:val>
+<nm:val nm:name='2'>1000000.0000000000</nm:val>
+<nm:val nm:name='3'>1000000.0000000000</nm:val>
+<nm:val nm:name='4'>1000000.0000000000</nm:val>
+<nm:val nm:name='5'>1000000.0000000000</nm:val>
+<nm:val nm:name='6'>1000000.0000000000</nm:val>
+</nm:theta_ub>
 <nm:problem nm:number='1' nm:subproblem='0' nm:superproblem1='0' nm:iteration1='0' nm:superproblem2='0' nm:iteration2='0'>
 <nm:problem_title>Dual Numbers benchmark</nm:problem_title>
 <nm:problem_information><![CDATA[
@@ -131,8 +152,6 @@ Days until program expires : 191
 0TABLES STEP OMITTED:    NO
  NO. OF TABLES:           1
  SEED NUMBER (SEED):    11456
- NPDTYPE:    0
- INTERPTYPE:    0
  RANMETHOD:             3U
  MC SAMPLES (ESAMPLE):    300
  WRES SQUARE ROOT TYPE (WRESCHOL): EIGENVALUE
@@ -143,13 +162,12 @@ Days until program expires : 191
  HEADER:                YES
  FILE TO BE FORWARDED:   NO
  FORMAT:                S1PE11.4
- IDFORMAT:
  LFORMAT:
  RFORMAT:
  FIXED_EFFECT_ETAS:
 0USER-CHOSEN ITEMS:
  ID TIME IPRED DV
-1DOUBLE PRECISION PREDPP VERSION 7.5.1
+1DOUBLE PRECISION PREDPP VERSION 7.4.3
 
  GENERAL NONLINEAR KINETICS MODEL (DVERK1, ADVAN6)
 0MODEL SUBROUTINE USER-SUPPLIED - ID NO. 9999
@@ -190,34 +208,10 @@ Days until program expires : 191
  nm:data_sub_array2='0' nm:data_sub_array3='0' nm:data_pred_indices='6,2,3,0,0,0,0,0,0,0,0'
  nm:data_format='(5e7.0,2f2.0)' nm:data_nobs='480' nm:data_nind='60' nm:data_mdv100='0' nm:nthetat='6'
  nm:theta_bound_test_omitted='no' nm:omega_diagdim='1' nm:omega_bound_test_omitted='no' nm:sigma_diagdim='2'
- nm:sigma_bound_test_omitted='no' nm:tab_omitted='no' nm:tab_number='1' nm:tab_seed='11456' nm:tab_npdtype='0'
- nm:tab_interptype='0' nm:tab_ranmethod='3u' nm:tab_esample='300' nm:tab_wres='eigenvalue'
- nm:tab_fixedetas_01='BLANK' nm:pred_advan='6' nm:pred_evid='6' nm:pred_time='2' nm:pred_amt='3'
+ nm:sigma_bound_test_omitted='no' nm:tab_omitted='no' nm:tab_number='1' nm:tab_seed='11456' nm:tab_ranmethod='3u'
+ nm:tab_esample='300' nm:tab_wres='eigenvalue' nm:tab_fixedetas_01='BLANK' nm:pred_advan='6' nm:pred_evid='6'
+ nm:pred_time='2' nm:pred_amt='3'
 />
-<nm:theta_lb>
-<nm:val nm:name='1'>100.00000000000000</nm:val>
-<nm:val nm:name='2'>100.00000000000000</nm:val>
-<nm:val nm:name='3'>0.0000000000000000</nm:val>
-<nm:val nm:name='4'>0.0000000000000000</nm:val>
-<nm:val nm:name='5'>0.0000000000000000</nm:val>
-<nm:val nm:name='6'>0.0000000000000000</nm:val>
-</nm:theta_lb>
-<nm:theta_in>
-<nm:val nm:name='1'>4000.0000000000000</nm:val>
-<nm:val nm:name='2'>4000.0000000000000</nm:val>
-<nm:val nm:name='3'>50.000000000000000</nm:val>
-<nm:val nm:name='4'>1.2000000000000000</nm:val>
-<nm:val nm:name='5'>1.7000000000000000</nm:val>
-<nm:val nm:name='6'>1.1000000000000001</nm:val>
-</nm:theta_in>
-<nm:theta_ub>
-<nm:val nm:name='1'>1000000.0000000000</nm:val>
-<nm:val nm:name='2'>1000000.0000000000</nm:val>
-<nm:val nm:name='3'>1000000.0000000000</nm:val>
-<nm:val nm:name='4'>1000000.0000000000</nm:val>
-<nm:val nm:name='5'>1000000.0000000000</nm:val>
-<nm:val nm:name='6'>1000000.0000000000</nm:val>
-</nm:theta_ub>
 <nm:estimation nm:number='1' nm:type='1'>
 <nm:table_series>1</nm:table_series>
 <nm:estimation_method>fo</nm:estimation_method>
@@ -234,18 +228,19 @@ Days until program expires : 191
  SIGDIGITS FOR MAP ESTIMATION (SIGLO):      100
  GRADIENT SIGDIGITS OF
        FIXED EFFECTS PARAMETERS (SIGL):     100
- NOPRIOR SETTING (NOPRIOR):                 0
+ NOPRIOR SETTING (NOPRIOR):                 OFF
  NOCOV SETTING (NOCOV):                     OFF
  DERCONT SETTING (DERCONT):                 OFF
- FINAL ETA RE-EVALUATION (FNLETA):          1
+ FINAL ETA RE-EVALUATION (FNLETA):          ON
  EXCLUDE NON-INFLUENTIAL (NON-INFL.) ETAS
        IN SHRINKAGE (ETASTYPE):             NO
- NON-INFL. ETA CORRECTION (NONINFETA):      0
+ NON-INFL. ETA CORRECTION (NONINFETA):      OFF
  RAW OUTPUT FILE (FILE): NM_0_55.ext
  EXCLUDE TITLE (NOTITLE):                   NO
  EXCLUDE COLUMN LABELS (NOLABEL):           NO
  FORMAT FOR ADDITIONAL FILES (FORMAT):      S1PE12.5
  PARAMETER ORDER FOR OUTPUTS (ORDER):       TSOL
+ WISHART PRIOR DF INTERPRETATION (WISHTYPE):0
  KNUTHSUMOFF:                               0
  INCLUDE LNTWOPI:                           NO
  INCLUDE CONSTANT TERM TO PRIOR (PRIORC):   NO
@@ -258,11 +253,11 @@ Days until program expires : 191
  nm:estim_omitted='yes' nm:analysis_type='pop' nm:epseta_interaction='no' nm:predflag='0' nm:numder='0' nm:optmap='0'
  nm:etader='0' nm:mceta='0' nm:siglo='100' nm:sigl='100' nm:noprior='0' nm:nocov='0' nm:dercont='0' nm:atol='0' nm:fnleta='1'
  nm:etastype='0' nm:noninfeta='0' nm:file='nm_0_55.ext' nm:notitle='0' nm:nolabel='0' nm:format='s1pe12.5'
- nm:order='tsol' nm:knuthsumoff='0' nm:lntwopi='0' nm:priorc='0' nm:olntwopi='0' nm:ctype='0'
+ nm:order='tsol' nm:wishtype='0' nm:knuthsumoff='0' nm:lntwopi='0' nm:priorc='0' nm:olntwopi='0' nm:ctype='0'
 />
-<nm:estimation_elapsed_time>0.36</nm:estimation_elapsed_time>
+<nm:estimation_elapsed_time>0.16</nm:estimation_elapsed_time>
 <nm:final_objective_function_text>MINIMUM VALUE OF OBJECTIVE FUNCTION</nm:final_objective_function_text>
-<nm:final_objective_function>51517.409967161453</nm:final_objective_function>
+<nm:final_objective_function>51517.409967161460</nm:final_objective_function>
 <nm:theta>
 <nm:val nm:name='1'>4000.0000000000000</nm:val>
 <nm:val nm:name='2'>4000.0000000000000</nm:val>
@@ -301,11 +296,11 @@ Days until program expires : 191
 </nm:sigmac>
 </nm:estimation>
 <nm:post_process_times>
-<nm:post_elapsed_time>0.29</nm:post_elapsed_time>
-<nm:finaloutput_elapsed_time>0.12</nm:finaloutput_elapsed_time>
+<nm:post_elapsed_time>0.40</nm:post_elapsed_time>
+<nm:finaloutput_elapsed_time>0.05</nm:finaloutput_elapsed_time>
 </nm:post_process_times>
 </nm:problem>
 </nm:nonmem>
-<nm:stop_datetime>2024-09-08T08:51:03.650</nm:stop_datetime>
-<nm:total_cputime>0.766</nm:total_cputime>
+<nm:stop_datetime>2024-09-08T15:56:21.429</nm:stop_datetime>
+<nm:total_cputime>0.422</nm:total_cputime>
 </nm:output>

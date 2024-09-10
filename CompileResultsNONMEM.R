@@ -1,5 +1,4 @@
-#  setwd("c:/git/adpoBenchmark/")
-library(Metrics)
+
 run_NONMEM <- function(home_dir){
   working_dir <- file.path(home_dir,"NONMEM")
   setwd(working_dir)

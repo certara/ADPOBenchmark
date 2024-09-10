@@ -1,11 +1,6 @@
+
 run_nlme <- function(home_dir, which_version = "standard"){
   nreps <- 200
-  library(stringr)
-  library(dplyr)
-  library(Certara.RsNLME)
-  library(data.table)
-  library(tidyvpc)
-  library(lubridate)
   if(which_version == "ADPO"){
      Sys.setenv("NLME_HASH" = 1770978959)
      installationDirectory <- "c:/program files/Certara/nnlme_engine_dualmay21_old"

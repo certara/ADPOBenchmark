@@ -1,7 +1,4 @@
-#run below to simulate data and control files
-#
-library(dplyr)
-library(readr)
+
 make_data <- function(home_dir){
   LLOQ <- 0.1
   set.seed(1)

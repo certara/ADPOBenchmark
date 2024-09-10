@@ -1,6 +1,7 @@
 $PROBLEM    Dual Numbers benchmark
 $INPUT       ID TIME AMT DV WT
-$DATA      C:/git/adpoBenchmark/data/sim_2_5_0_0.csv IGNORE=@
+  ;; $DATA      c:/git/adpoBenchmark/data/sim_2_5_0_0.csv IGNORE=@
+$DATA      D:/git/adpoBenchmark/data/sim_2_5_0_0.csv IGNORE=@
 
 $SUBROUTINE ADVAN6 TOL=7 
 $MODEL

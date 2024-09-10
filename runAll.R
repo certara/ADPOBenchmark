@@ -4,6 +4,13 @@
 rm(list=ls())
 home_dir <- getwd()
 library(Metrics)
+library(ggplot2)
+library(readr)
+library(stringr)
+library(dplyr)
+library(Certara.RsNLME)
+library(data.table)
+library(lubridate)
 source(file.path(home_dir,"make_data.R"))
 source(file.path(home_dir,"check_data.R"))
 source(file.path(home_dir,"ReadNM_xml.R"))
@@ -14,23 +21,30 @@ source(file.path(home_dir,"GetTrueParms.r"))
 source(file.path(home_dir,"DATA","make_data.r"))
 source(file.path(home_dir,"CopyNONMEMControls.R"))
 source(file.path(home_dir,"CopyNLMEControls.R"))
-# no need to recreate models
-# this freezes when run from here
-# need to step through r file, run pydarwin from command line
-#make_data(home_dir)
+# all the commented out requires pyDarwin and some editing of the options.json file to set the tempfolder path
+# but, all control files and data files are availabe, no reason to recreate them
+# code is provided for completeness
+# also note that calling pydarwin from R can freeze R, may need to step through r file,
+# then run pydarwin from command line
+# make_data(home_dir)
 # make NONMEM control files
 # note that the run directory in options.json must be an absolute path
 # this must be set manually, current value is c:\git\adpoBenchmark\nonmem\run
-#setwd(file.path(home_dir,"pydarwin_nonmem"))
-#shell("python -m darwin.run_search_in_folder .")
+# setwd(file.path(home_dir,"pydarwin_nonmem"))
+# change folder in options to d:
+# and data file in template
+# shell("python -m darwin.run_search_in_folder .")
+# setwd(file.path(home_dir,"pydarwin_nlme"))
+# change folder in options to d:
+# shell("python -m darwin.run_search_in_folder .")
 # uncomment $EST and $COV copy to home_dir/NONMEM/run?.mod
-CopyNONMEMControls(home_dir)
-CopyNLMEControls(home_dir)
+# CopyNONMEMControls(home_dir)
+# CopyNLMEControls(home_dir)
 for(i in 1:72){
   check_data(home_dir,i)
   }
 run_nlme(home_dir,"standard")
-run_nlme(home_dir,"ADPO")
+ # run_nlme(home_dir,"ADPO")
 run_NONMEM(home_dir)
 NONMEM_data <- read.csv(file.path(home_dir,"NONMEMResults.csv"))
 # Append NM to column names
@@ -62,7 +76,6 @@ ratios <-  all_data %>%
          NM_NLMERMSE = NMRMSE/NLME_STRMSE,
          NM_NLMEMAE = NMMAE/NLME_STMAE) %>%
   select(NM_NLMEStEst,NM_NLMEStCOV,NM_NLMERMSE,NM_NLMEMAE)
-library(ggplot2)
 NM_NLMEST_ESTTime <- ggplot(all_data) +
   geom_histogram(aes(x=NMEst_time,colour = NMAlgorithm,fill=NMAlgorithm),alpha = 0.4) +
   geom_histogram(aes(x=NLME_STEst_time,colour = NLME_STAlgorithm,fill=NLME_STAlgorithm),alpha = 0.4) +
