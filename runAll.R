@@ -18,7 +18,6 @@ source(file.path(home_dir,"CompileResultsNONMEM.R"))
 source(file.path(home_dir,"CleanUp.R"))
 source(file.path(home_dir,"CompileResultsNLME.r"))
 source(file.path(home_dir,"GetTrueParms.r"))
-source(file.path(home_dir,"DATA","make_data.r"))
 source(file.path(home_dir,"CopyNONMEMControls.R"))
 source(file.path(home_dir,"CopyNLMEControls.R"))
 # all the commented out requires pyDarwin and some editing of the options.json file to set the tempfolder path
@@ -42,9 +41,10 @@ source(file.path(home_dir,"CopyNLMEControls.R"))
 # CopyNLMEControls(home_dir)
 for(i in 1:72){
   check_data(home_dir,i)
-  }
+}
+run_nlme(home_dir,"NoHessian")
 run_nlme(home_dir,"standard")
- # run_nlme(home_dir,"ADPO")
+run_nlme(home_dir,"ADPO")
 run_NONMEM(home_dir)
 NONMEM_data <- read.csv(file.path(home_dir,"NONMEMResults.csv"))
 # Append NM to column names
@@ -60,6 +60,10 @@ NLME_ADPO_data <- read.csv(file.path(home_dir,"NLMEResults_ADPO.csv")) %>%
   dplyr::distinct(Model_num,.keep_all=TRUE)
 # append NLME_ADPO to column names
 # data set for run time ratio/RMSE ratio/MAE ratio
+NLME_NOHessian_data <- NLME_standard_data %>%
+  distinct(NLME_STModel_num, .keep_all = TRUE) %>%
+  filter(NLME_STModel_num<=8)
+# append NLME_ST to column names
 all_data <- cbind(NONMEM_data,
                   NLME_standard_data)
 # check that genome is the same

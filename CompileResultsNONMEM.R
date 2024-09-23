@@ -50,7 +50,8 @@ run_NONMEM <- function(home_dir){
   nsamp <- 200
   # set all models/data sets to initial values
   this_gamma <- this_vwt <- this_eta <- this_comp <- 0
-  for(this_gamma in 0:1){
+  #for(this_gamma in 0:1){
+    for(this_gamma in 1:1){
     for(this_vwt in 0:1){
       for(this_comp in 0:2){
        for(this_eta in 0:5){
@@ -65,39 +66,64 @@ run_NONMEM <- function(home_dir){
                   wd <- file.path(working_dir, Curr_model)
                   setwd(wd)
                   filenameStem <- paste0("Run",Curr_model)
+
+                  xml_file <- file.path(wd, paste0(filenameStem,".xml"))
+                  if(file.exists(xml_file)){file.remove(xml_file)}
                   command <- paste0("nmfe74 ", paste0(filenameStem,".mod "), paste0(filenameStem,".lst"))
                   StartTime <- Sys.time() # as.ITime(Sys.time())
-                  shell(command)
-                  xml_file <- file.path(wd, paste0(filenameStem,".xml"))
-                  parms <- GetNMParms(xml_file)
-                  data_file <- parms$dataFile
-                  iterations <- parms$iterations
-                  messages <- parms$messages
-                  success <- parms$success
-                  Covar <- parms$covar
-                  NTHETA <- length(parms$theta)
-                  Est_time <-  parms$EstTime
-                  Cov_time <- parms$CovTime
-                  TVVmax <- as.numeric(parms$theta[1])
-                  TVKM <- as.numeric(parms$theta[2])
-                  TVV <- as.numeric(parms$theta[3])
-                  TVKA <-as.numeric(parms$theta[4])
-                  CVVmax <- sqrt(parms$omega[1])
-                  data <- read.table(file.path(wd,"Run1Preds.dat"),skip = 1, header = TRUE) %>%
-                    filter(TIME > 0) %>%
-                    mutate(IPRED = log(IPRED), DV = log(DV))
-                  # log to get proportional
-                  RMSE = rmse(data$DV, data$IPRED)
-                  MAE = mae(data$DV, data$IPRED)
-                  message("############ Estimation time for ", wd , " = ",
-                      Est_time," seconds ############")
+                  rval <- system(command, timeout = 3600*6)
+                  # can't tell if timeout or crashed??
+                  if(file.exists(xml_file)){
+                    parms <- GetNMParms(xml_file)
+                    data_file <- parms$dataFile
+                    iterations <- parms$iterations
+                    messages <- parms$messages
+                    success <- parms$success
+                    Covar <- parms$covar
+                    NTHETA <- length(parms$theta)
+                    if(rval != 124){ # return code for timeout
+                    Est_time <-  parms$EstTime
+                    Cov_time <- parms$CovTime
+                    }else{
+                      Est_time <-  3600*6
+                      Cov_time <- -999                    }
+
+                    TVVmax <- as.numeric(parms$theta[1])
+                    TVKM <- as.numeric(parms$theta[2])
+                    TVV <- as.numeric(parms$theta[3])
+                    TVKA <-as.numeric(parms$theta[4])
+                    CVVmax <- sqrt(parms$omega[1])
+                    data <- read.table(file.path(wd,"Run1Preds.dat"),skip = 1, header = TRUE) %>%
+                      filter(TIME > 0) %>%
+                      mutate(IPRED = log(IPRED), DV = log(DV))
+                    # log to get proportional
+                    RMSE = rmse(data$DV, data$IPRED)
+                    MAE = mae(data$DV, data$IPRED)
+                    message("############ Estimation time for ", wd , " = ",
+                        Est_time," seconds ############")
+                  }else{
+                    Run_time <- 9999999
+                    if(rval == 124){
+                    Est_time <- Cov_time <-  6*3600
+                    }else{
+                      Est_time <- (Sys.time()-StartTime)
+                      Cov_time <-  -9999
+                    }
+                    converge <- Covar <- success <- finished <- FALSE
+                    status <- iterations <- RMSE <- MAE <-   -99999
+                    message_char <- "-99999"
+                  }
 
                 },
                 error = function(e){
                   Run_time <- 9999999
                   converge <- Covar <- success <- finished <- FALSE
-                  status <- iterations <- -99999
-                  message_char <- "-99999"
+                  status <- iterations <- RMSE <- MAE <-   -99999
+                  if(rval == 124){
+                    message_char <- "timed out"
+                  }else{
+                    message_char <- "-99999"
+                  }
                 }
               )
 
@@ -138,6 +164,9 @@ run_NONMEM <- function(home_dir){
               )
               Results <- rbind(Results, This_Result)
               write.csv(Results,file.path(home_dir,"NONMEMResults.csv"), quote= FALSE, row.names = FALSE)
+              try({
+                file.copy(file.path(home_dir,"NONMEMResults.csv"),file.path(home_dir,"NONMEMResults_bak.csv"))
+              })
               }
          }
         }

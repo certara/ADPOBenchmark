@@ -3,14 +3,25 @@ run_nlme <- function(home_dir, which_version = "standard"){
   nreps <- 200
   if(which_version == "ADPO"){
      Sys.setenv("NLME_HASH" = 1770978959)
-     installationDirectory <- "c:/program files/Certara/nnlme_engine_dualmay21_old"
+     Sys.setenv("INSTALLDIR" = "D:/NLME_Engine_ADPO")
      syngrads <- TRUE
      outputfilename <-  "NLMEResults_ADPO.csv"
-  }else{
-    installationDirectory <- "c:/program files/Certara/nlme_engine"
-    outputfilename <-  "NLMEResults_Standard.csv"
+     backupfilename <-  "NLMEResults_ADPOBAK.csv"
+
+  }else if(which_version == "NoHessian"){
+    Sys.setenv("NLME_HASH" = 1770978959)
+    Sys.setenv("INSTALLDIR" = "D:/NLME_Engine_noHessian")
     syngrads <- FALSE
+    outputfilename <-  "NLMEResults_NoHessian.csv"
+    backupfilename <-  "NLMEResults_NoHessianBAK.csv"
+  }else if(which_version == "standard"){
+    Sys.setenv("INSTALLDIR" = "c:/Program Files/Certara/NLME_Engine")
+    syngrads <- FALSE
+    outputfilename <-  "NLMEResults_Standard.csv"
+    backupfilename <-  "NLMEResults_StandardBAK.csv"
   }
+
+
   ETANOMEGA <- c(1,2,3,4,3,6) # no simple way to get n_omega from fit object
   Results <- data.frame(
     StartTime = as.character(),
@@ -44,29 +55,31 @@ run_nlme <- function(home_dir, which_version = "standard"){
     crash = as.logical()
 
   )
-  this_gamma <- this_vwt <- this_eta <- this_comp <- 0
   Curr_model <- 0
-
-
-  for(this_gamma in 0:1){
-    for(this_vwt in 0:1){
-      for(this_comp in 0:2){
-        for(this_eta in 0:5){
+  this_gamma <- this_vwt <- this_eta <- this_comp <- 0
+   for(this_gamma in 0:1){
+     for(this_vwt in 0:1){
+       for(this_comp in 0:2){
+         for(this_eta in 0:5){
           Curr_model <- Curr_model + 1
-          setwd(file.path(home_dir,"nlme",Curr_model))
-          model_meta <- create_model_from_metamodel(file.path(home_dir, "nlme",
-                                                              Curr_model, paste0("Run",Curr_model,".mmdl")))
-
-          model_orig <- model_meta$model
-          message("############ Running ",model_orig@modelInfo@workingDir, " at ",
-                  format(Sys.time(), format = "%F %R %Z") , " ############")
-          modelNum <- str_sub(rev(setdiff(strsplit(model_orig@modelInfo@workingDir,"/|\\\\")[[1]], ""))[1],
-                              start= 0)
-          if(file.exists(file.path(model_orig@modelInfo@workingDir,"err2.txt"))){
-            file.remove(file.path(model_orig@modelInfo@workingDir,"err2.txt"))
-          }
           StartTime <- Sys.time()
-          fit <- fitmodel(model_orig,
+          runOk <- TRUE
+
+          tryCatch({
+            setwd(file.path(home_dir,"nlme",Curr_model))
+            model_meta <- create_model_from_metamodel(file.path(home_dir, "nlme",
+                                                                Curr_model, paste0("run",Curr_model,".mmdl")))
+
+            model_orig <- model_meta$model
+            message("############ Running ",model_orig@modelInfo@workingDir, " at ",
+                    format(Sys.time(), format = "%F %R %Z") , " with ",which_version," ############")
+            modelNum <- str_sub(rev(setdiff(strsplit(model_orig@modelInfo@workingDir,"/|\\\\")[[1]], ""))[1],
+                                start= 0)
+            if(file.exists(file.path(model_orig@modelInfo@workingDir,"err2.txt"))){
+              file.remove(file.path(model_orig@modelInfo@workingDir,"err2.txt"))
+            }
+
+            fit <- fitmodel(model_orig,
                           numIterations = 1000,
                           numCores = 1,
                           ODE = "DVERK",
@@ -76,16 +89,24 @@ run_nlme <- function(home_dir, which_version = "standard"){
                           stdErr = "Auto-Detect",
                           maxStepsODE = 100000,
                           allowSyntheticGradient = syngrads,
-                          installationDirectory = installationDirectory,
+                        #  installationDirectory = installationDirectory,
                           runInBackground = TRUE)
-
-          EndTime <- Sys.time()
-          if(file.exists(file.path(model_orig@modelInfo@workingDir,"err2.txt"))){
+            },
+          error = function(cond) {
+            message("In Error!!\n\n!!!error\n\n!!!error\n\n!!!error\n\n!!!error")
+            runOk <- FALSE
+          })
             EndTime <- Sys.time()
-            control_file <- file.path(home_dir,"nlme",Curr_model,paste0("Run",Curr_model,".mmdl"))
-            file_conn <- file(model_orig@modelInfo@workingDirm,"err2.txt")
-            messages <- readLines(file_conn)
-            close(file_conn)
+          if(!(runOk) | file.exists(file.path(model_orig@modelInfo@workingDir, "err2.txt"))){
+            EndTime <- Sys.time()
+            control_file <- file.path(home_dir, "nlme",Curr_model,paste0("Run",Curr_model,".mmdl"))
+            if(file.exists(file.path(model_orig@modelInfo@workingDir,"err2.txt"))){
+              file_conn <- file(model_orig@modelInfo@workingDirm,"err2.txt")
+              messages <- readLines(file_conn)
+              close(file_conn)
+              }else{
+                messages <- "Run Failed, unknown error"
+              }
             This_Result <- data.frame(
               StartTime = strptime(StartTime,format = "%Y-%m-%d %H:%M"),
               EndTime = EndTime,
@@ -138,18 +159,29 @@ run_nlme <- function(home_dir, which_version = "standard"){
               TVV = fit$theta$Estimate[4]
               TVKA = fit$theta$Estimate[5]
               CVVmax = fit$omega$nVmax
-              Iterations <- max(fit$ConvergenceData$Iter)
-              # data set only in mmdl file
+              Iterations <-  -999
+              try({
+                if(!is.na(fit$ConvergenceData)){
+                  Iterations <- max(fit$ConvergenceData$Iter)
+                }else{
+                  Iterations <-  -999
+                }
+              })
+
               control_file <- file.path(home_dir,"nlme",Curr_model,paste0("Run",Curr_model,".mmdl"))
               file_conn <- file(control_file)
               control <- readLines(file_conn)
               close(file_conn)
               data_file <- str_replace(control[1],"##DATA ","")
               log_path <- file.path(model_orig@modelInfo@workingDir, "nlme7engine.log")
-              DV <- log(fit$residuals$DV)
-              IPRED <- log(fit$residuals$IPRED)
-              RMSE = rmse(DV, IPRED)
-              MAE = mae(DV, IPRED)
+              if(!is.null(fit$residuals)){
+                DV <- log(fit$residuals$DV)
+                IPRED <- log(fit$residuals$IPRED)
+                RMSE <-  rmse(DV, IPRED)
+                MAE <-  mae(DV, IPRED)
+              }else{
+                DV <-  IPRED <-   RMSE <- MAE  <- -999
+              }
               This_Result = data.frame(
                 StartTime = as.character(StartTime),
                 EndTime = as.character(EndTime),
@@ -184,6 +216,9 @@ run_nlme <- function(home_dir, which_version = "standard"){
             }
           Results <- rbind(Results, This_Result)
           write.csv(Results,file.path(home_dir,outputfilename),quote= FALSE, row.names = FALSE)
+          try({
+            file.copy(file.path(home_dir,outputfilename),file.path(home_dir,backupfilename))
+          })
         }
       }
     }

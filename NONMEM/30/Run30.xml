@@ -5,17 +5,13 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 xsi:schemaLocation="http://namespaces.oreilly.com/xmlnut/address output.xsd"
 xmlns:nm="http://namespaces.oreilly.com/xmlnut/address"
 >
-<nm:start_datetime>2024-09-05T18:59:21.271</nm:start_datetime>
+<nm:start_datetime>2024-09-14T01:56:00.651</nm:start_datetime>
 <nm:control_stream><![CDATA[
-$PROBLEM    Dual Numbers benchmark - NONMEM
-$ABBR DERIV2=NO
+$PROBLEM    Dual Numbers benchmark
 $INPUT       ID TIME AMT DV WT
-$DATA      c:/git/adpoBenchmark/data/sim_1_5_1_0.csv IGNORE=@
-  ;; data file name must match out file name in the template file for simulations in data folder
-  ;;from data\template.txt
-  ;; $TABLE ID TIME AMT IOBS EVID WT FILE=c:\git\dual_numbers\data\OUT_1_5_1_0.DAT NOPRINT NOHEADER NOAPPEND
-  ;; and file read/write in make_data.r
-  ;; file_name <- paste0(this_comp,"_",this_eta,"_",this_vwt,"_",this_gamma)
+  ;; $DATA      c:/git/adpoBenchmark/data/sim_1_5_1_0.csv IGNORE=@
+$DATA      D:/git/adpoBenchmark/data/sim_1_5_1_0.csv IGNORE=@
+
 $SUBROUTINE ADVAN6 TOL=7
 $MODEL
   COMP=(DEPOT,DEFDOSE)
@@ -36,41 +32,39 @@ $PK
   K32=THETA(7)
   SC = V2
 $ERROR
- IPRED = F
-
+  IPRED = F
   Y=F*EXP(EPS(2)) + EPS(1)
 $DES
   CONC = A(2)/SC
   DADT(1) = -KA*A(1)
-  DADT(2) =  KA*A(1)-VMAX*CONC/(KM+CONC) -K23*A(2) + K32*A(3)
+  DADT(2) =  KA*A(1)-VMAX*CONC/(KM+CONC) -K23*A(2)+K32*A(3)
   DADT(3) = K23*A(2)-K32*A(3)
 
 $THETA
-  (100,4000)	; THETA(1) VMAX UNITS =  mass/time
-  (100,4000)	; THETA(2) KM UNITS = mass/volume
-  (1,50) 		; THETA(3) V  UNITS = volume
-  (0.01,1.2,3) 		; THETA(4) KA UNITS = 1/time
+  (100,4000)	; THETA(1) VMAX UNITS =  MG/HR
+  (100,4000)	; THETA(2) KM UNITS =  CONC
+  (0,50) 	; THETA(3) V  UNITS = L
+  (0,1.2) 	; THETA(4) KA UNITS = 1/HR
 
-  (0,1.1,10) 	;; THETA(5) V~WT
-  (0.0001,2,10)	 ;; THETA(6) K23
-  (0.0001,3,10)	 ;; THETA(7) K32
-  ;; Start OMEGA
-$OMEGA  BLOCK(3)
-  0.1		; ETA(1) ETA ON VMAX
-  0.05 0.1		; ETA(2) ETA ON KM
-  0.05 0.05 0.1		; ETA(3) ETA ON V2
+  (0,1.1) 	;; THETA(5) V~WT
+  (0,2)	 ;; THETA(6) K23
+  (0,3)	 ;; THETA(7) K32
+; empty $OMEGA
+$OMEGA BLOCK(3)
+  0.3		; ETA(1) ETA ON VMAX
+  0.1 0.3		; ETA(2) ETA ON KM
+  0.1 0.1 0.3		; ETA(3) ETA ON V2
 $SIGMA
   (1) ;; EPS(1) ADDITIVE
   (0.3) ;; EPS(2) PROPORTIONAL
-$EST METHOD=COND INTER MAXEVALS=9999 NOHABORT NOOMEGABOUNDTEST NOSIGMABOUNDTEST NOTHETABOUNDTEST
-$COV UNCOND PRECOND=2
+  $EST METHOD=COND INTER MAXEVALS=9999 NOHABORT NOOMEGABOUNDTEST NOSIGMABOUNDTEST NOTHETABOUNDTEST
+  $COV UNCOND PRECOND=2
   ;;; Model Identifier =  1,5,1,0
 
+$TABLE ID TIME IPRED DV NOAPPEND ONEHEADER NOPRINT FILE= Run1Preds.dat
 ;; Phenotype: ([('COMP', 1), ('ETAs', 5), ('V~WT', 1), ('GAMMA', 0)])
 ;; Genotype: [1, 5, 1, 0]
 ;; Num non-influential tokens: 0
-
-$TABLE ID TIME IPRED DV NOAPPEND ONEHEADER NOPRINT FILE= Run1Preds.dat
 ]]></nm:control_stream>
 <nm:nmtran><![CDATA[
 
@@ -82,8 +76,8 @@ $TABLE ID TIME IPRED DV NOAPPEND ONEHEADER NOPRINT FILE= Run1Preds.dat
 <nm:license_information><![CDATA[
 License Registered to: Certara USA
 Expiration Date:    14 MAR 2025
-Current Date:        5 SEP 2024
-Days until program expires : 194
+Current Date:       14 SEP 2024
+Days until program expires : 185
 ]]></nm:license_information>
 <nm:program_information><![CDATA[
 1NONLINEAR MIXED EFFECTS MODEL PROGRAM (NONMEM) VERSION 7.4.3
@@ -95,11 +89,11 @@ Days until program expires : 194
 <nm:theta_lb>
 <nm:val nm:name='1'>100.00000000000000</nm:val>
 <nm:val nm:name='2'>100.00000000000000</nm:val>
-<nm:val nm:name='3'>1.0000000000000000</nm:val>
-<nm:val nm:name='4'>1.00000000000000002E-002</nm:val>
+<nm:val nm:name='3'>0.0000000000000000</nm:val>
+<nm:val nm:name='4'>0.0000000000000000</nm:val>
 <nm:val nm:name='5'>0.0000000000000000</nm:val>
-<nm:val nm:name='6'>1.00000000000000005E-004</nm:val>
-<nm:val nm:name='7'>1.00000000000000005E-004</nm:val>
+<nm:val nm:name='6'>0.0000000000000000</nm:val>
+<nm:val nm:name='7'>0.0000000000000000</nm:val>
 </nm:theta_lb>
 <nm:theta_in>
 <nm:val nm:name='1'>4000.0000000000000</nm:val>
@@ -114,21 +108,21 @@ Days until program expires : 194
 <nm:val nm:name='1'>1000000.0000000000</nm:val>
 <nm:val nm:name='2'>1000000.0000000000</nm:val>
 <nm:val nm:name='3'>1000000.0000000000</nm:val>
-<nm:val nm:name='4'>3.0000000000000000</nm:val>
-<nm:val nm:name='5'>10.000000000000000</nm:val>
-<nm:val nm:name='6'>10.000000000000000</nm:val>
-<nm:val nm:name='7'>10.000000000000000</nm:val>
+<nm:val nm:name='4'>1000000.0000000000</nm:val>
+<nm:val nm:name='5'>1000000.0000000000</nm:val>
+<nm:val nm:name='6'>1000000.0000000000</nm:val>
+<nm:val nm:name='7'>1000000.0000000000</nm:val>
 </nm:theta_ub>
 <nm:problem nm:number='1' nm:subproblem='0' nm:superproblem1='0' nm:iteration1='0' nm:superproblem2='0' nm:iteration2='0'>
-<nm:problem_title>Dual Numbers benchmark - NONMEM</nm:problem_title>
+<nm:problem_title>Dual Numbers benchmark</nm:problem_title>
 <nm:problem_information><![CDATA[
 
  PROBLEM NO.:         1
- Dual Numbers benchmark - NONMEM
+ Dual Numbers benchmark
 0DATA CHECKOUT RUN:              NO
  DATA SET LOCATED ON UNIT NO.:    2
  THIS UNIT TO BE REWOUND:        NO
- NO. OF DATA RECS IN DATA SET:      480
+ NO. OF DATA RECS IN DATA SET:      540
  NO. OF DATA ITEMS IN DATA SET:   7
  ID DATA ITEM IS DATA ITEM NO.:   1
  DEP VARIABLE IS DATA ITEM NO.:   4
@@ -142,7 +136,7 @@ Days until program expires : 194
 0FORMAT FOR DATA:
  (5E8.0,2F2.0)
 
- TOT. NO. OF OBS RECS:      420
+ TOT. NO. OF OBS RECS:      480
  TOT. NO. OF INDIVIDUALS:       60
 0LENGTH OF THETA:   7
 0DEFAULT THETA BOUNDARY TEST OMITTED:   YES
@@ -157,17 +151,17 @@ Days until program expires : 194
  LOWER BOUND    INITIAL EST    UPPER BOUND
   0.1000E+03     0.4000E+04     0.1000E+07
   0.1000E+03     0.4000E+04     0.1000E+07
-  0.1000E+01     0.5000E+02     0.1000E+07
-  0.1000E-01     0.1200E+01     0.3000E+01
-  0.0000E+00     0.1100E+01     0.1000E+02
-  0.1000E-03     0.2000E+01     0.1000E+02
-  0.1000E-03     0.3000E+01     0.1000E+02
+  0.0000E+00     0.5000E+02     0.1000E+07
+  0.0000E+00     0.1200E+01     0.1000E+07
+  0.0000E+00     0.1100E+01     0.1000E+07
+  0.0000E+00     0.2000E+01     0.1000E+07
+  0.0000E+00     0.3000E+01     0.1000E+07
 0INITIAL ESTIMATE OF OMEGA:
  BLOCK SET NO.   BLOCK                                                                    FIXED
         1                                                                                   NO
-                  0.1000E+00
-                  0.5000E-01   0.1000E+00
-                  0.5000E-01   0.5000E-01   0.1000E+00
+                  0.3000E+00
+                  0.1000E+00   0.3000E+00
+                  0.1000E+00   0.1000E+00   0.3000E+00
 0INITIAL ESTIMATE OF SIGMA:
  0.1000E+01
  0.0000E+00   0.3000E+00
@@ -245,10 +239,10 @@ Days until program expires : 194
 0DES SUBROUTINE USES COMPACT STORAGE MODE.
 ]]></nm:problem_information>
 <nm:problem_options
- nm:data_checkout_run='no' nm:data_unit='2' nm:data_rewind='no' nm:data_nrec='480' nm:data_nitems='7' nm:data_id='1'
+ nm:data_checkout_run='no' nm:data_unit='2' nm:data_rewind='no' nm:data_nrec='540' nm:data_nitems='7' nm:data_id='1'
  nm:data_l2='0' nm:data_dv='4' nm:data_mdv='7' nm:data_mrg='0' nm:data_raw='0' nm:data_rpt='0' nm:data_sub_array1='0'
  nm:data_sub_array2='0' nm:data_sub_array3='0' nm:data_pred_indices='6,2,3,0,0,0,0,0,0,0,0'
- nm:data_format='(5e8.0,2f2.0)' nm:data_nobs='420' nm:data_nind='60' nm:data_mdv100='0' nm:nthetat='7'
+ nm:data_format='(5e8.0,2f2.0)' nm:data_nobs='480' nm:data_nind='60' nm:data_mdv100='0' nm:nthetat='7'
  nm:theta_bound_test_omitted='no' nm:omega_blockdim='3' nm:omega_bound_test_omitted='no' nm:sigma_diagdim='2'
  nm:sigma_bound_test_omitted='no' nm:cov_omitted='no' nm:cov_matrix='rsr' nm:cov_eigen_print='no'
  nm:cov_special='no' nm:cov_compressed='no' nm:cov_slow_gradient='noslow' nm:cov_siglocov='-1' nm:cov_siglcov='-1'
@@ -315,36 +309,32 @@ Days until program expires : 194
  nm:knuthsumoff='0' nm:lntwopi='0' nm:priorc='0' nm:olntwopi='0' nm:ctype='0'
 />
 <nm:monitor>
-<nm:obj nm:iteration='0'>8844.1649005710879</nm:obj>
-<nm:obj nm:iteration='67'>5216.9285413646221</nm:obj>
+<nm:obj nm:iteration='0'>7950.6672816164846</nm:obj>
+<nm:obj nm:iteration='65'>5624.4793789139258</nm:obj>
 </nm:monitor>
 <nm:termination_status>0</nm:termination_status>
-<nm:termination_nfuncevals>1413</nm:termination_nfuncevals>
-<nm:termination_sigdigits>3.8097528210697975</nm:termination_sigdigits>
+<nm:termination_nfuncevals>1447</nm:termination_nfuncevals>
+<nm:termination_sigdigits>3.4895563895528623</nm:termination_sigdigits>
 <nm:termination_information><![CDATA[
 0MINIMIZATION SUCCESSFUL
- HOWEVER, PROBLEMS OCCURRED WITH THE MINIMIZATION.
- REGARD THE RESULTS OF THE ESTIMATION STEP CAREFULLY, AND ACCEPT THEM ONLY
- AFTER CHECKING THAT THE COVARIANCE STEP PRODUCES REASONABLE OUTPUT.
- NO. OF FUNCTION EVALUATIONS USED:     1413
- NO. OF SIG. DIGITS IN FINAL EST.:  3.8
+ NO. OF FUNCTION EVALUATIONS USED:     1447
+ NO. OF SIG. DIGITS IN FINAL EST.:  3.5
 ]]></nm:termination_information>
 <nm:termination_txtmsg>
 <nm:val nm:name='1'>37</nm:val>
-<nm:val nm:name='2'>38</nm:val>
 </nm:termination_txtmsg>
 <nm:etabar>
 <nm:row nm:rname='SUBPOP1'>
-<nm:col nm:cname='ETA1'>-3.77079906299179687E-002</nm:col>
-<nm:col nm:cname='ETA2'>-3.79968540025961699E-002</nm:col>
-<nm:col nm:cname='ETA3'>-2.09066687997727652E-002</nm:col>
+<nm:col nm:cname='ETA1'>-0.11027979677392237</nm:col>
+<nm:col nm:cname='ETA2'>-0.16546728451197731</nm:col>
+<nm:col nm:cname='ETA3'>-5.90795317478847153E-003</nm:col>
 </nm:row>
 </nm:etabar>
 <nm:etabarse>
 <nm:row nm:rname='SUBPOP1'>
-<nm:col nm:cname='ETA1'>0.11247059848979622</nm:col>
-<nm:col nm:cname='ETA2'>9.59268276879723519E-002</nm:col>
-<nm:col nm:cname='ETA3'>5.11910236638889252E-002</nm:col>
+<nm:col nm:cname='ETA1'>6.63059904311626008E-002</nm:col>
+<nm:col nm:cname='ETA2'>7.64296435279490788E-002</nm:col>
+<nm:col nm:cname='ETA3'>5.42259472147824800E-002</nm:col>
 </nm:row>
 </nm:etabarse>
 <nm:etabarn>
@@ -356,307 +346,303 @@ Days until program expires : 194
 </nm:etabarn>
 <nm:etabarpval>
 <nm:row nm:rname='SUBPOP1'>
-<nm:col nm:cname='ETA1'>0.73742172830341191</nm:col>
-<nm:col nm:cname='ETA2'>0.69202952309407784</nm:col>
-<nm:col nm:cname='ETA3'>0.68297646183048388</nm:col>
+<nm:col nm:cname='ETA1'>9.62733510822406796E-002</nm:col>
+<nm:col nm:cname='ETA2'>3.03904759444133254E-002</nm:col>
+<nm:col nm:cname='ETA3'>0.91324151138531040</nm:col>
 </nm:row>
 </nm:etabarpval>
 <nm:etashrinksd>
 <nm:row nm:rname='SUBPOP1'>
-<nm:col nm:cname='ETA1'>6.4426586867179614</nm:col>
-<nm:col nm:cname='ETA2'>6.2363601162290454</nm:col>
-<nm:col nm:cname='ETA3'>6.1902690295818967</nm:col>
+<nm:col nm:cname='ETA1'>23.301838783545115</nm:col>
+<nm:col nm:cname='ETA2'>29.268410269921542</nm:col>
+<nm:col nm:cname='ETA3'>7.2913974048658847</nm:col>
 </nm:row>
 </nm:etashrinksd>
 <nm:etashrinkvr>
 <nm:row nm:rname='SUBPOP1'>
-<nm:col nm:cname='ETA1'>12.470238863900496</nm:col>
-<nm:col nm:cname='ETA2'>12.083798357465160</nm:col>
-<nm:col nm:cname='ETA3'>11.997343752577795</nm:col>
+<nm:col nm:cname='ETA1'>41.173920660146955</nm:col>
+<nm:col nm:cname='ETA2'>49.970422142558590</nm:col>
+<nm:col nm:cname='ETA3'>14.051150048574923</nm:col>
 </nm:row>
 </nm:etashrinkvr>
 <nm:ebvshrinksd>
 <nm:row nm:rname='SUBPOP1'>
-<nm:col nm:cname='EBV1'>6.9584667580593003</nm:col>
-<nm:col nm:cname='EBV2'>6.6933051498740621</nm:col>
-<nm:col nm:cname='EBV3'>6.5493636917541842</nm:col>
+<nm:col nm:cname='EBV1'>24.751814291990250</nm:col>
+<nm:col nm:cname='EBV2'>33.856892728213552</nm:col>
+<nm:col nm:cname='EBV3'>6.4659700267799325</nm:col>
 </nm:row>
 </nm:ebvshrinksd>
 <nm:ebvshrinkvr>
 <nm:row nm:rname='SUBPOP1'>
-<nm:col nm:cname='EBV1'>13.432730919888433</nm:col>
-<nm:col nm:cname='EBV2'>12.938606961454816</nm:col>
-<nm:col nm:cname='EBV3'>12.669785735839673</nm:col>
+<nm:col nm:cname='EBV1'>43.377105476528783</nm:col>
+<nm:col nm:cname='EBV2'>56.250893604329512</nm:col>
+<nm:col nm:cname='EBV3'>12.513852369687708</nm:col>
 </nm:row>
 </nm:ebvshrinkvr>
 <nm:epsshrinksd>
 <nm:row nm:rname='SUBPOP1'>
-<nm:col nm:cname='EPS1'>10.065609213685434</nm:col>
-<nm:col nm:cname='EPS2'>10.065609213685434</nm:col>
+<nm:col nm:cname='EPS1'>10.026527152179776</nm:col>
+<nm:col nm:cname='EPS2'>10.026527152179776</nm:col>
 </nm:row>
 </nm:epsshrinksd>
 <nm:epsshrinkvr>
 <nm:row nm:rname='SUBPOP1'>
-<nm:col nm:cname='EPS1'>19.118053538944579</nm:col>
-<nm:col nm:cname='EPS2'>19.118053538944579</nm:col>
+<nm:col nm:cname='EPS1'>19.047741837025576</nm:col>
+<nm:col nm:cname='EPS2'>19.047741837025576</nm:col>
 </nm:row>
 </nm:epsshrinkvr>
-<nm:estimation_elapsed_time>667.64</nm:estimation_elapsed_time>
+<nm:estimation_elapsed_time>1167.05</nm:estimation_elapsed_time>
 <nm:covariance_information><![CDATA[
  TESTING R MATRIX FOR POSITIVE DEFINITNESS
- R MATRIX IS NOT POSITIVE DEFINITE
- PRECONDITIONING CYCLE NO.            1
- TESTING R MATRIX FOR POSITIVE DEFINITNESS
- R MATRIX IS NOT POSITIVE DEFINITE
- PRECONDITIONING CYCLE NO.            2
+ R MATRIX IS POSITIVE DEFINITE
 ]]></nm:covariance_information>
 <nm:covariance_status nm:error='0' nm:numnegeigenvalues='-1' nm:mineigenvalue='0.0000000000000000' nm:maxeigenvalue='0.0000000000000000' nm:rms='0.0000000000000000'/>
-<nm:covariance_elapsed_time>859.48</nm:covariance_elapsed_time>
+<nm:covariance_elapsed_time>468.75</nm:covariance_elapsed_time>
 <nm:final_objective_function_text>MINIMUM VALUE OF OBJECTIVE FUNCTION</nm:final_objective_function_text>
-<nm:final_objective_function>5216.9285413646221</nm:final_objective_function>
+<nm:final_objective_function>5624.4793789139258</nm:final_objective_function>
 <nm:theta>
-<nm:val nm:name='1'>12981.154163027244</nm:val>
-<nm:val nm:name='2'>4116.9849478923670</nm:val>
-<nm:val nm:name='3'>6.5588065098345085</nm:val>
-<nm:val nm:name='4'>0.34703774881402621</nm:val>
-<nm:val nm:name='5'>6.73072071762925717E-002</nm:val>
-<nm:val nm:name='6'>9.1683917959155092</nm:val>
-<nm:val nm:name='7'>0.84736886630116504</nm:val>
+<nm:val nm:name='1'>3593.5118710553875</nm:val>
+<nm:val nm:name='2'>851.05545690123893</nm:val>
+<nm:val nm:name='3'>131.56668678332187</nm:val>
+<nm:val nm:name='4'>1.0916506151647709</nm:val>
+<nm:val nm:name='5'>0.22309986685696809</nm:val>
+<nm:val nm:name='6'>0.12850046318371669</nm:val>
+<nm:val nm:name='7'>0.45684511966745917</nm:val>
 </nm:theta>
 <nm:omega>
 <nm:row nm:rname='1'>
-<nm:col nm:cname='1'>0.88180540834083854</nm:col>
+<nm:col nm:cname='1'>0.45602233921605517</nm:col>
 </nm:row>
 <nm:row nm:rname='2'>
-<nm:col nm:cname='1'>0.71652622744673866</nm:col>
-<nm:col nm:cname='2'>0.63864826659642604</nm:col>
+<nm:col nm:cname='1'>0.53749487660642803</nm:col>
+<nm:col nm:cname='2'>0.71243839859301694</nm:col>
 </nm:row>
 <nm:row nm:rname='3'>
-<nm:col nm:cname='1'>0.36865942213170683</nm:col>
-<nm:col nm:cname='2'>0.33899895616376996</nm:col>
-<nm:col nm:cname='3'>0.18169473235915987</nm:col>
+<nm:col nm:cname='1'>1.06247469607806209E-002</nm:col>
+<nm:col nm:cname='2'>-2.85326738899245105E-002</nm:col>
+<nm:col nm:cname='3'>0.20874914873853256</nm:col>
 </nm:row>
 </nm:omega>
 <nm:sigma>
 <nm:row nm:rname='1'>
-<nm:col nm:cname='1'>0.81365425246364487</nm:col>
+<nm:col nm:cname='1'>2.55555454557154305E-003</nm:col>
 </nm:row>
 <nm:row nm:rname='2'>
 <nm:col nm:cname='1'>0.0000000000000000</nm:col>
-<nm:col nm:cname='2'>0.21831720000607116</nm:col>
+<nm:col nm:cname='2'>0.23790057473733922</nm:col>
 </nm:row>
 </nm:sigma>
 <nm:omegac>
 <nm:row nm:rname='1'>
-<nm:col nm:cname='1'>0.93904494479276046</nm:col>
+<nm:col nm:cname='1'>0.67529426120473968</nm:col>
 </nm:row>
 <nm:row nm:rname='2'>
-<nm:col nm:cname='1'>0.95480535005219469</nm:col>
-<nm:col nm:cname='2'>0.79915472006140720</nm:col>
+<nm:col nm:cname='1'>0.94299113617488939</nm:col>
+<nm:col nm:cname='2'>0.84406066049367390</nm:col>
 </nm:row>
 <nm:row nm:rname='3'>
-<nm:col nm:cname='1'>0.92101730589373010</nm:col>
-<nm:col nm:cname='2'>0.99516781923053665</nm:col>
-<nm:col nm:cname='3'>0.42625665080929809</nm:col>
+<nm:col nm:cname='1'>3.44360381356185671E-002</nm:col>
+<nm:col nm:cname='2'>-7.39871769554967529E-002</nm:col>
+<nm:col nm:cname='3'>0.45689074048237460</nm:col>
 </nm:row>
 </nm:omegac>
 <nm:sigmac>
 <nm:row nm:rname='1'>
-<nm:col nm:cname='1'>0.90202785570271882</nm:col>
+<nm:col nm:cname='1'>5.05524929708866394E-002</nm:col>
 </nm:row>
 <nm:row nm:rname='2'>
 <nm:col nm:cname='1'>0.0000000000000000</nm:col>
-<nm:col nm:cname='2'>0.46724426160849869</nm:col>
+<nm:col nm:cname='2'>0.48775052510206407</nm:col>
 </nm:row>
 </nm:sigmac>
 <nm:thetase>
-<nm:val nm:name='1'>1481829.8897504192</nm:val>
-<nm:val nm:name='2'>546711.04952778411</nm:val>
-<nm:val nm:name='3'>1032.7845480717963</nm:val>
-<nm:val nm:name='4'>2.1686290358612927</nm:val>
-<nm:val nm:name='5'>45.826051104470146</nm:val>
-<nm:val nm:name='6'>74.110351055667692</nm:val>
-<nm:val nm:name='7'>11.760973104618961</nm:val>
+<nm:val nm:name='1'>382.28475871353794</nm:val>
+<nm:val nm:name='2'>160.74591321598683</nm:val>
+<nm:val nm:name='3'>12.024688520735356</nm:val>
+<nm:val nm:name='4'>5.95306999561411171E-002</nm:val>
+<nm:val nm:name='5'>3.22685519888626648E-002</nm:val>
+<nm:val nm:name='6'>0.10130792684251158</nm:val>
+<nm:val nm:name='7'>0.25862980415860415</nm:val>
 </nm:thetase>
 <nm:omegase>
 <nm:row nm:rname='1'>
-<nm:col nm:cname='1'>18.144646349121896</nm:col>
+<nm:col nm:cname='1'>0.21234078329841349</nm:col>
 </nm:row>
 <nm:row nm:rname='2'>
-<nm:col nm:cname='1'>19.284064475702372</nm:col>
-<nm:col nm:cname='2'>23.245657948257684</nm:col>
+<nm:col nm:cname='1'>0.31573962707082770</nm:col>
+<nm:col nm:cname='2'>0.42909005101568082</nm:col>
 </nm:row>
 <nm:row nm:rname='3'>
-<nm:col nm:cname='1'>6.6910049449671876</nm:col>
-<nm:col nm:cname='2'>6.4812614665636143</nm:col>
-<nm:col nm:cname='3'>0.71423709783453149</nm:col>
+<nm:col nm:cname='1'>0.10278628953566805</nm:col>
+<nm:col nm:cname='2'>0.14221827860857816</nm:col>
+<nm:col nm:cname='3'>4.65693187919571649E-002</nm:col>
 </nm:row>
 </nm:omegase>
 <nm:sigmase>
 <nm:row nm:rname='1'>
-<nm:col nm:cname='1'>2.80046398203669198E-004</nm:col>
+<nm:col nm:cname='1'>7.37616625128644779E-004</nm:col>
 </nm:row>
 <nm:row nm:rname='2'>
 <nm:col nm:cname='1'>10000000000.000000</nm:col>
-<nm:col nm:cname='2'>1.03084908977769214E-003</nm:col>
+<nm:col nm:cname='2'>1.87623310736376274E-002</nm:col>
 </nm:row>
 </nm:sigmase>
 <nm:omegacse>
 <nm:row nm:rname='1'>
-<nm:col nm:cname='1'>9.6612235919795459</nm:col>
+<nm:col nm:cname='1'>0.15722092982072211</nm:col>
 </nm:row>
 <nm:row nm:rname='2'>
-<nm:col nm:cname='1'>1.5030779668461893</nm:col>
-<nm:col nm:cname='2'>14.543903304776505</nm:col>
+<nm:col nm:cname='1'>5.87431561013779940E-002</nm:col>
+<nm:col nm:cname='2'>0.25418199846247713</nm:col>
 </nm:row>
 <nm:row nm:rname='3'>
-<nm:col nm:cname='1'>9.0505208782348312</nm:col>
-<nm:col nm:cname='2'>2.8709680352099207</nm:col>
-<nm:col nm:cname='3'>0.83780170523846242</nm:col>
+<nm:col nm:cname='1'>0.34003393618022992</nm:col>
+<nm:col nm:cname='2'>0.34927255800498119</nm:col>
+<nm:col nm:cname='3'>5.09632989528200561E-002</nm:col>
 </nm:row>
 </nm:omegacse>
 <nm:sigmacse>
 <nm:row nm:rname='1'>
-<nm:col nm:cname='1'>1.55231568755435440E-004</nm:col>
+<nm:col nm:cname='1'>7.29555143357065242E-003</nm:col>
 </nm:row>
 <nm:row nm:rname='2'>
 <nm:col nm:cname='1'>10000000000.000000</nm:col>
-<nm:col nm:cname='2'>1.10311583734487312E-003</nm:col>
+<nm:col nm:cname='2'>1.92335324187621545E-002</nm:col>
 </nm:row>
 </nm:sigmacse>
 <nm:covariance>
 <nm:row nm:rname='THETA1'>
-<nm:col nm:cname='THETA1'>2195819822157.7397</nm:col>
+<nm:col nm:cname='THETA1'>146141.63674466792</nm:col>
 </nm:row>
 <nm:row nm:rname='THETA2'>
-<nm:col nm:cname='THETA1'>810132698490.43213</nm:col>
-<nm:col nm:cname='THETA2'>298892971675.77124</nm:col>
+<nm:col nm:cname='THETA1'>57374.255185410919</nm:col>
+<nm:col nm:cname='THETA2'>25839.248615641569</nm:col>
 </nm:row>
 <nm:row nm:rname='THETA3'>
-<nm:col nm:cname='THETA1'>1530388894.0809848</nm:col>
-<nm:col nm:cname='THETA2'>564626068.82537067</nm:col>
-<nm:col nm:cname='THETA3'>1066643.9227358643</nm:col>
+<nm:col nm:cname='THETA1'>-466.93966826346360</nm:col>
+<nm:col nm:cname='THETA2'>-256.86010836095483</nm:col>
+<nm:col nm:cname='THETA3'>144.59313402070464</nm:col>
 </nm:row>
 <nm:row nm:rname='THETA4'>
-<nm:col nm:cname='THETA1'>-3200950.3924073344</nm:col>
-<nm:col nm:cname='THETA2'>-1180989.5144023835</nm:col>
-<nm:col nm:cname='THETA3'>-2229.8713997572963</nm:col>
-<nm:col nm:cname='THETA4'>4.7029518951806795</nm:col>
+<nm:col nm:cname='THETA1'>-19.059017405260164</nm:col>
+<nm:col nm:cname='THETA2'>-7.8059624014621187</nm:col>
+<nm:col nm:cname='THETA3'>-8.04848558291439559E-002</nm:col>
+<nm:col nm:cname='THETA4'>3.54390423726809976E-003</nm:col>
 </nm:row>
 <nm:row nm:rname='THETA5'>
-<nm:col nm:cname='THETA1'>67906340.075785011</nm:col>
-<nm:col nm:cname='THETA2'>25053581.566182882</nm:col>
-<nm:col nm:cname='THETA3'>47328.026926490631</nm:col>
-<nm:col nm:cname='THETA4'>-98.980235860144390</nm:col>
-<nm:col nm:cname='THETA5'>2100.0269598295095</nm:col>
+<nm:col nm:cname='THETA1'>3.9685983613671074</nm:col>
+<nm:col nm:cname='THETA2'>1.4286987328482541</nm:col>
+<nm:col nm:cname='THETA3'>0.19816614300431046</nm:col>
+<nm:col nm:cname='THETA4'>-1.27520411547910181E-003</nm:col>
+<nm:col nm:cname='THETA5'>1.04125944745793258E-003</nm:col>
 </nm:row>
 <nm:row nm:rname='THETA6'>
-<nm:col nm:cname='THETA1'>-109814292.44478969</nm:col>
-<nm:col nm:cname='THETA2'>-40515345.353325233</nm:col>
-<nm:col nm:cname='THETA3'>-76532.448665774617</nm:col>
-<nm:col nm:cname='THETA4'>160.20241402245691</nm:col>
-<nm:col nm:cname='THETA5'>-3396.0149943672250</nm:col>
-<nm:col nm:cname='THETA6'>5492.3441335943062</nm:col>
+<nm:col nm:cname='THETA1'>14.778005661479616</nm:col>
+<nm:col nm:cname='THETA2'>5.8732754019297051</nm:col>
+<nm:col nm:cname='THETA3'>-0.66863219845279442</nm:col>
+<nm:col nm:cname='THETA4'>-2.94724265230051838E-003</nm:col>
+<nm:col nm:cname='THETA5'>6.61004004390222644E-004</nm:col>
+<nm:col nm:cname='THETA6'>1.02632960411276775E-002</nm:col>
 </nm:row>
 <nm:row nm:rname='THETA7'>
-<nm:col nm:cname='THETA1'>-17405833.550149444</nm:col>
-<nm:col nm:cname='THETA2'>-6421830.1896659527</nm:col>
-<nm:col nm:cname='THETA3'>-12127.881820686951</nm:col>
-<nm:col nm:cname='THETA4'>25.486370618255417</nm:col>
-<nm:col nm:cname='THETA5'>-538.24999551679377</nm:col>
-<nm:col nm:cname='THETA6'>870.85185940146653</nm:col>
-<nm:col nm:cname='THETA7'>138.32048836757053</nm:col>
+<nm:col nm:cname='THETA1'>27.403052843172176</nm:col>
+<nm:col nm:cname='THETA2'>13.419003639569892</nm:col>
+<nm:col nm:cname='THETA3'>-2.0285694147000775</nm:col>
+<nm:col nm:cname='THETA4'>-4.45285640066418395E-003</nm:col>
+<nm:col nm:cname='THETA5'>-9.02768200349091132E-004</nm:col>
+<nm:col nm:cname='THETA6'>2.30710530143680981E-002</nm:col>
+<nm:col nm:cname='THETA7'>6.68893755991179229E-002</nm:col>
 </nm:row>
 <nm:row nm:rname='OMEGA(1,1)'>
-<nm:col nm:cname='THETA1'>26887151.081304353</nm:col>
-<nm:col nm:cname='THETA2'>9919829.0264544003</nm:col>
-<nm:col nm:cname='THETA3'>18739.256188446590</nm:col>
-<nm:col nm:cname='THETA4'>-39.191409670588158</nm:col>
-<nm:col nm:cname='THETA5'>831.49395044605569</nm:col>
-<nm:col nm:cname='THETA6'>-1344.6346002917655</nm:col>
-<nm:col nm:cname='THETA7'>-213.11926495087630</nm:col>
-<nm:col nm:cname='OMEGA(1,1)'>329.22819113470257</nm:col>
+<nm:col nm:cname='THETA1'>-13.546300467282526</nm:col>
+<nm:col nm:cname='THETA2'>-9.9075757174007908</nm:col>
+<nm:col nm:cname='THETA3'>2.92380417474660259E-002</nm:col>
+<nm:col nm:cname='THETA4'>3.07708640687311737E-003</nm:col>
+<nm:col nm:cname='THETA5'>4.99376732804180778E-004</nm:col>
+<nm:col nm:cname='THETA6'>7.93309791121837057E-004</nm:col>
+<nm:col nm:cname='THETA7'>5.28912707229204498E-003</nm:col>
+<nm:col nm:cname='OMEGA(1,1)'>4.50886082517838044E-002</nm:col>
 </nm:row>
 <nm:row nm:rname='OMEGA(1,2)'>
-<nm:col nm:cname='THETA1'>28575337.391831059</nm:col>
-<nm:col nm:cname='THETA2'>10542669.786975184</nm:col>
-<nm:col nm:cname='THETA3'>19915.973897892753</nm:col>
-<nm:col nm:cname='THETA4'>-41.647770322424762</nm:col>
-<nm:col nm:cname='THETA5'>883.70259146438832</nm:col>
-<nm:col nm:cname='THETA6'>-1429.0451489031473</nm:col>
-<nm:col nm:cname='THETA7'>-226.48698374877003</nm:col>
-<nm:col nm:cname='OMEGA(1,1)'>349.90150198205430</nm:col>
-<nm:col nm:cname='OMEGA(1,2)'>371.87514270304615</nm:col>
+<nm:col nm:cname='THETA1'>-29.463118352713465</nm:col>
+<nm:col nm:cname='THETA2'>-19.528862876488756</nm:col>
+<nm:col nm:cname='THETA3'>-4.02964397996958129E-002</nm:col>
+<nm:col nm:cname='THETA4'>6.23615846902680210E-003</nm:col>
+<nm:col nm:cname='THETA5'>1.33828726730027996E-004</nm:col>
+<nm:col nm:cname='THETA6'>-1.19768139669810869E-004</nm:col>
+<nm:col nm:cname='THETA7'>5.23482531253866967E-003</nm:col>
+<nm:col nm:cname='OMEGA(1,1)'>6.60038177047183178E-002</nm:col>
+<nm:col nm:cname='OMEGA(1,2)'>9.96915121028253415E-002</nm:col>
 </nm:row>
 <nm:row nm:rname='OMEGA(1,3)'>
-<nm:col nm:cname='THETA1'>9914686.8617735319</nm:col>
-<nm:col nm:cname='THETA2'>3657953.3200704455</nm:col>
-<nm:col nm:cname='THETA3'>6910.1913981394528</nm:col>
-<nm:col nm:cname='THETA4'>-14.449838163792146</nm:col>
-<nm:col nm:cname='THETA5'>306.61534568081231</nm:col>
-<nm:col nm:cname='THETA6'>-495.82873597886061</nm:col>
-<nm:col nm:cname='THETA7'>-78.581708039729335</nm:col>
-<nm:col nm:cname='OMEGA(1,1)'>121.40466745596146</nm:col>
-<nm:col nm:cname='OMEGA(1,2)'>129.02941751625951</nm:col>
-<nm:col nm:cname='OMEGA(1,3)'>44.769547173575361</nm:col>
+<nm:col nm:cname='THETA1'>13.470827820797675</nm:col>
+<nm:col nm:cname='THETA2'>7.2740018288211150</nm:col>
+<nm:col nm:cname='THETA3'>9.21584768190912007E-002</nm:col>
+<nm:col nm:cname='THETA4'>-2.57772459051844836E-003</nm:col>
+<nm:col nm:cname='THETA5'>4.06982640927342463E-004</nm:col>
+<nm:col nm:cname='THETA6'>3.03291920311287702E-004</nm:col>
+<nm:col nm:cname='THETA7'>-2.34469424860814192E-003</nm:col>
+<nm:col nm:cname='OMEGA(1,1)'>-1.66809045106731321E-002</nm:col>
+<nm:col nm:cname='OMEGA(1,2)'>-2.65340935327975092E-002</nm:col>
+<nm:col nm:cname='OMEGA(1,3)'>1.05650213165101835E-002</nm:col>
 </nm:row>
 <nm:row nm:rname='OMEGA(2,2)'>
-<nm:col nm:cname='THETA1'>34445245.422723964</nm:col>
-<nm:col nm:cname='THETA2'>12708327.234982718</nm:col>
-<nm:col nm:cname='THETA3'>24007.177876822705</nm:col>
-<nm:col nm:cname='THETA4'>-50.199581412602051</nm:col>
-<nm:col nm:cname='THETA5'>1065.2322345201064</nm:col>
-<nm:col nm:cname='THETA6'>-1722.5847509274008</nm:col>
-<nm:col nm:cname='THETA7'>-273.00099645459625</nm:col>
-<nm:col nm:cname='OMEGA(1,1)'>421.77982528425883</nm:col>
-<nm:col nm:cname='OMEGA(1,2)'>448.26966393791326</nm:col>
-<nm:col nm:cname='OMEGA(1,3)'>155.53674079141706</nm:col>
-<nm:col nm:cname='OMEGA(2,2)'>540.36061344739562</nm:col>
+<nm:col nm:cname='THETA1'>-46.025625589629065</nm:col>
+<nm:col nm:cname='THETA2'>-29.759026214756648</nm:col>
+<nm:col nm:cname='THETA3'>-0.12034207138688388</nm:col>
+<nm:col nm:cname='THETA4'>9.69509900726937997E-003</nm:col>
+<nm:col nm:cname='THETA5'>-3.06955605284329905E-004</nm:col>
+<nm:col nm:cname='THETA6'>-1.43269710828558116E-003</nm:col>
+<nm:col nm:cname='THETA7'>4.50537379546954702E-003</nm:col>
+<nm:col nm:cname='OMEGA(1,1)'>8.73911749031295315E-002</nm:col>
+<nm:col nm:cname='OMEGA(1,2)'>0.13452157802798048</nm:col>
+<nm:col nm:cname='OMEGA(1,3)'>-3.68451015134379917E-002</nm:col>
+<nm:col nm:cname='OMEGA(2,2)'>0.18411827188063956</nm:col>
 </nm:row>
 <nm:row nm:rname='OMEGA(2,3)'>
-<nm:col nm:cname='THETA1'>9603822.9123215564</nm:col>
-<nm:col nm:cname='THETA2'>3543261.7416739920</nm:col>
-<nm:col nm:cname='THETA3'>6693.5254298656673</nm:col>
-<nm:col nm:cname='THETA4'>-13.996916714809981</nm:col>
-<nm:col nm:cname='THETA5'>297.00164580811168</nm:col>
-<nm:col nm:cname='THETA6'>-480.28247724999926</nm:col>
-<nm:col nm:cname='THETA7'>-76.118253000291574</nm:col>
-<nm:col nm:cname='OMEGA(1,1)'>117.59855751118354</nm:col>
-<nm:col nm:cname='OMEGA(1,2)'>124.98443996021633</nm:col>
-<nm:col nm:cname='OMEGA(1,3)'>43.366105435764837</nm:col>
-<nm:col nm:cname='OMEGA(2,2)'>150.66099175045147</nm:col>
-<nm:col nm:cname='OMEGA(2,3)'>42.006750197962333</nm:col>
+<nm:col nm:cname='THETA1'>17.722692999126405</nm:col>
+<nm:col nm:cname='THETA2'>9.2672169151883530</nm:col>
+<nm:col nm:cname='THETA3'>0.18989872969277305</nm:col>
+<nm:col nm:cname='THETA4'>-3.22365810940413453E-003</nm:col>
+<nm:col nm:cname='THETA5'>6.01839601879851035E-004</nm:col>
+<nm:col nm:cname='THETA6'>-4.96450563322873651E-004</nm:col>
+<nm:col nm:cname='THETA7'>-6.08683342147787673E-003</nm:col>
+<nm:col nm:cname='OMEGA(1,1)'>-2.21532788861031997E-002</nm:col>
+<nm:col nm:cname='OMEGA(1,2)'>-3.48266388609846864E-002</nm:col>
+<nm:col nm:cname='OMEGA(1,3)'>1.43188171680531991E-002</nm:col>
+<nm:col nm:cname='OMEGA(2,2)'>-4.81442560689098811E-002</nm:col>
+<nm:col nm:cname='OMEGA(2,3)'>2.02260387703871586E-002</nm:col>
 </nm:row>
 <nm:row nm:rname='OMEGA(3,3)'>
-<nm:col nm:cname='THETA1'>-1058186.2182375747</nm:col>
-<nm:col nm:cname='THETA2'>-390410.04139178636</nm:col>
-<nm:col nm:cname='THETA3'>-737.55047956883914</nm:col>
-<nm:col nm:cname='THETA4'>1.5410960063290455</nm:col>
-<nm:col nm:cname='THETA5'>-32.725146162273901</nm:col>
-<nm:col nm:cname='THETA6'>52.916090834745141</nm:col>
-<nm:col nm:cname='THETA7'>8.3835232713270678</nm:col>
-<nm:col nm:cname='OMEGA(1,1)'>-12.957172719787300</nm:col>
-<nm:col nm:cname='OMEGA(1,2)'>-13.771061317995509</nm:col>
-<nm:col nm:cname='OMEGA(1,3)'>-4.7781562303665446</nm:col>
-<nm:col nm:cname='OMEGA(2,2)'>-16.600221802296332</nm:col>
-<nm:col nm:cname='OMEGA(2,3)'>-4.6282834965145705</nm:col>
-<nm:col nm:cname='OMEGA(3,3)'>0.51013463192309416</nm:col>
+<nm:col nm:cname='THETA1'>0.26901466081366976</nm:col>
+<nm:col nm:cname='THETA2'>3.17638478413889008E-002</nm:col>
+<nm:col nm:cname='THETA3'>-0.12262469556806416</nm:col>
+<nm:col nm:cname='THETA4'>-1.99845250246900820E-004</nm:col>
+<nm:col nm:cname='THETA5'>1.01283578929332668E-004</nm:col>
+<nm:col nm:cname='THETA6'>1.42780975019053441E-003</nm:col>
+<nm:col nm:cname='THETA7'>3.72955323396027437E-003</nm:col>
+<nm:col nm:cname='OMEGA(1,1)'>1.22504519815696579E-003</nm:col>
+<nm:col nm:cname='OMEGA(1,2)'>1.95245448467247246E-003</nm:col>
+<nm:col nm:cname='OMEGA(1,3)'>-8.79025007556552898E-004</nm:col>
+<nm:col nm:cname='OMEGA(2,2)'>2.75515385481555405E-003</nm:col>
+<nm:col nm:cname='OMEGA(2,3)'>-1.80513605993232358E-003</nm:col>
+<nm:col nm:cname='OMEGA(3,3)'>2.16870145274693444E-003</nm:col>
 </nm:row>
 <nm:row nm:rname='SIGMA(1,1)'>
-<nm:col nm:cname='THETA1'>-414.97563120849469</nm:col>
-<nm:col nm:cname='THETA2'>-153.10233161877218</nm:col>
-<nm:col nm:cname='THETA3'>-0.28922262315313974</nm:col>
-<nm:col nm:cname='THETA4'>6.04827146958959705E-004</nm:col>
-<nm:col nm:cname='THETA5'>-1.28332657568996904E-002</nm:col>
-<nm:col nm:cname='THETA6'>2.07528492509514648E-002</nm:col>
-<nm:col nm:cname='THETA7'>3.28911492663583110E-003</nm:col>
-<nm:col nm:cname='OMEGA(1,1)'>-5.08132946052913034E-003</nm:col>
-<nm:col nm:cname='OMEGA(1,2)'>-5.40042937535552964E-003</nm:col>
-<nm:col nm:cname='OMEGA(1,3)'>-1.87378364097561824E-003</nm:col>
-<nm:col nm:cname='OMEGA(2,2)'>-6.50983634066833183E-003</nm:col>
-<nm:col nm:cname='OMEGA(2,3)'>-1.81504346437500342E-003</nm:col>
-<nm:col nm:cname='OMEGA(3,3)'>1.99982372630443019E-004</nm:col>
-<nm:col nm:cname='SIGMA(1,1)'>7.84259851468480395E-008</nm:col>
+<nm:col nm:cname='THETA1'>-8.60924441027516724E-002</nm:col>
+<nm:col nm:cname='THETA2'>-3.03913851876057121E-002</nm:col>
+<nm:col nm:cname='THETA3'>1.22607044359052141E-003</nm:col>
+<nm:col nm:cname='THETA4'>1.37089381226804768E-005</nm:col>
+<nm:col nm:cname='THETA5'>-6.14056195765782027E-006</nm:col>
+<nm:col nm:cname='THETA6'>-2.55386578709627247E-005</nm:col>
+<nm:col nm:cname='THETA7'>-5.91606165414848269E-005</nm:col>
+<nm:col nm:cname='OMEGA(1,1)'>-3.26279720908233348E-005</nm:col>
+<nm:col nm:cname='OMEGA(1,2)'>-4.25050473611924829E-005</nm:col>
+<nm:col nm:cname='OMEGA(1,3)'>6.95275705435129761E-006</nm:col>
+<nm:col nm:cname='OMEGA(2,2)'>-5.07544681398912749E-005</nm:col>
+<nm:col nm:cname='OMEGA(2,3)'>1.26127355474623045E-005</nm:col>
+<nm:col nm:cname='OMEGA(3,3)'>-1.82338553815250713E-005</nm:col>
+<nm:col nm:cname='SIGMA(1,1)'>5.44078285666171625E-007</nm:col>
 </nm:row>
 <nm:row nm:rname='SIGMA(1,2)'>
 <nm:col nm:cname='THETA1'>0.0000000000000000</nm:col>
@@ -676,157 +662,157 @@ Days until program expires : 194
 <nm:col nm:cname='SIGMA(1,2)'>0.0000000000000000</nm:col>
 </nm:row>
 <nm:row nm:rname='SIGMA(2,2)'>
-<nm:col nm:cname='THETA1'>-1527.5109848187651</nm:col>
-<nm:col nm:cname='THETA2'>-563.56428724039438</nm:col>
-<nm:col nm:cname='THETA3'>-1.0646200682473355</nm:col>
-<nm:col nm:cname='THETA4'>2.22628584762771210E-003</nm:col>
-<nm:col nm:cname='THETA5'>-4.72388148514377368E-002</nm:col>
-<nm:col nm:cname='THETA6'>7.63902610488052664E-002</nm:col>
-<nm:col nm:cname='THETA7'>1.21069228765251294E-002</nm:col>
-<nm:col nm:cname='OMEGA(1,1)'>-1.87042685254440524E-002</nm:col>
-<nm:col nm:cname='OMEGA(1,2)'>-1.98789294866828087E-002</nm:col>
-<nm:col nm:cname='OMEGA(1,3)'>-6.89740039129057170E-003</nm:col>
-<nm:col nm:cname='OMEGA(2,2)'>-2.39627197020680881E-002</nm:col>
-<nm:col nm:cname='OMEGA(2,3)'>-6.68118705867125004E-003</nm:col>
-<nm:col nm:cname='OMEGA(3,3)'>7.36132910706899886E-004</nm:col>
-<nm:col nm:cname='SIGMA(1,1)'>2.88685264524598790E-007</nm:col>
+<nm:col nm:cname='THETA1'>-1.0818382208020043</nm:col>
+<nm:col nm:cname='THETA2'>-0.17181479222651910</nm:col>
+<nm:col nm:cname='THETA3'>-5.66308424090657403E-002</nm:col>
+<nm:col nm:cname='THETA4'>-8.02528098625991459E-005</nm:col>
+<nm:col nm:cname='THETA5'>-5.29777787746279333E-005</nm:col>
+<nm:col nm:cname='THETA6'>-6.87632868822751027E-005</nm:col>
+<nm:col nm:cname='THETA7'>-4.73327646117171488E-004</nm:col>
+<nm:col nm:cname='OMEGA(1,1)'>-1.75238286113920793E-003</nm:col>
+<nm:col nm:cname='OMEGA(1,2)'>-2.48758456661066999E-003</nm:col>
+<nm:col nm:cname='OMEGA(1,3)'>5.99466940979697044E-004</nm:col>
+<nm:col nm:cname='OMEGA(2,2)'>-3.31547797979704628E-003</nm:col>
+<nm:col nm:cname='OMEGA(2,3)'>6.95946213801514058E-004</nm:col>
+<nm:col nm:cname='OMEGA(3,3)'>1.25561127799884715E-004</nm:col>
+<nm:col nm:cname='SIGMA(1,1)'>-8.31657728177125588E-007</nm:col>
 <nm:col nm:cname='SIGMA(1,2)'>0.0000000000000000</nm:col>
-<nm:col nm:cname='SIGMA(2,2)'>1.06264984589549622E-006</nm:col>
+<nm:col nm:cname='SIGMA(2,2)'>3.52025067316788054E-004</nm:col>
 </nm:row>
 </nm:covariance>
 <nm:correlation>
 <nm:row nm:rname='THETA1'>
-<nm:col nm:cname='THETA1'>1481829.8897504192</nm:col>
+<nm:col nm:cname='THETA1'>382.28475871353794</nm:col>
 </nm:row>
 <nm:row nm:rname='THETA2'>
-<nm:col nm:cname='THETA1'>0.99999990648858739</nm:col>
-<nm:col nm:cname='THETA2'>546711.04952778411</nm:col>
+<nm:col nm:cname='THETA1'>0.93366297497796080</nm:col>
+<nm:col nm:cname='THETA2'>160.74591321598683</nm:col>
 </nm:row>
 <nm:row nm:rname='THETA3'>
-<nm:col nm:cname='THETA1'>0.99998554706938625</nm:col>
-<nm:col nm:cname='THETA2'>0.99998467082050013</nm:col>
-<nm:col nm:cname='THETA3'>1032.7845480717963</nm:col>
+<nm:col nm:cname='THETA1'>-0.10157806871255756</nm:col>
+<nm:col nm:cname='THETA2'>-0.13288711888442584</nm:col>
+<nm:col nm:cname='THETA3'>12.024688520735356</nm:col>
 </nm:row>
 <nm:row nm:rname='THETA4'>
-<nm:col nm:cname='THETA1'>-0.99608253348133735</nm:col>
-<nm:col nm:cname='THETA2'>-0.99609995837558629</nm:col>
-<nm:col nm:cname='THETA3'>-0.99559983831881704</nm:col>
-<nm:col nm:cname='THETA4'>2.1686290358612927</nm:col>
+<nm:col nm:cname='THETA1'>-0.83747631646276766</nm:col>
+<nm:col nm:cname='THETA2'>-0.81572829311199579</nm:col>
+<nm:col nm:cname='THETA3'>-0.11243443606371867</nm:col>
+<nm:col nm:cname='THETA4'>5.95306999561411240E-002</nm:col>
 </nm:row>
 <nm:row nm:rname='THETA5'>
-<nm:col nm:cname='THETA1'>0.99999893706578413</nm:col>
-<nm:col nm:cname='THETA2'>0.99999892515060784</nm:col>
-<nm:col nm:cname='THETA3'>0.99999132544033842</nm:col>
-<nm:col nm:cname='THETA4'>-0.99598037482827606</nm:col>
-<nm:col nm:cname='THETA5'>45.826051104470146</nm:col>
+<nm:col nm:cname='THETA1'>0.32171453879210010</nm:col>
+<nm:col nm:cname='THETA2'>0.27543634191004285</nm:col>
+<nm:col nm:cname='THETA3'>0.51071209552300090</nm:col>
+<nm:col nm:cname='THETA4'>-0.66383361342385494</nm:col>
+<nm:col nm:cname='THETA5'>3.22685519888626648E-002</nm:col>
 </nm:row>
 <nm:row nm:rname='THETA6'>
-<nm:col nm:cname='THETA1'>-0.99995774053476649</nm:col>
-<nm:col nm:cname='THETA2'>-0.99996044980488097</nm:col>
-<nm:col nm:cname='THETA3'>-0.99990100922160019</nm:col>
-<nm:col nm:cname='THETA4'>0.99679285713833754</nm:col>
-<nm:col nm:cname='THETA5'>-0.99995002024528168</nm:col>
-<nm:col nm:cname='THETA6'>74.110351055667692</nm:col>
+<nm:col nm:cname='THETA1'>0.38157983600410422</nm:col>
+<nm:col nm:cname='THETA2'>0.36065918530415964</nm:col>
+<nm:col nm:cname='THETA3'>-0.54887066861372846</nm:col>
+<nm:col nm:cname='THETA4'>-0.48868777694279331</nm:col>
+<nm:col nm:cname='THETA5'>0.20220001569891088</nm:col>
+<nm:col nm:cname='THETA6'>0.10130792684251158</nm:col>
 </nm:row>
 <nm:row nm:rname='THETA7'>
-<nm:col nm:cname='THETA1'>-0.99874178167677086</nm:col>
-<nm:col nm:cname='THETA2'>-0.99875210854066887</nm:col>
-<nm:col nm:cname='THETA3'>-0.99846298166437952</nm:col>
-<nm:col nm:cname='THETA4'>0.99926222278468901</nm:col>
-<nm:col nm:cname='THETA5'>-0.99868457698343438</nm:col>
-<nm:col nm:cname='THETA6'>0.99913036074341111</nm:col>
-<nm:col nm:cname='THETA7'>11.760973104618961</nm:col>
+<nm:col nm:cname='THETA1'>0.27716181313169486</nm:col>
+<nm:col nm:cname='THETA2'>0.32277638955518295</nm:col>
+<nm:col nm:cname='THETA3'>-0.65228511291082358</nm:col>
+<nm:col nm:cname='THETA4'>-0.28921387873030430</nm:col>
+<nm:col nm:cname='THETA5'>-0.10817283315255287</nm:col>
+<nm:col nm:cname='THETA6'>0.88053255662375896</nm:col>
+<nm:col nm:cname='THETA7'>0.25862980415860415</nm:col>
 </nm:row>
 <nm:row nm:rname='OMEGA(1,1)'>
-<nm:col nm:cname='THETA1'>0.99999523128488133</nm:col>
-<nm:col nm:cname='THETA2'>0.99999499768230404</nm:col>
-<nm:col nm:cname='THETA3'>0.99998643554987898</nm:col>
-<nm:col nm:cname='THETA4'>-0.99599488627806954</nm:col>
-<nm:col nm:cname='THETA5'>0.99999574211422060</nm:col>
-<nm:col nm:cname='THETA6'>-0.99994682077962793</nm:col>
-<nm:col nm:cname='THETA7'>-0.99869056017223024</nm:col>
-<nm:col nm:cname='OMEGA(1,1)'>18.144646349121896</nm:col>
+<nm:col nm:cname='THETA1'>-0.16687846863036257</nm:col>
+<nm:col nm:cname='THETA2'>-0.29026458073825945</nm:col>
+<nm:col nm:cname='THETA3'>1.14509371571738117E-002</nm:col>
+<nm:col nm:cname='THETA4'>0.24342506109334808</nm:col>
+<nm:col nm:cname='THETA5'>7.28811826122223588E-002</nm:col>
+<nm:col nm:cname='THETA6'>3.68778820783664044E-002</nm:col>
+<nm:col nm:cname='THETA7'>9.63101402106900234E-002</nm:col>
+<nm:col nm:cname='OMEGA(1,1)'>0.21234078329841349</nm:col>
 </nm:row>
 <nm:row nm:rname='OMEGA(1,2)'>
-<nm:col nm:cname='THETA1'>0.99998720087001103</nm:col>
-<nm:col nm:cname='THETA2'>0.99998659354741415</nm:col>
-<nm:col nm:cname='THETA3'>0.99998443903311529</nm:col>
-<nm:col nm:cname='THETA4'>-0.99588206832845827</nm:col>
-<nm:col nm:cname='THETA5'>0.99998876025769212</nm:col>
-<nm:col nm:cname='THETA6'>-0.99992748188841440</nm:col>
-<nm:col nm:cname='THETA7'>-0.99862265972584274</nm:col>
-<nm:col nm:cname='OMEGA(1,1)'>0.99999706174393843</nm:col>
-<nm:col nm:cname='OMEGA(1,2)'>19.284064475702372</nm:col>
+<nm:col nm:cname='THETA1'>-0.24409710861816070</nm:col>
+<nm:col nm:cname='THETA2'>-0.38477595435872308</nm:col>
+<nm:col nm:cname='THETA3'>-1.06136252814365492E-002</nm:col>
+<nm:col nm:cname='THETA4'>0.33177760058498029</nm:col>
+<nm:col nm:cname='THETA5'>1.31353236140416742E-002</nm:col>
+<nm:col nm:cname='THETA6'>-3.74428401696395895E-003</nm:col>
+<nm:col nm:cname='THETA7'>6.41053877046098425E-002</nm:col>
+<nm:col nm:cname='OMEGA(1,1)'>0.98447921034371277</nm:col>
+<nm:col nm:cname='OMEGA(1,2)'>0.31573962707082770</nm:col>
 </nm:row>
 <nm:row nm:rname='OMEGA(1,3)'>
-<nm:col nm:cname='THETA1'>0.99997536461486713</nm:col>
-<nm:col nm:cname='THETA2'>0.99997457227721609</nm:col>
-<nm:col nm:cname='THETA3'>0.99997465834928201</nm:col>
-<nm:col nm:cname='THETA4'>-0.99583265630125317</nm:col>
-<nm:col nm:cname='THETA5'>0.99997720691962377</nm:col>
-<nm:col nm:cname='THETA6'>-0.99991128891424341</nm:col>
-<nm:col nm:cname='THETA7'>-0.99858918146530196</nm:col>
-<nm:col nm:cname='OMEGA(1,1)'>0.99998969580140751</nm:col>
-<nm:col nm:cname='OMEGA(1,2)'>0.99999726226180941</nm:col>
-<nm:col nm:cname='OMEGA(1,3)'>6.6910049449671876</nm:col>
+<nm:col nm:cname='THETA1'>0.34282470648342206</nm:col>
+<nm:col nm:cname='THETA2'>0.44024889724333377</nm:col>
+<nm:col nm:cname='THETA3'>7.45634962734045281E-002</nm:col>
+<nm:col nm:cname='THETA4'>-0.42126980993448276</nm:col>
+<nm:col nm:cname='THETA5'>0.12270470604615041</nm:col>
+<nm:col nm:cname='THETA6'>2.91260924691845897E-002</nm:col>
+<nm:col nm:cname='THETA7'>-8.82007866104237148E-002</nm:col>
+<nm:col nm:cname='OMEGA(1,1)'>-0.76427735574462607</nm:col>
+<nm:col nm:cname='OMEGA(1,2)'>-0.81759829137631368</nm:col>
+<nm:col nm:cname='OMEGA(1,3)'>0.10278628953566805</nm:col>
 </nm:row>
 <nm:row nm:rname='OMEGA(2,2)'>
-<nm:col nm:cname='THETA1'>0.99997487867571366</nm:col>
-<nm:col nm:cname='THETA2'>0.99997396901610580</nm:col>
-<nm:col nm:cname='THETA3'>0.99997590520780022</nm:col>
-<nm:col nm:cname='THETA4'>-0.99580197783800517</nm:col>
-<nm:col nm:cname='THETA5'>0.99997702471754102</nm:col>
-<nm:col nm:cname='THETA6'>-0.99990763563834384</nm:col>
-<nm:col nm:cname='THETA7'>-0.99857142086978312</nm:col>
-<nm:col nm:cname='OMEGA(1,1)'>0.99998952701622090</nm:col>
-<nm:col nm:cname='OMEGA(1,2)'>0.99999754006619823</nm:col>
-<nm:col nm:cname='OMEGA(1,3)'>0.99999954036996219</nm:col>
-<nm:col nm:cname='OMEGA(2,2)'>23.245657948257684</nm:col>
+<nm:col nm:cname='THETA1'>-0.28058488479967564</nm:col>
+<nm:col nm:cname='THETA2'>-0.43144985829789134</nm:col>
+<nm:col nm:cname='THETA3'>-2.33235794490194472E-002</nm:col>
+<nm:col nm:cname='THETA4'>0.37954459797116724</nm:col>
+<nm:col nm:cname='THETA5'>-2.21690787436375041E-002</nm:col>
+<nm:col nm:cname='THETA6'>-3.29581261154463234E-002</nm:col>
+<nm:col nm:cname='THETA7'>4.05979227440237608E-002</nm:col>
+<nm:col nm:cname='OMEGA(1,1)'>0.95914820428380587</nm:col>
+<nm:col nm:cname='OMEGA(1,2)'>0.99292036114297189</nm:col>
+<nm:col nm:cname='OMEGA(1,3)'>-0.83540317902563010</nm:col>
+<nm:col nm:cname='OMEGA(2,2)'>0.42909005101568082</nm:col>
 </nm:row>
 <nm:row nm:rname='OMEGA(2,3)'>
-<nm:col nm:cname='THETA1'>0.99996834151389602</nm:col>
-<nm:col nm:cname='THETA2'>0.99996739918824473</nm:col>
-<nm:col nm:cname='THETA3'>0.99996694454922264</nm:col>
-<nm:col nm:cname='THETA4'>-0.99583541735980796</nm:col>
-<nm:col nm:cname='THETA5'>0.99996978767934230</nm:col>
-<nm:col nm:cname='THETA6'>-0.99990405459055942</nm:col>
-<nm:col nm:cname='THETA7'>-0.99858724222444073</nm:col>
-<nm:col nm:cname='OMEGA(1,1)'>0.99998605703184762</nm:col>
-<nm:col nm:cname='OMEGA(1,2)'>0.99999500704434818</nm:col>
-<nm:col nm:cname='OMEGA(1,3)'>0.99999891420762843</nm:col>
-<nm:col nm:cname='OMEGA(2,2)'>0.99999870321936946</nm:col>
-<nm:col nm:cname='OMEGA(2,3)'>6.4812614665636143</nm:col>
+<nm:col nm:cname='THETA1'>0.32597726624594009</nm:col>
+<nm:col nm:cname='THETA2'>0.40537220807598823</nm:col>
+<nm:col nm:cname='THETA3'>0.11104341419902682</nm:col>
+<nm:col nm:cname='THETA4'>-0.38076109671834429</nm:col>
+<nm:col nm:cname='THETA5'>0.13114322712226784</nm:col>
+<nm:col nm:cname='THETA6'>-3.44569761315861797E-002</nm:col>
+<nm:col nm:cname='THETA7'>-0.16548454032203419</nm:col>
+<nm:col nm:cname='OMEGA(1,1)'>-0.73358287093861907</nm:col>
+<nm:col nm:cname='OMEGA(1,2)'>-0.77558080678879160</nm:col>
+<nm:col nm:cname='OMEGA(1,3)'>0.97952728356290775</nm:col>
+<nm:col nm:cname='OMEGA(2,2)'>-0.78893389965252736</nm:col>
+<nm:col nm:cname='OMEGA(2,3)'>0.14221827860857816</nm:col>
 </nm:row>
 <nm:row nm:rname='OMEGA(3,3)'>
-<nm:col nm:cname='THETA1'>-0.99981890995091527</nm:col>
-<nm:col nm:cname='THETA2'>-0.99981747659985554</nm:col>
-<nm:col nm:cname='THETA3'>-0.99986096616026321</nm:col>
-<nm:col nm:cname='THETA4'>0.99495175592911445</nm:col>
-<nm:col nm:cname='THETA5'>-0.99983136353404467</nm:col>
-<nm:col nm:cname='THETA6'>0.99969260350151035</nm:col>
-<nm:col nm:cname='THETA7'>0.99802383536084482</nm:col>
-<nm:col nm:cname='OMEGA(1,1)'>-0.99981428179562215</nm:col>
-<nm:col nm:cname='OMEGA(1,2)'>-0.99983062072118578</nm:col>
-<nm:col nm:cname='OMEGA(1,3)'>-0.99983098363344447</nm:col>
-<nm:col nm:cname='OMEGA(2,2)'>-0.99983801226919344</nm:col>
-<nm:col nm:cname='OMEGA(2,3)'>-0.99981122187067017</nm:col>
-<nm:col nm:cname='OMEGA(3,3)'>0.71423709783453149</nm:col>
+<nm:col nm:cname='THETA1'>1.51108564612900450E-002</nm:col>
+<nm:col nm:cname='THETA2'>4.24319784153323176E-003</nm:col>
+<nm:col nm:cname='THETA3'>-0.21897988405167593</nm:col>
+<nm:col nm:cname='THETA4'>-7.20863367994672294E-002</nm:col>
+<nm:col nm:cname='THETA5'>6.73999658436405386E-002</nm:col>
+<nm:col nm:cname='THETA6'>0.30264048903579499</nm:col>
+<nm:col nm:cname='THETA7'>0.30965518349410542</nm:col>
+<nm:col nm:cname='OMEGA(1,1)'>0.12388502478515731</nm:col>
+<nm:col nm:cname='OMEGA(1,2)'>0.13278589391347273</nm:col>
+<nm:col nm:cname='OMEGA(1,3)'>-0.18363952322823662</nm:col>
+<nm:col nm:cname='OMEGA(2,2)'>0.13787880978769113</nm:col>
+<nm:col nm:cname='OMEGA(2,3)'>-0.27255530467325556</nm:col>
+<nm:col nm:cname='OMEGA(3,3)'>4.65693187919571649E-002</nm:col>
 </nm:row>
 <nm:row nm:rname='SIGMA(1,1)'>
-<nm:col nm:cname='THETA1'>-0.99998676526149977</nm:col>
-<nm:col nm:cname='THETA2'>-0.99998609668439653</nm:col>
-<nm:col nm:cname='THETA3'>-0.99998281749426887</nm:col>
-<nm:col nm:cname='THETA4'>0.99590065057203381</nm:col>
-<nm:col nm:cname='THETA5'>-0.99998793783747841</nm:col>
-<nm:col nm:cname='THETA6'>0.99992832188249769</nm:col>
-<nm:col nm:cname='THETA7'>0.99863274050972561</nm:col>
-<nm:col nm:cname='OMEGA(1,1)'>-0.99999736364536107</nm:col>
-<nm:col nm:cname='OMEGA(1,2)'>-0.99999936601521111</nm:col>
-<nm:col nm:cname='OMEGA(1,3)'>-0.99999562692865429</nm:col>
-<nm:col nm:cname='OMEGA(2,2)'>-0.99999593822226185</nm:col>
-<nm:col nm:cname='OMEGA(2,3)'>-0.99999423424714973</nm:col>
-<nm:col nm:cname='OMEGA(3,3)'>0.99981424772785954</nm:col>
-<nm:col nm:cname='SIGMA(1,1)'>2.80046398203669198E-004</nm:col>
+<nm:col nm:cname='THETA1'>-0.30531444852342210</nm:col>
+<nm:col nm:cname='THETA2'>-0.25631844396397502</nm:col>
+<nm:col nm:cname='THETA3'>0.13823273185603505</nm:col>
+<nm:col nm:cname='THETA4'>0.31219944774460590</nm:col>
+<nm:col nm:cname='THETA5'>-0.25798707201312410</nm:col>
+<nm:col nm:cname='THETA6'>-0.34176213598740751</nm:col>
+<nm:col nm:cname='THETA7'>-0.31011546448243316</nm:col>
+<nm:col nm:cname='OMEGA(1,1)'>-0.20831760330493532</nm:col>
+<nm:col nm:cname='OMEGA(1,2)'>-0.18250749995608784</nm:col>
+<nm:col nm:cname='OMEGA(1,3)'>9.17046101272385727E-002</nm:col>
+<nm:col nm:cname='OMEGA(2,2)'>-0.16035966467068866</nm:col>
+<nm:col nm:cname='OMEGA(2,3)'>0.12023285935098857</nm:col>
+<nm:col nm:cname='OMEGA(3,3)'>-0.53082079005568383</nm:col>
+<nm:col nm:cname='SIGMA(1,1)'>7.37616625128644779E-004</nm:col>
 </nm:row>
 <nm:row nm:rname='SIGMA(1,2)'>
 <nm:col nm:cname='THETA1'>0.0000000000000000</nm:col>
@@ -846,157 +832,157 @@ Days until program expires : 194
 <nm:col nm:cname='SIGMA(1,2)'>0.0000000000000000</nm:col>
 </nm:row>
 <nm:row nm:rname='SIGMA(2,2)'>
-<nm:col nm:cname='THETA1'>-0.99997904593456433</nm:col>
-<nm:col nm:cname='THETA2'>-0.99997817415237722</nm:col>
-<nm:col nm:cname='THETA3'>-0.99997657146872820</nm:col>
-<nm:col nm:cname='THETA4'>0.99586522073810479</nm:col>
-<nm:col nm:cname='THETA5'>-0.99998035091533077</nm:col>
-<nm:col nm:cname='THETA6'>0.99991718373547134</nm:col>
-<nm:col nm:cname='THETA7'>0.99860888835343709</nm:col>
-<nm:col nm:cname='OMEGA(1,1)'>-0.99999338936623916</nm:col>
-<nm:col nm:cname='OMEGA(1,2)'>-0.99999844935002513</nm:col>
-<nm:col nm:cname='OMEGA(1,3)'>-0.99999768523080768</nm:col>
-<nm:col nm:cname='OMEGA(2,2)'>-0.99999809557969310</nm:col>
-<nm:col nm:cname='OMEGA(2,3)'>-0.99999769132171634</nm:col>
-<nm:col nm:cname='OMEGA(3,3)'>0.99981290646448151</nm:col>
-<nm:col nm:cname='SIGMA(1,1)'>0.99999892561595760</nm:col>
+<nm:col nm:cname='THETA1'>-0.15083028170324453</nm:col>
+<nm:col nm:cname='THETA2'>-5.69683729422151286E-002</nm:col>
+<nm:col nm:cname='THETA3'>-0.25101079047170549</nm:col>
+<nm:col nm:cname='THETA4'>-7.18509414615023378E-002</nm:col>
+<nm:col nm:cname='THETA5'>-8.75039127392439886E-002</nm:col>
+<nm:col nm:cname='THETA6'>-3.61764880968963656E-002</nm:col>
+<nm:col nm:cname='THETA7'>-9.75430891534930927E-002</nm:col>
+<nm:col nm:cname='OMEGA(1,1)'>-0.43985424412074942</nm:col>
+<nm:col nm:cname='OMEGA(1,2)'>-0.41991555921393764</nm:col>
+<nm:col nm:cname='OMEGA(1,3)'>0.31084454759175650</nm:col>
+<nm:col nm:cname='OMEGA(2,2)'>-0.41182329373002252</nm:col>
+<nm:col nm:cname='OMEGA(2,3)'>0.26081553973077970</nm:col>
+<nm:col nm:cname='OMEGA(3,3)'>0.14370389104663722</nm:col>
+<nm:col nm:cname='SIGMA(1,1)'>-6.00934497107917867E-002</nm:col>
 <nm:col nm:cname='SIGMA(1,2)'>0.0000000000000000</nm:col>
-<nm:col nm:cname='SIGMA(2,2)'>1.03084908977769214E-003</nm:col>
+<nm:col nm:cname='SIGMA(2,2)'>1.87623310736376274E-002</nm:col>
 </nm:row>
 </nm:correlation>
 <nm:invcovariance>
 <nm:row nm:rname='THETA1'>
-<nm:col nm:cname='THETA1'>33.975118568608700</nm:col>
+<nm:col nm:cname='THETA1'>1.0497698346069089</nm:col>
 </nm:row>
 <nm:row nm:rname='THETA2'>
-<nm:col nm:cname='THETA1'>-56.899505610590630</nm:col>
-<nm:col nm:cname='THETA2'>99.280628076510482</nm:col>
+<nm:col nm:cname='THETA1'>-5.10062120922964712E-002</nm:col>
+<nm:col nm:cname='THETA2'>3.29642976993132965E-003</nm:col>
 </nm:row>
 <nm:row nm:rname='THETA3'>
-<nm:col nm:cname='THETA1'>1393.1405010042654</nm:col>
-<nm:col nm:cname='THETA2'>-3086.8909300211567</nm:col>
-<nm:col nm:cname='THETA3'>201148.90020002244</nm:col>
+<nm:col nm:cname='THETA1'>17.836342523340992</nm:col>
+<nm:col nm:cname='THETA2'>-0.85986249899686962</nm:col>
+<nm:col nm:cname='THETA3'>303.14435777328339</nm:col>
 </nm:row>
 <nm:row nm:rname='THETA4'>
-<nm:col nm:cname='THETA1'>6220263.9875720087</nm:col>
-<nm:col nm:cname='THETA2'>-10570971.901678072</nm:col>
-<nm:col nm:cname='THETA3'>284200249.00690764</nm:col>
-<nm:col nm:cname='THETA4'>1144750033983.4473</nm:col>
+<nm:col nm:cname='THETA1'>9316.4529328058725</nm:col>
+<nm:col nm:cname='THETA2'>-450.15475480092749</nm:col>
+<nm:col nm:cname='THETA3'>158314.33911537961</nm:col>
+<nm:col nm:cname='THETA4'>82690127.234352589</nm:col>
 </nm:row>
 <nm:row nm:rname='THETA5'>
-<nm:col nm:cname='THETA1'>-315011.98125962616</nm:col>
-<nm:col nm:cname='THETA2'>232713.92439336993</nm:col>
-<nm:col nm:cname='THETA3'>42945211.082842767</nm:col>
-<nm:col nm:cname='THETA4'>-46305999177.352493</nm:col>
-<nm:col nm:cname='THETA5'>24729619534.629608</nm:col>
+<nm:col nm:cname='THETA1'>5346.5491022201377</nm:col>
+<nm:col nm:cname='THETA2'>-259.21956831033123</nm:col>
+<nm:col nm:cname='THETA3'>90838.106249313831</nm:col>
+<nm:col nm:cname='THETA4'>47452231.803130262</nm:col>
+<nm:col nm:cname='THETA5'>27236098.667868655</nm:col>
 </nm:row>
 <nm:row nm:rname='THETA6'>
-<nm:col nm:cname='THETA1'>-13995.820416536728</nm:col>
-<nm:col nm:cname='THETA2'>-1847.7536206932741</nm:col>
-<nm:col nm:cname='THETA3'>4217514.1997917760</nm:col>
-<nm:col nm:cname='THETA4'>-1587463522.9528317</nm:col>
-<nm:col nm:cname='THETA5'>2000203389.8752122</nm:col>
-<nm:col nm:cname='THETA6'>166183589.16465756</nm:col>
+<nm:col nm:cname='THETA1'>468.84947318305956</nm:col>
+<nm:col nm:cname='THETA2'>-21.969634892155852</nm:col>
+<nm:col nm:cname='THETA3'>7975.6834700572472</nm:col>
+<nm:col nm:cname='THETA4'>4163473.9144025166</nm:col>
+<nm:col nm:cname='THETA5'>2386986.1879709684</nm:col>
+<nm:col nm:cname='THETA6'>211246.38616729004</nm:col>
 </nm:row>
 <nm:row nm:rname='THETA7'>
-<nm:col nm:cname='THETA1'>-1954052.4100615517</nm:col>
-<nm:col nm:cname='THETA2'>3351541.6818040865</nm:col>
-<nm:col nm:cname='THETA3'>-95109197.224178508</nm:col>
-<nm:col nm:cname='THETA4'>-360800838782.18634</nm:col>
-<nm:col nm:cname='THETA5'>12272203047.663860</nm:col>
-<nm:col nm:cname='THETA6'>303616269.62362564</nm:col>
-<nm:col nm:cname='THETA7'>113952743446.21263</nm:col>
+<nm:col nm:cname='THETA1'>811.80835469661588</nm:col>
+<nm:col nm:cname='THETA2'>-39.459212204018748</nm:col>
+<nm:col nm:cname='THETA3'>13793.242958147970</nm:col>
+<nm:col nm:cname='THETA4'>7204639.0279369131</nm:col>
+<nm:col nm:cname='THETA5'>4134986.0560540776</nm:col>
+<nm:col nm:cname='THETA6'>362265.69102340360</nm:col>
+<nm:col nm:cname='THETA7'>627931.19645820546</nm:col>
 </nm:row>
 <nm:row nm:rname='OMEGA(1,1)'>
-<nm:col nm:cname='THETA1'>-23985167.389701400</nm:col>
-<nm:col nm:cname='THETA2'>55705338.307472736</nm:col>
-<nm:col nm:cname='THETA3'>-3930209548.2705755</nm:col>
-<nm:col nm:cname='THETA4'>-4990457972449.3486</nm:col>
-<nm:col nm:cname='THETA5'>-927073947701.39783</nm:col>
-<nm:col nm:cname='THETA6'>-88703783725.845749</nm:col>
-<nm:col nm:cname='THETA7'>1687606849269.7761</nm:col>
-<nm:col nm:cname='OMEGA(1,1)'>77523472348610.844</nm:col>
+<nm:col nm:cname='THETA1'>258.99739088256860</nm:col>
+<nm:col nm:cname='THETA2'>-12.854398398024003</nm:col>
+<nm:col nm:cname='THETA3'>4402.5368097509318</nm:col>
+<nm:col nm:cname='THETA4'>2298176.3953003129</nm:col>
+<nm:col nm:cname='THETA5'>1317783.0026285038</nm:col>
+<nm:col nm:cname='THETA6'>115966.49677007251</nm:col>
+<nm:col nm:cname='THETA7'>200287.73083031239</nm:col>
+<nm:col nm:cname='OMEGA(1,1)'>69332.285065167627</nm:col>
 </nm:row>
 <nm:row nm:rname='OMEGA(1,2)'>
-<nm:col nm:cname='THETA1'>227882094.51533258</nm:col>
-<nm:col nm:cname='THETA2'>-529284340.27864820</nm:col>
-<nm:col nm:cname='THETA3'>37346351901.945755</nm:col>
-<nm:col nm:cname='THETA4'>47415290365137.914</nm:col>
-<nm:col nm:cname='THETA5'>8810314244734.3730</nm:col>
-<nm:col nm:cname='THETA6'>842961556379.79395</nm:col>
-<nm:col nm:cname='THETA7'>-16034477256154.752</nm:col>
-<nm:col nm:cname='OMEGA(1,1)'>-736664733416855.13</nm:col>
-<nm:col nm:cname='OMEGA(1,2)'>7000137371995555.0</nm:col>
+<nm:col nm:cname='THETA1'>-446.58487783642153</nm:col>
+<nm:col nm:cname='THETA2'>21.610231160526371</nm:col>
+<nm:col nm:cname='THETA3'>-7595.2381420377551</nm:col>
+<nm:col nm:cname='THETA4'>-3964133.0067846524</nm:col>
+<nm:col nm:cname='THETA5'>-2272965.6952993902</nm:col>
+<nm:col nm:cname='THETA6'>-200347.45322748402</nm:col>
+<nm:col nm:cname='THETA7'>-345376.52186590713</nm:col>
+<nm:col nm:cname='OMEGA(1,1)'>-117789.42193172513</nm:col>
+<nm:col nm:cname='OMEGA(1,2)'>201875.30302196948</nm:col>
 </nm:row>
 <nm:row nm:rname='OMEGA(1,3)'>
-<nm:col nm:cname='THETA1'>-327698503.29817128</nm:col>
-<nm:col nm:cname='THETA2'>761178063.46139562</nm:col>
-<nm:col nm:cname='THETA3'>-53715461461.333000</nm:col>
-<nm:col nm:cname='THETA4'>-68186240946874.680</nm:col>
-<nm:col nm:cname='THETA5'>-12673644348372.867</nm:col>
-<nm:col nm:cname='THETA6'>-1212558570866.5703</nm:col>
-<nm:col nm:cname='THETA7'>23059000849668.988</nm:col>
-<nm:col nm:cname='OMEGA(1,1)'>1059561634271797.1</nm:col>
-<nm:col nm:cname='OMEGA(1,2)'>-10068457255850878.</nm:col>
-<nm:col nm:cname='OMEGA(1,3)'>14481692548739390.</nm:col>
+<nm:col nm:cname='THETA1'>-511.11067251712717</nm:col>
+<nm:col nm:cname='THETA2'>24.926715528579887</nm:col>
+<nm:col nm:cname='THETA3'>-8687.9929286320294</nm:col>
+<nm:col nm:cname='THETA4'>-4535784.0105943391</nm:col>
+<nm:col nm:cname='THETA5'>-2601903.6354819816</nm:col>
+<nm:col nm:cname='THETA6'>-228450.19771814815</nm:col>
+<nm:col nm:cname='THETA7'>-395407.11682252202</nm:col>
+<nm:col nm:cname='OMEGA(1,1)'>-129145.99228983247</nm:col>
+<nm:col nm:cname='OMEGA(1,2)'>221263.86381698909</nm:col>
+<nm:col nm:cname='OMEGA(1,3)'>255365.21562628838</nm:col>
 </nm:row>
 <nm:row nm:rname='OMEGA(2,2)'>
-<nm:col nm:cname='THETA1'>-533501431.90936071</nm:col>
-<nm:col nm:cname='THETA2'>1239201931.0874372</nm:col>
-<nm:col nm:cname='THETA3'>-87447322494.394730</nm:col>
-<nm:col nm:cname='THETA4'>-111008341827917.95</nm:col>
-<nm:col nm:cname='THETA5'>-20631897176882.070</nm:col>
-<nm:col nm:cname='THETA6'>-1973980313952.8762</nm:col>
-<nm:col nm:cname='THETA7'>37540337253048.148</nm:col>
-<nm:col nm:cname='OMEGA(1,1)'>1724934178019160.8</nm:col>
-<nm:col nm:cname='OMEGA(1,2)'>-16391142627803696.</nm:col>
-<nm:col nm:cname='OMEGA(1,3)'>23575755403986540.</nm:col>
-<nm:col nm:cname='OMEGA(2,2)'>38380613460780888.</nm:col>
+<nm:col nm:cname='THETA1'>189.70124845068500</nm:col>
+<nm:col nm:cname='THETA2'>-8.9381660699220244</nm:col>
+<nm:col nm:cname='THETA3'>3228.4497887484849</nm:col>
+<nm:col nm:cname='THETA4'>1684526.4488983622</nm:col>
+<nm:col nm:cname='THETA5'>965672.49426070601</nm:col>
+<nm:col nm:cname='THETA6'>85321.474759060962</nm:col>
+<nm:col nm:cname='THETA7'>146716.40388102795</nm:col>
+<nm:col nm:cname='OMEGA(1,1)'>49668.589236480060</nm:col>
+<nm:col nm:cname='OMEGA(1,2)'>-85694.501175737183</nm:col>
+<nm:col nm:cname='OMEGA(1,3)'>-93534.506361303225</nm:col>
+<nm:col nm:cname='OMEGA(2,2)'>36596.142664995212</nm:col>
 </nm:row>
 <nm:row nm:rname='OMEGA(2,3)'>
-<nm:col nm:cname='THETA1'>1528459449.2339516</nm:col>
-<nm:col nm:cname='THETA2'>-3550319991.8767066</nm:col>
-<nm:col nm:cname='THETA3'>250543718469.40036</nm:col>
-<nm:col nm:cname='THETA4'>318036505760912.00</nm:col>
-<nm:col nm:cname='THETA5'>59113795154776.375</nm:col>
-<nm:col nm:cname='THETA6'>5655737409678.7891</nm:col>
-<nm:col nm:cname='THETA7'>-107552647728900.08</nm:col>
-<nm:col nm:cname='OMEGA(1,1)'>-4942090000254211.0</nm:col>
-<nm:col nm:cname='OMEGA(1,2)'>46962083542731120.</nm:col>
-<nm:col nm:cname='OMEGA(1,3)'>-67546639871896408.</nm:col>
-<nm:col nm:cname='OMEGA(2,2)'>-1.09963877095338576E+017</nm:col>
-<nm:col nm:cname='OMEGA(2,3)'>3.15056305944913792E+017</nm:col>
+<nm:col nm:cname='THETA1'>443.85729694591134</nm:col>
+<nm:col nm:cname='THETA2'>-21.567339663632641</nm:col>
+<nm:col nm:cname='THETA3'>7544.7194553248455</nm:col>
+<nm:col nm:cname='THETA4'>3939220.6370742926</nm:col>
+<nm:col nm:cname='THETA5'>2259855.8234236632</nm:col>
+<nm:col nm:cname='THETA6'>198367.33185094935</nm:col>
+<nm:col nm:cname='THETA7'>343381.34612242895</nm:col>
+<nm:col nm:cname='OMEGA(1,1)'>111405.07134980497</nm:col>
+<nm:col nm:cname='OMEGA(1,2)'>-191254.84543091615</nm:col>
+<nm:col nm:cname='OMEGA(1,3)'>-220313.55286845064</nm:col>
+<nm:col nm:cname='OMEGA(2,2)'>81016.540759604817</nm:col>
+<nm:col nm:cname='OMEGA(2,3)'>190558.05727539441</nm:col>
 </nm:row>
 <nm:row nm:rname='OMEGA(3,3)'>
-<nm:col nm:cname='THETA1'>-1093587510.0722110</nm:col>
-<nm:col nm:cname='THETA2'>2540203204.2335262</nm:col>
-<nm:col nm:cname='THETA3'>-179261363543.08365</nm:col>
-<nm:col nm:cname='THETA4'>-227550171844714.94</nm:col>
-<nm:col nm:cname='THETA5'>-42295523493951.500</nm:col>
-<nm:col nm:cname='THETA6'>-4046636392234.6597</nm:col>
-<nm:col nm:cname='THETA7'>76952299192910.234</nm:col>
-<nm:col nm:cname='OMEGA(1,1)'>3536014371081310.5</nm:col>
-<nm:col nm:cname='OMEGA(1,2)'>-33600885976756332.</nm:col>
-<nm:col nm:cname='OMEGA(1,3)'>48328923621926704.</nm:col>
-<nm:col nm:cname='OMEGA(2,2)'>78678019003860848.</nm:col>
-<nm:col nm:cname='OMEGA(2,3)'>-2.25419534951067232E+017</nm:col>
-<nm:col nm:cname='OMEGA(3,3)'>1.61285350529116704E+017</nm:col>
+<nm:col nm:cname='THETA1'>-73.575058757770961</nm:col>
+<nm:col nm:cname='THETA2'>3.5085480474252719</nm:col>
+<nm:col nm:cname='THETA3'>-1250.2318544454729</nm:col>
+<nm:col nm:cname='THETA4'>-653277.29234157410</nm:col>
+<nm:col nm:cname='THETA5'>-375036.99287719786</nm:col>
+<nm:col nm:cname='THETA6'>-32948.959001690324</nm:col>
+<nm:col nm:cname='THETA7'>-56890.329154324761</nm:col>
+<nm:col nm:cname='OMEGA(1,1)'>-17849.945230680019</nm:col>
+<nm:col nm:cname='OMEGA(1,2)'>31109.230738761493</nm:col>
+<nm:col nm:cname='OMEGA(1,3)'>34823.168231769116</nm:col>
+<nm:col nm:cname='OMEGA(2,2)'>-13315.923245576110</nm:col>
+<nm:col nm:cname='OMEGA(2,3)'>-30379.940319687179</nm:col>
+<nm:col nm:cname='OMEGA(3,3)'>6105.6875715998694</nm:col>
 </nm:row>
 <nm:row nm:rname='SIGMA(1,1)'>
-<nm:col nm:cname='THETA1'>938595164323.87061</nm:col>
-<nm:col nm:cname='THETA2'>-2177014427276.7754</nm:col>
-<nm:col nm:cname='THETA3'>153264692858046.53</nm:col>
-<nm:col nm:cname='THETA4'>1.95178516122468864E+017</nm:col>
-<nm:col nm:cname='THETA5'>36067465233526136.</nm:col>
-<nm:col nm:cname='THETA6'>3453086918650571.5</nm:col>
-<nm:col nm:cname='THETA7'>-65983534696039376.</nm:col>
-<nm:col nm:cname='OMEGA(1,1)'>-3.02253227404370176E+018</nm:col>
-<nm:col nm:cname='OMEGA(1,2)'>2.87215084496995615E+019</nm:col>
-<nm:col nm:cname='OMEGA(1,3)'>-4.13107610202983301E+019</nm:col>
-<nm:col nm:cname='OMEGA(2,2)'>-6.72526763681544110E+019</nm:col>
-<nm:col nm:cname='OMEGA(2,3)'>1.92684868254115234E+020</nm:col>
-<nm:col nm:cname='OMEGA(3,3)'>-1.37864029722243285E+020</nm:col>
-<nm:col nm:cname='SIGMA(1,1)'>1.17846060652393501E+023</nm:col>
+<nm:col nm:cname='THETA1'>66774.983162223376</nm:col>
+<nm:col nm:cname='THETA2'>-3230.7351281908159</nm:col>
+<nm:col nm:cname='THETA3'>1134655.8066854877</nm:col>
+<nm:col nm:cname='THETA4'>592642554.51591063</nm:col>
+<nm:col nm:cname='THETA5'>340108131.05351597</nm:col>
+<nm:col nm:cname='THETA6'>29830637.597402863</nm:col>
+<nm:col nm:cname='THETA7'>51641285.304127507</nm:col>
+<nm:col nm:cname='OMEGA(1,1)'>16469292.500229655</nm:col>
+<nm:col nm:cname='OMEGA(1,2)'>-28400097.469782956</nm:col>
+<nm:col nm:cname='OMEGA(1,3)'>-32529177.252553064</nm:col>
+<nm:col nm:cname='OMEGA(2,2)'>12067315.035055459</nm:col>
+<nm:col nm:cname='OMEGA(2,3)'>28249384.104795799</nm:col>
+<nm:col nm:cname='OMEGA(3,3)'>-4653765.0550761428</nm:col>
+<nm:col nm:cname='SIGMA(1,1)'>4251074181.3577476</nm:col>
 </nm:row>
 <nm:row nm:rname='SIGMA(1,2)'>
 <nm:col nm:cname='THETA1'>0.0000000000000000</nm:col>
@@ -1016,31 +1002,31 @@ Days until program expires : 194
 <nm:col nm:cname='SIGMA(1,2)'>0.0000000000000000</nm:col>
 </nm:row>
 <nm:row nm:rname='SIGMA(2,2)'>
-<nm:col nm:cname='THETA1'>-187910906166.60513</nm:col>
-<nm:col nm:cname='THETA2'>435848377946.87903</nm:col>
-<nm:col nm:cname='THETA3'>-30684373877972.422</nm:col>
-<nm:col nm:cname='THETA4'>-39075622097493144.</nm:col>
-<nm:col nm:cname='THETA5'>-7220901320418996.0</nm:col>
-<nm:col nm:cname='THETA6'>-691326310026140.13</nm:col>
-<nm:col nm:cname='THETA7'>13210205493295554.</nm:col>
-<nm:col nm:cname='OMEGA(1,1)'>6.05126201427347712E+017</nm:col>
-<nm:col nm:cname='OMEGA(1,2)'>-5.75019079572895846E+018</nm:col>
-<nm:col nm:cname='OMEGA(1,3)'>8.27062261149136486E+018</nm:col>
-<nm:col nm:cname='OMEGA(2,2)'>1.34643248486231163E+019</nm:col>
-<nm:col nm:cname='OMEGA(2,3)'>-3.85764819834888356E+019</nm:col>
-<nm:col nm:cname='OMEGA(3,3)'>2.76010737458238218E+019</nm:col>
-<nm:col nm:cname='SIGMA(1,1)'>-2.35933764339493513E+022</nm:col>
+<nm:col nm:cname='THETA1'>10279.313128740740</nm:col>
+<nm:col nm:cname='THETA2'>-496.60955675091503</nm:col>
+<nm:col nm:cname='THETA3'>174684.74139739989</nm:col>
+<nm:col nm:cname='THETA4'>91235411.709867179</nm:col>
+<nm:col nm:cname='THETA5'>52353992.286088780</nm:col>
+<nm:col nm:cname='THETA6'>4594154.6223234423</nm:col>
+<nm:col nm:cname='THETA7'>7949386.7280541277</nm:col>
+<nm:col nm:cname='OMEGA(1,1)'>2537642.9186373572</nm:col>
+<nm:col nm:cname='OMEGA(1,2)'>-4376840.9296752485</nm:col>
+<nm:col nm:cname='OMEGA(1,3)'>-5006966.3897806276</nm:col>
+<nm:col nm:cname='OMEGA(2,2)'>1860022.5457370011</nm:col>
+<nm:col nm:cname='OMEGA(2,3)'>4347983.3849219764</nm:col>
+<nm:col nm:cname='OMEGA(3,3)'>-720675.49403146375</nm:col>
+<nm:col nm:cname='SIGMA(1,1)'>653921396.24454451</nm:col>
 <nm:col nm:cname='SIGMA(1,2)'>0.0000000000000000</nm:col>
-<nm:col nm:cname='SIGMA(2,2)'>4.72351310722546794E+021</nm:col>
+<nm:col nm:cname='SIGMA(2,2)'>100671077.22007114</nm:col>
 </nm:row>
 </nm:invcovariance>
 </nm:estimation>
 <nm:post_process_times>
-<nm:post_elapsed_time>1.23</nm:post_elapsed_time>
-<nm:finaloutput_elapsed_time>0.05</nm:finaloutput_elapsed_time>
+<nm:post_elapsed_time>1.97</nm:post_elapsed_time>
+<nm:finaloutput_elapsed_time>0.11</nm:finaloutput_elapsed_time>
 </nm:post_process_times>
 </nm:problem>
 </nm:nonmem>
-<nm:stop_datetime>2024-09-05T19:24:50.943</nm:stop_datetime>
-<nm:total_cputime>1524.797</nm:total_cputime>
+<nm:stop_datetime>2024-09-14T02:23:20.808</nm:stop_datetime>
+<nm:total_cputime>1267.219</nm:total_cputime>
 </nm:output>
