@@ -1,15 +1,17 @@
 
 run_nlme <- function(home_dir, which_version = "standard"){
   nreps <- 200
+  ## only standard will be available for public access, ADPO will be available with v8.6
+  ## no plans to make NoHessisan available.
   if(which_version == "ADPO"){
-     Sys.setenv("NLME_HASH" = 1770978959)
+     Sys.setenv("NLME_HASH" = XXXXXXXX)
      Sys.setenv("INSTALLDIR" = "D:/NLME_Engine_ADPO")
      syngrads <- TRUE
      outputfilename <-  "NLMEResults_ADPO.csv"
      backupfilename <-  "NLMEResults_ADPOBAK.csv"
 
   }else if(which_version == "NoHessian"){
-    Sys.setenv("NLME_HASH" = 1770978959)
+    Sys.setenv("NLME_HASH" = XXXXXXXX)
     Sys.setenv("INSTALLDIR" = "D:/NLME_Engine_noHessian")
     syngrads <- FALSE
     outputfilename <-  "NLMEResults_NoHessian.csv"
