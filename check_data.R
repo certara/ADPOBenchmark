@@ -29,6 +29,7 @@ check_data <- function(home_dir, curr_model){
   datafile <- str_trim(str_replace(datafile,"##DATA",""))
   datafile <- tolower(datafile)
   datafile <- str_trim(str_replace(datafile,tolower(paste0(home_dir,"/data/sim_")),""))
+  datafile <- str_trim(str_replace(datafile,tolower("sim_"), ""))
   datafile <- str_trim(str_replace(datafile,".csv",""))
   datafile <- str_split(datafile,"_")[[1]]
   if(!(all(datafile==phenotype))){

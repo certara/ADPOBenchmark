@@ -1,5 +1,3 @@
-library(xml2)
-library(stringr)
 GetNMParms <- function(xml_file){
   data <- read_xml(xml_file, encoding = "ASCII")
   control_node <- data %>%

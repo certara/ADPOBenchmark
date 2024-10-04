@@ -1,60 +1,80 @@
-# places where path is hardcoded:
-# pydarwin_makedata
-
 rm(list=ls())
 home_dir <- getwd()
+
+# used by NLME
+if (Sys.info()['sysname'] == "Linux") {
+  pyDarwinInterpreter <- "/home/user/venv/bin/python3"
+  nmfe_path <- "/opt/nm751/util/nmfe75"
+
+  gcc_dir <- dirname(system("which gcc", intern = TRUE))
+  nlme_dir <- "/home/user/InstallDirNLME/"
+  if (grepl("Ubuntu", Sys.info()["version"])) {
+    Sys.setenv("PML_BIN_DIR" = "UBUNTU2204")
+  }
+
+  INSTALLDIRStandard <- nlme_dir
+  INSTALLDIRADPO <- "home/user/NLME_Engine_ADPO"
+  INSTALLDIRnoHessian <- "home/user/NLME_Engine_noHessian"
+
+} else {
+  pyDarwinInterpreter <- "C:/python/venv/bin/python"
+  nmfe_path <- "C:/nm751/util/nmfe75"
+
+  # for Windows NLME engine
+  gcc_dir <- "C:\\Program Files\\Certara\\mingw64"
+  nlme_dir <- "C:\\Program Files\\Certara\\NLME_Engine"
+
+  INSTALLDIRStandard <- nlme_dir
+  INSTALLDIRADPO <- "D:/NLME_Engine_ADPO"
+  INSTALLDIRnoHessian <- "D:/NLME_Engine_noHessian"
+}
+
+nlme_dirs <- c(standard = INSTALLDIRStandard,
+               ADPO = INSTALLDIRADPO,
+               NoHessian = INSTALLDIRnoHessian)
+
 library(Metrics)
 library(ggplot2)
 library(readr)
 library(stringr)
 library(dplyr)
-library(Certara.RsNLME)
 library(data.table)
 library(lubridate)
-#source(file.path(home_dir,"make_data.R"))
+library(readtext)
+library(Certara.RsNLME)
+library(Certara.RDarwin)
+library(xml2)
+
+source(file.path(home_dir,"make_data.R"))
 source(file.path(home_dir,"check_data.R"))
 source(file.path(home_dir,"ReadNM_xml.R"))
 source(file.path(home_dir,"CompileResultsNONMEM.R"))
 source(file.path(home_dir,"CleanUp.R"))
-source(file.path(home_dir,"CompileResultsNLME.r"))
-source(file.path(home_dir,"GetTrueParms.r"))
-source(file.path(home_dir,"CopyNONMEMControls.R"))
-source(file.path(home_dir,"CopyNLMEControls.R"))
-# all the commented out requires pyDarwin and some editing of the options.json file to set the tempfolder path
-# but, all control files and data files are availabe, no reason to recreate them
-# code is provided for completeness
-# also note that calling pydarwin from R can freeze R, may need to step through r file,
-# then run pydarwin from command line
-# make_data(home_dir)
+source(file.path(home_dir,"CompileResultsNLME.R"))
+source(file.path(home_dir,"GetTrueParms.R"))
+
+make_data(home_dir, pyDarwinInterpreter, nmfe_path, nlme_dir, gcc_dir)
 # make NONMEM control files
-# note that the run directory in options.json must be an absolute path
-# this must be set manually, current value is c:\git\adpoBenchmark\nonmem\run
-# setwd(file.path(home_dir,"pydarwin_nonmem"))
-# change folder in options to d:
-# and data file in template
-# shell("python -m darwin.run_search_in_folder .")
-# setwd(file.path(home_dir,"pydarwin_nlme"))
-# change folder in options to d:
-# shell("python -m darwin.run_search_in_folder .")
-# uncomment $EST and $COV copy to home_dir/NONMEM/run?.mod
-# CopyNONMEMControls(home_dir)
-# CopyNLMEControls(home_dir)
 for(i in 1:72){
   check_data(home_dir,i)
 }
-run_nlme(home_dir,"NoHessian")
-run_nlme(home_dir,"standard")
-run_nlme(home_dir,"ADPO")
-run_NONMEM(home_dir)
+
+run_NONMEM(home_dir, nmfe_path)
 NONMEM_data <- read.csv(file.path(home_dir,"NONMEMResults.csv"))
 # Append NM to column names
 colnames(NONMEM_data) <- paste0("NM",colnames(NONMEM_data))
-NLME_standard_data <- read.csv(file.path(home_dir,"NLMEResults_standard.csv"))
+# filter not finished
+NONMEM_data <- filter(NONMEM_data, NONMEM_data$NMEst_time > 0)
 
+run_nlme(home_dir,"standard", nlme_dirs)
+NLME_standard_data <- read.csv(file.path(home_dir,"NLMEResults_standard.csv"))
 colnames(NLME_standard_data) <- paste0("NLME_ST",colnames(NLME_standard_data))
 NLME_standard_data <- NLME_standard_data %>%
-  distinct(NLME_STModel_num, .keep_all = TRUE) %>%
-  filter(NLME_STModel_num<=8)
+  distinct(NLME_STModel_num, .keep_all = TRUE)
+
+run_nlme(home_dir,"NoHessian", nlme_dirs)
+run_nlme(home_dir,"ADPO", nlme_dirs)
+
 # append NLME_ST to column names
 NLME_ADPO_data <- read.csv(file.path(home_dir,"NLMEResults_ADPO.csv")) %>%
   dplyr::distinct(Model_num,.keep_all=TRUE)
@@ -64,8 +84,11 @@ NLME_NOHessian_data <- NLME_standard_data %>%
   distinct(NLME_STModel_num, .keep_all = TRUE) %>%
   filter(NLME_STModel_num<=8)
 # append NLME_ST to column names
-all_data <- cbind(NONMEM_data,
-                  NLME_standard_data)
+
+all_data <- inner_join(NONMEM_data,
+                       NLME_standard_data,
+                       by = c("NMModel_num" = "NLME_STModel_num"))
+
 # check that genome is the same
 check <- all_data %>%
   mutate(This_compOK = (NMthis_comp == NLME_STthis_comp),

@@ -1,13 +1,18 @@
-CleanUp <- function(wd){
-  if(file.exists(file.path(wd,"temp_dir"))) unlink(file.path(wd,"temp_dir"),recursive = TRUE, force = TRUE)
-  files <- list.files(wd,
-                      full.names = TRUE,
-                      recursive = TRUE)
+CleanUp <- function(wd) {
+  if (file.exists(file.path(wd, "temp_dir")))
+    unlink(file.path(wd, "temp_dir"),
+           recursive = TRUE,
+           force = TRUE)
+  files <- grep(
+    list.files(
+      path = wd,
+      full.names = TRUE,
+      recursive = TRUE
+    ),
+    pattern = "Run[0-9].*",
+    invert = TRUE,
+    value = TRUE
+  )
 
-  Savedfiles <- files[grep("Run[0-9].*",files)]
-  files <-  files[! files %in% Savedfiles]
-  for(file in files){
-    if(file.exists(file)) file.remove(file)
-  }
-
+  file.remove(files)
 }
