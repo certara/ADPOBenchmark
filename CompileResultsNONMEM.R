@@ -169,7 +169,7 @@ run_NONMEM <- function(home_dir, nmfe_path) {
             })
 
             EndTime <- Sys.time()
-            CleanUp(wd)
+            CleanUpNM(wd)
             NOMEGA <- ETANOMEGA[this_eta + 1]
 
             This_Result = data.frame(

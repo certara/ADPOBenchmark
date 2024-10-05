@@ -225,7 +225,10 @@ make_data <- function(home_dir, pyDarwinInterpreter, nmfe_path, nlme_dir, gcc_di
     TokensPath = "tokens.json",
     OptionsPath = "options.json",
   )
-
+  # cleanup
+  for(i in 1:72){
+    CleanUpNLME(file.path(home_dir, "NLME","run","0",str_pad(i, 2, pad = "0")))
+  }
   message("Editing NLME for benchmarking")
   for(this_model in 1:72){
     file <- file.path(home_dir,"NLME","run","0",str_pad(this_model, 2, pad = "0"),paste0("NLME_0_",str_pad(this_model, 2, pad = "0"),".mmdl"))

@@ -2,7 +2,7 @@ timeout <-  3600*6
 run_nlme <- function(home_dir, which_version = "standard", nlme_dirs) {
   Sys.setenv("INSTALLDIR" = nlme_dirs[which_version])
 
-  message("Starting NONMEM benchmarking")
+  message("Starting NLME benchmarking")
   # BAK files are just so we can look at intermediate results with locking the file
   if (which_version == "ADPO") {
     syngrads <- TRUE
@@ -262,6 +262,7 @@ run_nlme <- function(home_dir, which_version = "standard", nlme_dirs) {
               crash = FALSE
             )
           }
+          CleanUpNLME(model_orig@modelInfo@workingDir)
           Results <- rbind(Results, This_Result)
           write.csv(
             Results,

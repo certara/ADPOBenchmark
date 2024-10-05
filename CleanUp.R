@@ -1,4 +1,4 @@
-CleanUp <- function(wd) {
+CleanUpNM <- function(wd) {
   if (file.exists(file.path(wd, "temp_dir")))
     unlink(file.path(wd, "temp_dir"),
            recursive = TRUE,
@@ -15,4 +15,21 @@ CleanUp <- function(wd) {
   )
 
   file.remove(files)
+}
+CleanUpNLME <- function(wd) {
+  # just the big stuff
+  # keep err? and .log file
+  files <- grep(
+    list.files(
+      path = wd,
+      full.names = TRUE,
+      recursive = TRUE
+    ),
+    pattern = "csv",
+    value = TRUE
+  )
+
+  file.remove(files)
+  if(file.exists(file.path(wd,"dmp.txt"))) file.remove(file.path(wd,"dmp.txt"))
+  if(file.exists(file.path(wd,"out.txt"))) file.remove(file.path(wd,"out.txt"))
 }
