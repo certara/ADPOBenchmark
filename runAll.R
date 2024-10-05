@@ -1,7 +1,8 @@
 rm(list=ls())
 ## path to python.exe can be found with where python.exe command from DOS command line
-WindowspyDarwinInterpreter <- "C:/Users/msale/AppData/Local/Programs/Python/Python310/python.exe"
-Windowsnmfe_path <- "C:/nm75g64/util/nmfe75.bat"
+#WindowspyDarwinInterpreter <- "C:/Users/msale/AppData/Local/Programs/Python/Python310/python.exe"
+WindowspyDarwinInterpreter <- "C:/Python/Python311/python.exe"
+Windowsnmfe_path <- "C:/nm74g64/util/nmfe74.bat"
 WindowsINSTALLDIRADPO <- "D:/NLME_Engine_ADPO"
 WindowsINSTALLDIRnoHessian <- "D:/NLME_Engine_noHessian"
 Linuxnlme_dir <- "/home/user/InstallDirNLME/"
@@ -38,7 +39,7 @@ if (Sys.info()['sysname'] == "Linux") {
 nlme_dirs <- c(standard = INSTALLDIRStandard,
                ADPO = INSTALLDIRADPO,
                NoHessian = INSTALLDIRnoHessian)
-
+library(R.utils)
 library(Metrics)
 library(ggplot2)
 library(readr)
@@ -71,7 +72,7 @@ NONMEM_data <- read.csv(file.path(home_dir,"NONMEMResults.csv"))
 # Append NM to column names
 colnames(NONMEM_data) <- paste0("NM",colnames(NONMEM_data))
 # filter not finished
-NONMEM_data <- filter(NONMEM_data, NONMEM_data$NMEst_time > 0)
+#NONMEM_data <- filter(NONMEM_data, NONMEM_data$NMEst_time > 0)
 
 run_nlme(home_dir,"standard", nlme_dirs)
 NLME_standard_data <- read.csv(file.path(home_dir,"NLMEResults_standard.csv"))

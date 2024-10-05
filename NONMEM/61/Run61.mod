@@ -2,7 +2,7 @@ $SIZES MAXFCN = 5000000
 $PROBLEM    Dual Numbers benchmark
 $INPUT       ID TIME AMT DV WT
   ;; $DATA      c:/git/adpoBenchmark/data/sim_1_0_1_1.csv IGNORE=@
-$DATA      C:/git/adpoBenchmark/data/sim_1_0_1_1.csv IGNORE=@
+$DATA      d:/git/adpobenchmark/data/sim_1_0_1_1.csv IGNORE=@
 
 $SUBROUTINE ADVAN6 TOL=7
 $MODEL

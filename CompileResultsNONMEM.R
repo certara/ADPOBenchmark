@@ -1,3 +1,4 @@
+timeout <- 3600 * 6
 run_NONMEM <- function(home_dir, nmfe_path) {
   working_dir <- file.path(home_dir, "NONMEM")
   #setwd(working_dir)
@@ -71,9 +72,10 @@ run_NONMEM <- function(home_dir, nmfe_path) {
               filenameStem <- paste0("Run", Curr_model)
 
               xml_file <- file.path(wd, paste0(filenameStem, ".xml"))
-              if (file.exists(xml_file)) {
-                file.remove(xml_file)
-              }
+              FMSG_file <- file.path(wd, "FMSG")
+              if (file.exists(xml_file))    file.remove(xml_file)
+              if (file.exists(FMSG_file))    file.remove(FMSG_file)
+
               # below doesn't work in windows, changed to use rundir in nmfe command
               # command <- paste("cd",
               #                  wd,
@@ -88,9 +90,20 @@ run_NONMEM <- function(home_dir, nmfe_path) {
 
               #setwd(home_dir)
               StartTime <- Sys.time() # as.ITime(Sys.time())
-              rval <- system(command, timeout = 3600 * 6)
+              #rval <- system(command, timeout = time)
+              if(exists("rval")) rm(rval)
+              if(file.exists(xml_file)) file.remove(xml_file)
+              rval <- withTimeout(system(command, timeout = timeout), # 3600 * 6 for execution
+                                  substitute=TRUE,
+                                  envir=parent.frame(),
+                                  timeout = timeout + 60,
+                                  cpu=99999,
+                                  elapsed = timeout + 60, # 60 seconds for comppiling
+                                  onTimeout="warning")
+
+              if (file.exists(FMSG_file))    file.remove(FMSG_file)
               # can't tell if timeout or crashed??
-              if (file.exists(xml_file)) {
+              if (file.exists(xml_file) & !is.null(rval)) { # if timed out xml file is corrupted, rval is null
                 parms <- GetNMParms(xml_file)
                 data_file <- parms$dataFile
                 iterations <- parms$iterations
@@ -103,7 +116,7 @@ run_NONMEM <- function(home_dir, nmfe_path) {
                   Est_time <-  parms$EstTime
                   Cov_time <- parms$CovTime
                 } else{
-                  Est_time <-  3600 * 6
+                  Est_time <-  timeout
                   Cov_time <- -999
                 }
 
@@ -131,17 +144,19 @@ run_NONMEM <- function(home_dir, nmfe_path) {
                 )
               } else{
                 Run_time <- 9999999
-                if (rval == 124) {
-                  Est_time <- Cov_time <-  6 * 3600
-                } else{
-                  Est_time <- (Sys.time() - StartTime)
-                  Cov_time <-  -9999
+                if (!is.null(rval)){
+                   if(rval == 124) {
+                    Est_time <- Cov_time <-  timeout
+                  } else{
+                    Est_time <- Sys.time() - StartTime
+                    Cov_time <-  -99999
+                    }
+                  }else{
+                  message_char <- "timed out"
+                  converge <- Covar <- success <- finished <- FALSE
+                  status <- iterations <- RMSE <- MAE <-   -99999
                 }
-                converge <- Covar <- success <- finished <- FALSE
-                status <- iterations <- RMSE <- MAE <-   -99999
-                message_char <- "-99999"
-              }
-
+                }
             }, error = function(e) {
               Run_time <- 9999999
               converge <- Covar <- success <- finished <- FALSE

@@ -1,3 +1,4 @@
+timeout <-  3600*6
 run_nlme <- function(home_dir, which_version = "standard", nlme_dirs) {
   Sys.setenv("INSTALLDIR" = nlme_dirs[which_version])
 
@@ -88,8 +89,11 @@ run_nlme <- function(home_dir, which_version = "standard", nlme_dirs) {
             if (file.exists(file.path(model_orig@modelInfo@workingDir, "err2.txt"))) {
               file.remove(file.path(model_orig@modelInfo@workingDir, "err2.txt"))
             }
-
-            fit <- fitmodel(
+            if(exists("fit")) rm(fit)
+            if(file.exists(model_orig@modelInfo@workingDir)){
+             unlink(model_orig@modelInfo@workingDir, recursive = TRUE)
+          }
+            withTimeout(fit <- fitmodel(
               model_orig,
               numIterations = 1000,
               numCores = 1,
@@ -102,14 +106,25 @@ run_nlme <- function(home_dir, which_version = "standard", nlme_dirs) {
               allowSyntheticGradient = syngrads,
               #  installationDirectory = installationDirectory,
               runInBackground = FALSE
-            )
+            ),
+            substitute=TRUE,
+            envir=parent.frame(),
+            timeout = timeout + 60,
+            cpu=99999,
+            elapsed = timeout + 60, # 60 seconds for compiling
+            onTimeout="warning")
+
+
           }, error = function(cond) {
+            runOk <- FALSE # this fails if no license
             message("In Error!!\n\n!!!error\n\n!!!error\n\n!!!error\n\n!!!error")
-            runOk <- FALSE
+
           })
           EndTime <- Sys.time()
+
           if (!(runOk) |
-              file.exists(file.path(model_orig@modelInfo@workingDir, "err2.txt"))) {
+              file.exists(file.path(model_orig@modelInfo@workingDir, "err2.txt")) |
+            !exists("fit")) {
             EndTime <- Sys.time()
             control_file <- file.path(home_dir,
                                       "nlme",
@@ -120,7 +135,11 @@ run_nlme <- function(home_dir, which_version = "standard", nlme_dirs) {
               messages <- readLines(file_conn)
               close(file_conn)
             } else{
+              if(exists("fit")){
               messages <- "Run Failed, unknown error"
+              }else{
+                messages <- "timed out"
+              }
             }
             This_Result <- data.frame(
               StartTime = strptime(StartTime, format = "%Y-%m-%d %H:%M"),
@@ -153,7 +172,7 @@ run_nlme <- function(home_dir, which_version = "standard", nlme_dirs) {
               MAE = -99,
               crash = TRUE
             )
-          } else{
+          } else{ # all OK
             if (fit$Overall$RetCode < 4) {
               Success <-  TRUE
             } else{
