@@ -1,29 +1,30 @@
-Sun 09/08/2024 
-03:50 PM
+Fri 10/04/2024 
+03:41 PM
+$SIZES MAXFCN = 5000000
 $PROBLEM    Dual Numbers benchmark
 $INPUT       ID TIME AMT DV WT
   ;; $DATA      c:/git/adpoBenchmark/data/sim_0_1_1_0.csv IGNORE=@
-$DATA      D:/git/adpoBenchmark/data/sim_0_1_1_0.csv IGNORE=@
+$DATA      C:/git/adpoBenchmark/data/sim_0_1_1_0.csv IGNORE=@
 
-$SUBROUTINE ADVAN6 TOL=7 
+$SUBROUTINE ADVAN6 TOL=7
 $MODEL
   COMP=(DEPOT,DEFDOSE)
   COMP=(CENTRAL,NODOSE,DEFOBS)
 
-$PK      
-  CWT = WT/70 
+$PK
+  CWT = WT/70
 
-  TVVMAX= THETA(1)   
+  TVVMAX= THETA(1)
   VMAX=TVVMAX*EXP(ETA(1)) 
   TVKM = THETA(2)
-  KM = TVKM  
+  KM = TVKM 
   TVV2=THETA(3) *CWT**THETA(5)
-  V2=TVV2 *EXP(ETA(2))    
-  TVKA=THETA(4) 
-  KA=TVKA   
+  V2=TVV2 *EXP(ETA(2)) 
+  TVKA=THETA(4)
+  KA=TVKA 
 
   SC = V2
-$ERROR    
+$ERROR
   IPRED = F
   Y=F*EXP(EPS(2)) + EPS(1)
 $DES
@@ -32,19 +33,19 @@ $DES
   DADT(2) =  KA*A(1)-VMAX*CONC/(KM+CONC) 
 
 
-$THETA   
+$THETA
   (100,4000)	; THETA(1) VMAX UNITS =  MG/HR
   (100,4000)	; THETA(2) KM UNITS =  CONC
   (0,50) 	; THETA(3) V  UNITS = L
-  (0,1.2) 	; THETA(4) KA UNITS = 1/HR    
+  (0,1.2) 	; THETA(4) KA UNITS = 1/HR
 
   (0,1.1) 	;; THETA(5) V~WT
-; empty $OMEGA    
+; empty $OMEGA
 $OMEGA 
-  0.3		; ETA(1) ETA ON VMAX
-  0.3		; ETA(2) ETA ON V2
+  0.1		; ETA(1) ETA ON VMAX
+  0.1		; ETA(2) ETA ON V2
 
-$SIGMA     
+$SIGMA
   (1) ;; EPS(1) ADDITIVE
   (0.3) ;; EPS(2) PROPORTIONAL
   ;;$EST METHOD=COND INTER MAXEVALS=9999 NOHABORT NOOMEGABOUNDTEST NOSIGMABOUNDTEST NOTHETABOUNDTEST
@@ -52,6 +53,7 @@ $SIGMA
   ;;; Model Identifier =  0,1,1,0
 
 $TABLE ID TIME IPRED DV NOAPPEND ONEHEADER NOPRINT FILE= Run1Preds.dat
+
 ;; Phenotype: ([('COMP', 0), ('ETAs', 1), ('V~WT', 1), ('GAMMA', 0)])
 ;; Genotype: [0, 1, 1, 0]
 ;; Num non-influential tokens: 0
@@ -62,11 +64,15 @@ NM-TRAN MESSAGES
              
  (WARNING  2) NM-TRAN INFERS THAT THE DATA ARE POPULATION.
   
+Note: Analytical 2nd Derivatives are constructed in FSUBS but are never used.
+      You may insert $ABBR DERIV2=NO after the first $PROB to save FSUBS construction and compilation time
+  
+  
 License Registered to: Certara USA
 Expiration Date:    14 MAR 2025
-Current Date:        8 SEP 2024
-Days until program expires : 191
-1NONLINEAR MIXED EFFECTS MODEL PROGRAM (NONMEM) VERSION 7.4.3
+Current Date:        4 OCT 2024
+Days until program expires : 165
+1NONLINEAR MIXED EFFECTS MODEL PROGRAM (NONMEM) VERSION 7.5.1
  ORIGINALLY DEVELOPED BY STUART BEAL, LEWIS SHEINER, AND ALISON BOECKMANN
  CURRENT DEVELOPERS ARE ROBERT BAUER, ICON DEVELOPMENT SOLUTIONS,
  AND ALISON BOECKMANN. IMPLEMENTATION, EFFICIENCY, AND STANDARDIZATION
@@ -107,14 +113,16 @@ Days until program expires : 191
   0.0000E+00     0.1200E+01     0.1000E+07
   0.0000E+00     0.1100E+01     0.1000E+07
 0INITIAL ESTIMATE OF OMEGA:
- 0.3000E+00
- 0.0000E+00   0.3000E+00
+ 0.1000E+00
+ 0.0000E+00   0.1000E+00
 0INITIAL ESTIMATE OF SIGMA:
  0.1000E+01
  0.0000E+00   0.3000E+00
 0TABLES STEP OMITTED:    NO
  NO. OF TABLES:           1
  SEED NUMBER (SEED):    11456
+ NPDTYPE:    0
+ INTERPTYPE:    0
  RANMETHOD:             3U
  MC SAMPLES (ESAMPLE):    300
  WRES SQUARE ROOT TYPE (WRESCHOL): EIGENVALUE
@@ -125,12 +133,13 @@ Days until program expires : 191
  HEADER:                YES
  FILE TO BE FORWARDED:   NO
  FORMAT:                S1PE11.4
+ IDFORMAT:
  LFORMAT:
  RFORMAT:
  FIXED_EFFECT_ETAS:
 0USER-CHOSEN ITEMS:
  ID TIME IPRED DV
-1DOUBLE PRECISION PREDPP VERSION 7.4.3
+1DOUBLE PRECISION PREDPP VERSION 7.5.1
 
  GENERAL NONLINEAR KINETICS MODEL (DVERK1, ADVAN6)
 0MODEL SUBROUTINE USER-SUPPLIED - ID NO. 9999
@@ -181,19 +190,18 @@ Days until program expires : 191
  SIGDIGITS FOR MAP ESTIMATION (SIGLO):      100
  GRADIENT SIGDIGITS OF
        FIXED EFFECTS PARAMETERS (SIGL):     100
- NOPRIOR SETTING (NOPRIOR):                 OFF
+ NOPRIOR SETTING (NOPRIOR):                 0
  NOCOV SETTING (NOCOV):                     OFF
  DERCONT SETTING (DERCONT):                 OFF
- FINAL ETA RE-EVALUATION (FNLETA):          ON
+ FINAL ETA RE-EVALUATION (FNLETA):          1
  EXCLUDE NON-INFLUENTIAL (NON-INFL.) ETAS
        IN SHRINKAGE (ETASTYPE):             NO
- NON-INFL. ETA CORRECTION (NONINFETA):      OFF
+ NON-INFL. ETA CORRECTION (NONINFETA):      0
  RAW OUTPUT FILE (FILE): NM_0_20.ext
  EXCLUDE TITLE (NOTITLE):                   NO
  EXCLUDE COLUMN LABELS (NOLABEL):           NO
  FORMAT FOR ADDITIONAL FILES (FORMAT):      S1PE12.5
  PARAMETER ORDER FOR OUTPUTS (ORDER):       TSOL
- WISHART PRIOR DF INTERPRETATION (WISHTYPE):0
  KNUTHSUMOFF:                               0
  INCLUDE LNTWOPI:                           NO
  INCLUDE CONSTANT TERM TO PRIOR (PRIORC):   NO
@@ -216,7 +224,7 @@ Days until program expires : 191
  IPRD=NIPRED
  IRS=NIRES
 
- Elapsed evaluation time in seconds:     0.05
+ Elapsed evaluation time in seconds:     0.09
  TOLERANCES FOR TABLE/SCATTER STEP:
  NRD (RELATIVE) VALUE OF TOLERANCE:   7
  ANRD (ABSOLUTE) VALUE OF TOLERANCE:  12
@@ -254,7 +262,7 @@ Days until program expires : 191
 
 
 
- #OBJV:******************************************** 25000977.435       **************************************************
+ #OBJV:******************************************** 25004858.072       **************************************************
 1
  ************************************************************************************************************************
  ********************                                                                                ********************
@@ -280,10 +288,10 @@ Days until program expires : 191
          ETA1      ETA2     
  
  ETA1
-+        3.00E-01
++        1.00E-01
  
  ETA2
-+        0.00E+00  3.00E-01
++        0.00E+00  1.00E-01
  
 
 
@@ -307,10 +315,10 @@ Days until program expires : 191
          ETA1      ETA2     
  
  ETA1
-+        5.48E-01
++        3.16E-01
  
  ETA2
-+        0.00E+00  5.48E-01
++        0.00E+00  3.16E-01
  
 
 
@@ -325,11 +333,11 @@ Days until program expires : 191
  EPS2
 +        0.00E+00  5.48E-01
  
- Elapsed finaloutput time in seconds:     0.05
- #CPUT: Total CPU Time in Seconds,        0.203
+ Elapsed finaloutput time in seconds:     0.14
+ #CPUT: Total CPU Time in Seconds,        0.453
 Stop Time: 
-Sun 09/08/2024 
-03:50 PM
+Fri 10/04/2024 
+03:41 PM
 OFV = 99999999
 success = False
 covariance = False
@@ -338,4 +346,4 @@ Condition # = 99999999
 Num Non fixed THETAs = 5
 Num Non fixed OMEGAs = 2
 Num Non fixed SIGMAs = 2
-Original run directory = d:/git/adpoBenchmark/nonmem/run\0\20
+Original run directory = C:/git/adpoBenchmark/NONMEM/run\0\20

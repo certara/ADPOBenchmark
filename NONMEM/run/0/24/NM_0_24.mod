@@ -1,27 +1,28 @@
+$SIZES MAXFCN = 5000000
 $PROBLEM    Dual Numbers benchmark
 $INPUT       ID TIME AMT DV WT
   ;; $DATA      c:/git/adpoBenchmark/data/sim_0_5_1_0.csv IGNORE=@
-$DATA      D:/git/adpoBenchmark/data/sim_0_5_1_0.csv IGNORE=@
+$DATA      C:/git/adpoBenchmark/data/sim_0_5_1_0.csv IGNORE=@
 
-$SUBROUTINE ADVAN6 TOL=7 
+$SUBROUTINE ADVAN6 TOL=7
 $MODEL
   COMP=(DEPOT,DEFDOSE)
   COMP=(CENTRAL,NODOSE,DEFOBS)
 
-$PK      
-  CWT = WT/70 
+$PK
+  CWT = WT/70
 
-  TVVMAX= THETA(1)   
+  TVVMAX= THETA(1)
   VMAX=TVVMAX*EXP(ETA(1)) 
   TVKM = THETA(2)
-  KM = TVKM *EXP(ETA(2))  
+  KM = TVKM *EXP(ETA(2)) 
   TVV2=THETA(3) *CWT**THETA(5)
-  V2=TVV2 *EXP(ETA(3))    
-  TVKA=THETA(4) 
-  KA=TVKA   
+  V2=TVV2 *EXP(ETA(3)) 
+  TVKA=THETA(4)
+  KA=TVKA 
 
   SC = V2
-$ERROR    
+$ERROR
   IPRED = F
   Y=F*EXP(EPS(2)) + EPS(1)
 $DES
@@ -30,19 +31,19 @@ $DES
   DADT(2) =  KA*A(1)-VMAX*CONC/(KM+CONC) 
 
 
-$THETA   
+$THETA
   (100,4000)	; THETA(1) VMAX UNITS =  MG/HR
   (100,4000)	; THETA(2) KM UNITS =  CONC
   (0,50) 	; THETA(3) V  UNITS = L
-  (0,1.2) 	; THETA(4) KA UNITS = 1/HR    
+  (0,1.2) 	; THETA(4) KA UNITS = 1/HR
 
   (0,1.1) 	;; THETA(5) V~WT
-; empty $OMEGA    
+; empty $OMEGA
 $OMEGA BLOCK(3)
-  0.3		; ETA(1) ETA ON VMAX
-  0.1 0.3		; ETA(2) ETA ON KM
-  0.1 0.1 0.3		; ETA(3) ETA ON V2
-$SIGMA     
+  0.1		; ETA(1) ETA ON VMAX
+  0.05 0.1		; ETA(2) ETA ON KM
+  0.05 0.05 0.1		; ETA(3) ETA ON V2
+$SIGMA
   (1) ;; EPS(1) ADDITIVE
   (0.3) ;; EPS(2) PROPORTIONAL
   ;;$EST METHOD=COND INTER MAXEVALS=9999 NOHABORT NOOMEGABOUNDTEST NOSIGMABOUNDTEST NOTHETABOUNDTEST
@@ -50,6 +51,7 @@ $SIGMA
   ;;; Model Identifier =  0,5,1,0
 
 $TABLE ID TIME IPRED DV NOAPPEND ONEHEADER NOPRINT FILE= Run1Preds.dat
+
 ;; Phenotype: ([('COMP', 0), ('ETAs', 5), ('V~WT', 1), ('GAMMA', 0)])
 ;; Genotype: [0, 5, 1, 0]
 ;; Num non-influential tokens: 0

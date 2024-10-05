@@ -57,6 +57,10 @@ make_data <- function(home_dir, pyDarwinInterpreter, nmfe_path, nlme_dir, gcc_di
     file.remove(files)
   }
 
+
+  message("Generating 72 NONMEM control files for benchmark")
+  message("NONMEM models are not run at this point, only constructing control files")
+  message("example control file in nonmem/run/0/01/nm_0_01.mod")
   pyDarwinOptionsSet <-
     create_pyDarwinOptions(author = "Certara NONMEM",
                            algorithm = "EX",
@@ -78,10 +82,12 @@ make_data <- function(home_dir, pyDarwinInterpreter, nmfe_path, nlme_dir, gcc_di
     DirectoryPath = pyDarwin_makedataDir,
     TemplatePath = "template.txt",
     TokensPath = "tokens.json",
-    OptionsPath = "options.json",
+    OptionsPath = "options.json"
   )
 
   ############## Preparing sim_.csv ##############
+
+  message("Creating 72 simulation data sets, data sets will be in data/sim_x_x_x_x.csv")
   # sequence of token groups doesn't matter here, we do the same to all
   # but to confirm that the phenotype = data set = model number
   # ;;; Model Identifier =  {COMP[6]},{ETAs[7]},{V~WT[3]},{GAMMA[3]}
@@ -161,7 +167,7 @@ make_data <- function(home_dir, pyDarwinInterpreter, nmfe_path, nlme_dir, gcc_di
                            temp_dir = file.path(home_dir, "NONMEM", "run"),
                            remove_run_dir = FALSE,
                            remove_temp_dir = FALSE,
-                           model_run_timeout = 999000,
+                           model_run_timeout = 999,
                            engine_adapter = "nonmem",
                            nmfe_path = nmfe_path)
   write_pyDarwinOptions(pyDarwinOptionsSet,
@@ -177,6 +183,7 @@ make_data <- function(home_dir, pyDarwinInterpreter, nmfe_path, nlme_dir, gcc_di
     OptionsPath = "options.json",
   )
 
+  message("Editting NONMEM control files for benchmarking")
   for(this_model in 1:72){
     file <- file.path(home_dir,"NONMEM","run","0",str_pad(this_model, 2, pad = "0"),paste0("NM_0_",str_pad(this_model, 2, pad = "0"),".mod"))
     control <- readtext::readtext(file, verbosity  = 0)$text
@@ -189,6 +196,9 @@ make_data <- function(home_dir, pyDarwinInterpreter, nmfe_path, nlme_dir, gcc_di
   }
 
   ############## NLME simulation with given parameters ##############
+  message("Creating 72 NLME meta model files with pyDarwin")
+  message("NLME models are not run at this point, only constructing control files")
+  message("See example mmdl file in nlme/run/0/01/nlme_0_01.mmdl")
   pyDarwinOptionsSet <-
     create_pyDarwinOptions(author = "Certara NLME",
                            algorithm = "EX",
@@ -198,7 +208,7 @@ make_data <- function(home_dir, pyDarwinInterpreter, nmfe_path, nlme_dir, gcc_di
                            temp_dir = file.path(home_dir, "NLME", "run"),
                            remove_run_dir = FALSE,
                            remove_temp_dir = FALSE,
-                           model_run_timeout = 999000,
+                           model_run_timeout = 999,
                            engine_adapter = "nlme",
                            gcc_dir = gcc_dir,
                            nlme_dir = nlme_dir
@@ -216,6 +226,7 @@ make_data <- function(home_dir, pyDarwinInterpreter, nmfe_path, nlme_dir, gcc_di
     OptionsPath = "options.json",
   )
 
+  message("Editting NLME for benchmarking")
   for(this_model in 1:72){
     file <- file.path(home_dir,"NLME","run","0",str_pad(this_model, 2, pad = "0"),paste0("NLME_0_",str_pad(this_model, 2, pad = "0"),".mmdl"))
     control <- readtext::readtext(file, verbosity  = 0)$text

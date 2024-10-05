@@ -74,12 +74,19 @@ run_NONMEM <- function(home_dir, nmfe_path) {
               if (file.exists(xml_file)) {
                 file.remove(xml_file)
               }
-              command <- paste("cd",
-                               wd,
-                               "&&",
-                               nmfe_path,
+              # below doesn't work in windows, changed to use rundir in nmfe command
+              # command <- paste("cd",
+              #                  wd,
+              #                  "&&",
+              #                  nmfe_path,
+              #                  paste0(filenameStem, ".mod "),
+              #                  paste0(filenameStem, ".lst"))
+              command <- paste(nmfe_path,
                                paste0(filenameStem, ".mod "),
-                               paste0(filenameStem, ".lst"))
+                               paste0(filenameStem, ".lst"),
+                               paste0("-rundir=", wd))
+
+              #setwd(home_dir)
               StartTime <- Sys.time() # as.ITime(Sys.time())
               rval <- system(command, timeout = 3600 * 6)
               # can't tell if timeout or crashed??

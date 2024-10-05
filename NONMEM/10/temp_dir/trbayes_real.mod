@@ -1,0 +1,179 @@
+GFORTRAN module version '6' created from resource\TRGLOBAL.f90 on Tue Feb 01 17:56:13 2022
+MD5:10457b7882357bddc4462c37ca11c619 -- If you edit this, you'll get what you deserve.
+
+(() () () () () () () () () () () () () () () () () () () () () () ()
+() () () ())
+
+()
+
+()
+
+()
+
+()
+
+()
+
+(2 'calpha' 'trbayes_real' 'calpha' 1 ((VARIABLE UNKNOWN-INTENT
+UNKNOWN-PROC UNKNOWN IMPLICIT-SAVE 0 0 DIMENSION) (REAL 8 0 0 REAL ()) 0
+0 () (1 0 EXPLICIT (CONSTANT (INTEGER 4 0 0 INTEGER ()) 0 '0') (
+CONSTANT (INTEGER 4 0 0 INTEGER ()) 0 '20')) 0 () () () 0 0)
+3 'ciaccept' 'trbayes_real' 'ciaccept' 1 ((VARIABLE UNKNOWN-INTENT
+UNKNOWN-PROC UNKNOWN IMPLICIT-SAVE 0 0) (REAL 8 0 0 REAL ()) 0 0 () () 0
+() () () 0 0)
+4 'coviaccept' 'trbayes_real' 'coviaccept' 1 ((VARIABLE UNKNOWN-INTENT
+UNKNOWN-PROC UNKNOWN IMPLICIT-SAVE 0 0) (REAL 8 0 0 REAL ()) 0 0 () () 0
+() () () 0 0)
+5 'coviacceptl' 'trbayes_real' 'coviacceptl' 1 ((VARIABLE UNKNOWN-INTENT
+UNKNOWN-PROC UNKNOWN IMPLICIT-SAVE 0 0) (REAL 8 0 0 REAL ()) 0 0 () () 0
+() () () 0 0)
+6 'covidfrant' 'trbayes_real' 'covidfrant' 1 ((VARIABLE UNKNOWN-INTENT
+UNKNOWN-PROC UNKNOWN IMPLICIT-SAVE 0 0) (REAL 8 0 0 REAL ()) 0 0 () () 0
+() () () 0 0)
+7 'dpsize' 'sizes' 'dpsize' 1 ((PARAMETER UNKNOWN-INTENT UNKNOWN-PROC
+UNKNOWN IMPLICIT-SAVE 0 0) (INTEGER 4 0 0 INTEGER ()) 0 0 () (CONSTANT (
+INTEGER 4 0 0 INTEGER ()) 0 '8') () 0 () () () 0 0)
+8 'grdq' 'trbayes_real' 'grdq' 1 ((VARIABLE UNKNOWN-INTENT UNKNOWN-PROC
+UNKNOWN IMPLICIT-SAVE 0 0 DIMENSION) (REAL 8 0 0 REAL ()) 0 0 () (1 0
+EXPLICIT (CONSTANT (INTEGER 4 0 0 INTEGER ()) 0 '0') (CONSTANT (INTEGER
+4 0 0 INTEGER ()) 0 '20')) 0 () () () 0 0)
+9 'groupsize' 'trbayes_real' 'groupsize' 1 ((VARIABLE UNKNOWN-INTENT
+UNKNOWN-PROC UNKNOWN IMPLICIT-SAVE 0 0 DIMENSION) (REAL 8 0 0 REAL ()) 0
+0 () (1 0 EXPLICIT (CONSTANT (INTEGER 4 0 0 INTEGER ()) 0 '1') (
+CONSTANT (INTEGER 4 0 0 INTEGER ()) 0 '20')) 0 () () () 0 0)
+10 'iaccept' 'trbayes_real' 'iaccept' 1 ((VARIABLE UNKNOWN-INTENT
+UNKNOWN-PROC UNKNOWN IMPLICIT-SAVE 0 0 DIMENSION) (REAL 8 0 0 REAL ()) 0
+0 () (1 0 EXPLICIT (CONSTANT (INTEGER 4 0 0 INTEGER ()) 0 '0') (
+CONSTANT (INTEGER 4 0 0 INTEGER ()) 0 '20')) 0 () () () 0 0)
+11 'iacceptl' 'trbayes_real' 'iacceptl' 1 ((VARIABLE UNKNOWN-INTENT
+UNKNOWN-PROC UNKNOWN IMPLICIT-SAVE 0 0 DIMENSION) (REAL 8 0 0 REAL ()) 0
+0 () (1 0 EXPLICIT (CONSTANT (INTEGER 4 0 0 INTEGER ()) 0 '0') (
+CONSTANT (INTEGER 4 0 0 INTEGER ()) 0 '20')) 0 () () () 0 0)
+12 'idelta' 'trbayes_real' 'idelta' 1 ((VARIABLE UNKNOWN-INTENT
+UNKNOWN-PROC UNKNOWN IMPLICIT-SAVE 0 0 DIMENSION) (REAL 8 0 0 REAL ()) 0
+0 () (1 0 EXPLICIT (CONSTANT (INTEGER 4 0 0 INTEGER ()) 0 '0') (
+CONSTANT (INTEGER 4 0 0 INTEGER ()) 0 '20')) 0 () () () 0 0)
+13 'idfrant' 'trbayes_real' 'idfrant' 1 ((VARIABLE UNKNOWN-INTENT
+UNKNOWN-PROC UNKNOWN IMPLICIT-SAVE 0 0 DIMENSION) (REAL 8 0 0 REAL ()) 0
+0 () (1 0 EXPLICIT (CONSTANT (INTEGER 4 0 0 INTEGER ()) 0 '0') (
+CONSTANT (INTEGER 4 0 0 INTEGER ()) 0 '20')) 0 () () () 0 0)
+14 'igamma' 'trbayes_real' 'igamma' 1 ((VARIABLE UNKNOWN-INTENT
+UNKNOWN-PROC UNKNOWN IMPLICIT-SAVE 0 0 DIMENSION) (REAL 8 0 0 REAL ()) 0
+0 () (1 0 EXPLICIT (CONSTANT (INTEGER 4 0 0 INTEGER ()) 0 '0') (
+CONSTANT (INTEGER 4 0 0 INTEGER ()) 0 '20')) 0 () () () 0 0)
+15 'ikappa' 'trbayes_real' 'ikappa' 1 ((VARIABLE UNKNOWN-INTENT
+UNKNOWN-PROC UNKNOWN IMPLICIT-SAVE 0 0 DIMENSION) (REAL 8 0 0 REAL ()) 0
+0 () (1 0 EXPLICIT (CONSTANT (INTEGER 4 0 0 INTEGER ()) 0 '0') (
+CONSTANT (INTEGER 4 0 0 INTEGER ()) 0 '20')) 0 () () () 0 0)
+16 'iscale_max' 'trbayes_real' 'iscale_max' 1 ((VARIABLE UNKNOWN-INTENT
+UNKNOWN-PROC UNKNOWN IMPLICIT-SAVE 0 0 DIMENSION) (REAL 8 0 0 REAL ()) 0
+0 () (1 0 EXPLICIT (CONSTANT (INTEGER 4 0 0 INTEGER ()) 0 '0') (
+CONSTANT (INTEGER 4 0 0 INTEGER ()) 0 '20')) 0 () () () 0 0)
+17 'iscale_min' 'trbayes_real' 'iscale_min' 1 ((VARIABLE UNKNOWN-INTENT
+UNKNOWN-PROC UNKNOWN IMPLICIT-SAVE 0 0 DIMENSION) (REAL 8 0 0 REAL ()) 0
+0 () (1 0 EXPLICIT (CONSTANT (INTEGER 4 0 0 INTEGER ()) 0 '0') (
+CONSTANT (INTEGER 4 0 0 INTEGER ()) 0 '20')) 0 () () () 0 0)
+18 'max_extra' 'sizes' 'max_extra' 1 ((PARAMETER UNKNOWN-INTENT
+UNKNOWN-PROC UNKNOWN IMPLICIT-SAVE 0 0) (INTEGER 4 0 0 INTEGER ()) 0 0 ()
+(CONSTANT (INTEGER 4 0 0 INTEGER ()) 0 '20') () 0 () () () 0 0)
+19 'nutsbase' 'trbayes_real' 'nutsbase' 1 ((VARIABLE UNKNOWN-INTENT
+UNKNOWN-PROC UNKNOWN IMPLICIT-SAVE 0 0 DIMENSION) (REAL 8 0 0 REAL ()) 0
+0 () (1 0 EXPLICIT (CONSTANT (INTEGER 4 0 0 INTEGER ()) 0 '0') (
+CONSTANT (INTEGER 4 0 0 INTEGER ()) 0 '20')) 0 () () () 0 0)
+20 'nutscholbnd' 'trbayes_real' 'nutscholbnd' 1 ((VARIABLE
+UNKNOWN-INTENT UNKNOWN-PROC UNKNOWN IMPLICIT-SAVE 0 0 DIMENSION) (REAL 8
+0 0 REAL ()) 0 0 () (1 0 EXPLICIT (CONSTANT (INTEGER 4 0 0 INTEGER ()) 0
+'0') (CONSTANT (INTEGER 4 0 0 INTEGER ()) 0 '20')) 0 () () () 0 0)
+21 'nutsinit' 'trbayes_real' 'nutsinit' 1 ((VARIABLE UNKNOWN-INTENT
+UNKNOWN-PROC UNKNOWN IMPLICIT-SAVE 0 0 DIMENSION) (REAL 8 0 0 REAL ()) 0
+0 () (1 0 EXPLICIT (CONSTANT (INTEGER 4 0 0 INTEGER ()) 0 '0') (
+CONSTANT (INTEGER 4 0 0 INTEGER ()) 0 '20')) 0 () () () 0 0)
+22 'nutsreg' 'trbayes_real' 'nutsreg' 1 ((VARIABLE UNKNOWN-INTENT
+UNKNOWN-PROC UNKNOWN IMPLICIT-SAVE 0 0 DIMENSION) (REAL 8 0 0 REAL ()) 0
+0 () (1 0 EXPLICIT (CONSTANT (INTEGER 4 0 0 INTEGER ()) 0 '0') (
+CONSTANT (INTEGER 4 0 0 INTEGER ()) 0 '20')) 0 () () () 0 0)
+23 'nutsterm' 'trbayes_real' 'nutsterm' 1 ((VARIABLE UNKNOWN-INTENT
+UNKNOWN-PROC UNKNOWN IMPLICIT-SAVE 0 0 DIMENSION) (REAL 8 0 0 REAL ()) 0
+0 () (1 0 EXPLICIT (CONSTANT (INTEGER 4 0 0 INTEGER ()) 0 '0') (
+CONSTANT (INTEGER 4 0 0 INTEGER ()) 0 '20')) 0 () () () 0 0)
+24 'oaccept' 'trbayes_real' 'oaccept' 1 ((VARIABLE UNKNOWN-INTENT
+UNKNOWN-PROC UNKNOWN IMPLICIT-SAVE 0 0 DIMENSION) (REAL 8 0 0 REAL ()) 0
+0 () (1 0 EXPLICIT (CONSTANT (INTEGER 4 0 0 INTEGER ()) 0 '0') (
+CONSTANT (INTEGER 4 0 0 INTEGER ()) 0 '20')) 0 () () () 0 0)
+25 'olkjdf' 'trbayes_real' 'olkjdf' 1 ((VARIABLE UNKNOWN-INTENT
+UNKNOWN-PROC UNKNOWN IMPLICIT-SAVE 0 0 DIMENSION) (REAL 8 0 0 REAL ()) 0
+0 () (1 0 EXPLICIT (CONSTANT (INTEGER 4 0 0 INTEGER ()) 0 '0') (
+CONSTANT (INTEGER 4 0 0 INTEGER ()) 0 '20')) 0 () () () 0 0)
+26 'ovarf' 'trbayes_real' 'ovarf' 1 ((VARIABLE UNKNOWN-INTENT
+UNKNOWN-PROC UNKNOWN IMPLICIT-SAVE 0 0 DIMENSION) (REAL 8 0 0 REAL ()) 0
+0 () (1 0 EXPLICIT (CONSTANT (INTEGER 4 0 0 INTEGER ()) 0 '0') (
+CONSTANT (INTEGER 4 0 0 INTEGER ()) 0 '20')) 0 () () () 0 0)
+27 'paccept' 'trbayes_real' 'paccept' 1 ((VARIABLE UNKNOWN-INTENT
+UNKNOWN-PROC UNKNOWN IMPLICIT-SAVE 0 0 DIMENSION) (REAL 8 0 0 REAL ()) 0
+0 () (1 0 EXPLICIT (CONSTANT (INTEGER 4 0 0 INTEGER ()) 0 '0') (
+CONSTANT (INTEGER 4 0 0 INTEGER ()) 0 '20')) 0 () () () 0 0)
+28 'pdelta' 'trbayes_real' 'pdelta' 1 ((VARIABLE UNKNOWN-INTENT
+UNKNOWN-PROC UNKNOWN IMPLICIT-SAVE 0 0 DIMENSION) (REAL 8 0 0 REAL ()) 0
+0 () (1 0 EXPLICIT (CONSTANT (INTEGER 4 0 0 INTEGER ()) 0 '0') (
+CONSTANT (INTEGER 4 0 0 INTEGER ()) 0 '20')) 0 () () () 0 0)
+29 'pgamma' 'trbayes_real' 'pgamma' 1 ((VARIABLE UNKNOWN-INTENT
+UNKNOWN-PROC UNKNOWN IMPLICIT-SAVE 0 0 DIMENSION) (REAL 8 0 0 REAL ()) 0
+0 () (1 0 EXPLICIT (CONSTANT (INTEGER 4 0 0 INTEGER ()) 0 '0') (
+CONSTANT (INTEGER 4 0 0 INTEGER ()) 0 '20')) 0 () () () 0 0)
+30 'pkappa' 'trbayes_real' 'pkappa' 1 ((VARIABLE UNKNOWN-INTENT
+UNKNOWN-PROC UNKNOWN IMPLICIT-SAVE 0 0 DIMENSION) (REAL 8 0 0 REAL ()) 0
+0 () (1 0 EXPLICIT (CONSTANT (INTEGER 4 0 0 INTEGER ()) 0 '0') (
+CONSTANT (INTEGER 4 0 0 INTEGER ()) 0 '20')) 0 () () () 0 0)
+31 'pscale_max' 'trbayes_real' 'pscale_max' 1 ((VARIABLE UNKNOWN-INTENT
+UNKNOWN-PROC UNKNOWN IMPLICIT-SAVE 0 0 DIMENSION) (REAL 8 0 0 REAL ()) 0
+0 () (1 0 EXPLICIT (CONSTANT (INTEGER 4 0 0 INTEGER ()) 0 '0') (
+CONSTANT (INTEGER 4 0 0 INTEGER ()) 0 '20')) 0 () () () 0 0)
+32 'pscale_min' 'trbayes_real' 'pscale_min' 1 ((VARIABLE UNKNOWN-INTENT
+UNKNOWN-PROC UNKNOWN IMPLICIT-SAVE 0 0 DIMENSION) (REAL 8 0 0 REAL ()) 0
+0 () (1 0 EXPLICIT (CONSTANT (INTEGER 4 0 0 INTEGER ()) 0 '0') (
+CONSTANT (INTEGER 4 0 0 INTEGER ()) 0 '20')) 0 () () () 0 0)
+33 'sircorr' 'trbayes_real' 'sircorr' 1 ((VARIABLE UNKNOWN-INTENT
+UNKNOWN-PROC UNKNOWN IMPLICIT-SAVE 0 0) (REAL 8 0 0 REAL ()) 0 0 () () 0
+() () () 0 0)
+34 'sirmaxwt' 'trbayes_real' 'sirmaxwt' 1 ((VARIABLE UNKNOWN-INTENT
+UNKNOWN-PROC UNKNOWN IMPLICIT-SAVE 0 0) (REAL 8 0 0 REAL ()) 0 0 () () 0
+() () () 0 0)
+35 'sirminwt' 'trbayes_real' 'sirminwt' 1 ((VARIABLE UNKNOWN-INTENT
+UNKNOWN-PROC UNKNOWN IMPLICIT-SAVE 0 0) (REAL 8 0 0 REAL ()) 0 0 () () 0
+() () () 0 0)
+36 'sizes' 'sizes' 'sizes' 1 ((MODULE UNKNOWN-INTENT UNKNOWN-PROC
+UNKNOWN UNKNOWN 0 0) (UNKNOWN 0 0 0 UNKNOWN ()) 0 0 () () 0 () () () 0 0)
+37 'slkjdf' 'trbayes_real' 'slkjdf' 1 ((VARIABLE UNKNOWN-INTENT
+UNKNOWN-PROC UNKNOWN IMPLICIT-SAVE 0 0 DIMENSION) (REAL 8 0 0 REAL ()) 0
+0 () (1 0 EXPLICIT (CONSTANT (INTEGER 4 0 0 INTEGER ()) 0 '0') (
+CONSTANT (INTEGER 4 0 0 INTEGER ()) 0 '20')) 0 () () () 0 0)
+38 'stdobj' 'trbayes_real' 'stdobj' 1 ((VARIABLE UNKNOWN-INTENT
+UNKNOWN-PROC UNKNOWN IMPLICIT-SAVE 0 0 DIMENSION) (REAL 8 0 0 REAL ()) 0
+0 () (1 0 EXPLICIT (CONSTANT (INTEGER 4 0 0 INTEGER ()) 0 '0') (
+CONSTANT (INTEGER 4 0 0 INTEGER ()) 0 '20')) 0 () () () 0 0)
+39 'svarf' 'trbayes_real' 'svarf' 1 ((VARIABLE UNKNOWN-INTENT
+UNKNOWN-PROC UNKNOWN IMPLICIT-SAVE 0 0 DIMENSION) (REAL 8 0 0 REAL ()) 0
+0 () (1 0 EXPLICIT (CONSTANT (INTEGER 4 0 0 INTEGER ()) 0 '0') (
+CONSTANT (INTEGER 4 0 0 INTEGER ()) 0 '20')) 0 () () () 0 0)
+40 'tpu' 'trbayes_real' 'tpu' 1 ((VARIABLE UNKNOWN-INTENT UNKNOWN-PROC
+UNKNOWN IMPLICIT-SAVE 0 0 DIMENSION) (REAL 8 0 0 REAL ()) 0 0 () (1 0
+EXPLICIT (CONSTANT (INTEGER 4 0 0 INTEGER ()) 0 '0') (CONSTANT (INTEGER
+4 0 0 INTEGER ()) 0 '20')) 0 () () () 0 0)
+41 'trbayes_real' 'trbayes_real' 'trbayes_real' 1 ((MODULE
+UNKNOWN-INTENT UNKNOWN-PROC UNKNOWN UNKNOWN 0 0) (UNKNOWN 0 0 0 UNKNOWN
+()) 0 0 () () 0 () () () 0 0)
+42 'ttdf' 'trbayes_real' 'ttdf' 1 ((VARIABLE UNKNOWN-INTENT UNKNOWN-PROC
+UNKNOWN IMPLICIT-SAVE 0 0 DIMENSION) (REAL 8 0 0 REAL ()) 0 0 () (1 0
+EXPLICIT (CONSTANT (INTEGER 4 0 0 INTEGER ()) 0 '0') (CONSTANT (INTEGER
+4 0 0 INTEGER ()) 0 '20')) 0 () () () 0 0)
+)
+
+('calpha' 0 2 'ciaccept' 0 3 'coviaccept' 0 4 'coviacceptl' 0 5
+'covidfrant' 0 6 'dpsize' 0 7 'grdq' 0 8 'groupsize' 0 9 'iaccept' 0 10
+'iacceptl' 0 11 'idelta' 0 12 'idfrant' 0 13 'igamma' 0 14 'ikappa' 0 15
+'iscale_max' 0 16 'iscale_min' 0 17 'max_extra' 0 18 'nutsbase' 0 19
+'nutscholbnd' 0 20 'nutsinit' 0 21 'nutsreg' 0 22 'nutsterm' 0 23
+'oaccept' 0 24 'olkjdf' 0 25 'ovarf' 0 26 'paccept' 0 27 'pdelta' 0 28
+'pgamma' 0 29 'pkappa' 0 30 'pscale_max' 0 31 'pscale_min' 0 32 'sircorr'
+0 33 'sirmaxwt' 0 34 'sirminwt' 0 35 'sizes' 0 36 'slkjdf' 0 37 'stdobj'
+0 38 'svarf' 0 39 'tpu' 0 40 'trbayes_real' 0 41 'ttdf' 0 42)

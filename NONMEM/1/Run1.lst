@@ -1,29 +1,30 @@
-Mon 09/23/2024 
-11:37 AM
+Fri 10/04/2024 
+07:07 PM
+$SIZES MAXFCN = 5000000
 $PROBLEM    Dual Numbers benchmark
 $INPUT       ID TIME AMT DV WT
   ;; $DATA      c:/git/adpoBenchmark/data/sim_0_0_0_0.csv IGNORE=@
-$DATA      D:/git/adpoBenchmark/data/sim_0_0_0_0.csv IGNORE=@
+$DATA      C:/git/adpoBenchmark/data/sim_0_0_0_0.csv IGNORE=@
 
-$SUBROUTINE ADVAN6 TOL=7 
+$SUBROUTINE ADVAN6 TOL=7
 $MODEL
   COMP=(DEPOT,DEFDOSE)
   COMP=(CENTRAL,NODOSE,DEFOBS)
 
-$PK      
-  CWT = WT/70 
+$PK
+  CWT = WT/70
 
-  TVVMAX= THETA(1)   
+  TVVMAX= THETA(1)
   VMAX=TVVMAX*EXP(ETA(1)) 
   TVKM = THETA(2)
-  KM = TVKM  
+  KM = TVKM 
   TVV2=THETA(3) 
-  V2=TVV2    
-  TVKA=THETA(4) 
-  KA=TVKA   
+  V2=TVV2 
+  TVKA=THETA(4)
+  KA=TVKA 
 
   SC = V2
-$ERROR    
+$ERROR
   IPRED = F
   Y=F*EXP(EPS(2)) + EPS(1)
 $DES
@@ -32,15 +33,15 @@ $DES
   DADT(2) =  KA*A(1)-VMAX*CONC/(KM+CONC) 
 
 
-$THETA   
+$THETA
   (100,4000)	; THETA(1) VMAX UNITS =  MG/HR
   (100,4000)	; THETA(2) KM UNITS =  CONC
   (0,50) 	; THETA(3) V  UNITS = L
-  (0,1.2) 	; THETA(4) KA UNITS = 1/HR    
-; empty $OMEGA    
+  (0,1.2) 	; THETA(4) KA UNITS = 1/HR
+; empty $OMEGA
 $OMEGA  
-  0.3		; ETA(1) ETA ON VMAX
-$SIGMA     
+  0.1		; ETA(1) ETA ON VMAX
+$SIGMA
   (1) ;; EPS(1) ADDITIVE
   (0.3) ;; EPS(2) PROPORTIONAL
   $EST METHOD=COND INTER MAXEVALS=9999 NOHABORT NOOMEGABOUNDTEST NOSIGMABOUNDTEST NOTHETABOUNDTEST
@@ -48,6 +49,7 @@ $SIGMA
   ;;; Model Identifier =  0,0,0,0
 
 $TABLE ID TIME IPRED DV NOAPPEND ONEHEADER NOPRINT FILE= Run1Preds.dat
+
 ;; Phenotype: ([('COMP', 0), ('ETAs', 0), ('V~WT', 0), ('GAMMA', 0)])
 ;; Genotype: [0, 0, 0, 0]
 ;; Num non-influential tokens: 0
@@ -58,11 +60,15 @@ NM-TRAN MESSAGES
              
  (WARNING  2) NM-TRAN INFERS THAT THE DATA ARE POPULATION.
   
+Note: Analytical 2nd Derivatives are constructed in FSUBS but are never used.
+      You may insert $ABBR DERIV2=NO after the first $PROB to save FSUBS construction and compilation time
+  
+  
 License Registered to: Certara USA
 Expiration Date:    14 MAR 2025
-Current Date:       23 SEP 2024
-Days until program expires : 176
-1NONLINEAR MIXED EFFECTS MODEL PROGRAM (NONMEM) VERSION 7.4.3
+Current Date:        4 OCT 2024
+Days until program expires : 165
+1NONLINEAR MIXED EFFECTS MODEL PROGRAM (NONMEM) VERSION 7.5.1
  ORIGINALLY DEVELOPED BY STUART BEAL, LEWIS SHEINER, AND ALISON BOECKMANN
  CURRENT DEVELOPERS ARE ROBERT BAUER, ICON DEVELOPMENT SOLUTIONS,
  AND ALISON BOECKMANN. IMPLEMENTATION, EFFICIENCY, AND STANDARDIZATION
@@ -102,7 +108,7 @@ Days until program expires : 176
   0.0000E+00     0.5000E+02     0.1000E+07
   0.0000E+00     0.1200E+01     0.1000E+07
 0INITIAL ESTIMATE OF OMEGA:
- 0.3000E+00
+ 0.1000E+00
 0INITIAL ESTIMATE OF SIGMA:
  0.1000E+01
  0.0000E+00   0.3000E+00
@@ -114,19 +120,22 @@ Days until program expires : 176
  SIGDIGITS ETAHAT (SIGLO):                  -1
  SIGDIGITS GRADIENTS (SIGL):                -1
  EXCLUDE COV FOR FOCE (NOFCOV):              NO
- TURN OFF Cholesky Transposition of R Matrix (CHOLROFF): NO
+ Cholesky Transposition of R Matrix (CHOLROFF):0
  KNUTHSUMOFF:                                -1
  RESUME COV ANALYSIS (RESUME):               NO
- SIR SAMPLE SIZE (SIRSAMPLE):              -1
+ SIR SAMPLE SIZE (SIRSAMPLE):
  NON-LINEARLY TRANSFORM THETAS DURING COV (THBND): 1
  PRECONDTIONING CYCLES (PRECOND):        2
  PRECONDTIONING TYPES (PRECONDS):        TOS
  FORCED PRECONDTIONING CYCLES (PFCOND):0
  PRECONDTIONING TYPE (PRETYPE):        0
- FORCED POS. DEFINITE SETTING: (FPOSDEF):0
+ FORCED POS. DEFINITE SETTING DURING PRECONDITIONING: (FPOSDEF):0
+ SIMPLE POS. DEFINITE SETTING: (POSDEF):-1
 0TABLES STEP OMITTED:    NO
  NO. OF TABLES:           1
  SEED NUMBER (SEED):    11456
+ NPDTYPE:    0
+ INTERPTYPE:    0
  RANMETHOD:             3U
  MC SAMPLES (ESAMPLE):    300
  WRES SQUARE ROOT TYPE (WRESCHOL): EIGENVALUE
@@ -137,12 +146,13 @@ Days until program expires : 176
  HEADER:                YES
  FILE TO BE FORWARDED:   NO
  FORMAT:                S1PE11.4
+ IDFORMAT:
  LFORMAT:
  RFORMAT:
  FIXED_EFFECT_ETAS:
 0USER-CHOSEN ITEMS:
  ID TIME IPRED DV
-1DOUBLE PRECISION PREDPP VERSION 7.4.3
+1DOUBLE PRECISION PREDPP VERSION 7.5.1
 
  GENERAL NONLINEAR KINETICS MODEL (DVERK1, ADVAN6)
 0MODEL SUBROUTINE USER-SUPPLIED - ID NO. 9999
@@ -204,19 +214,18 @@ Days until program expires : 176
  SIGDIGITS FOR MAP ESTIMATION (SIGLO):      100
  GRADIENT SIGDIGITS OF
        FIXED EFFECTS PARAMETERS (SIGL):     100
- NOPRIOR SETTING (NOPRIOR):                 OFF
+ NOPRIOR SETTING (NOPRIOR):                 0
  NOCOV SETTING (NOCOV):                     OFF
  DERCONT SETTING (DERCONT):                 OFF
- FINAL ETA RE-EVALUATION (FNLETA):          ON
+ FINAL ETA RE-EVALUATION (FNLETA):          1
  EXCLUDE NON-INFLUENTIAL (NON-INFL.) ETAS
        IN SHRINKAGE (ETASTYPE):             NO
- NON-INFL. ETA CORRECTION (NONINFETA):      OFF
+ NON-INFL. ETA CORRECTION (NONINFETA):      0
  RAW OUTPUT FILE (FILE): Run1.ext
  EXCLUDE TITLE (NOTITLE):                   NO
  EXCLUDE COLUMN LABELS (NOLABEL):           NO
  FORMAT FOR ADDITIONAL FILES (FORMAT):      S1PE12.5
  PARAMETER ORDER FOR OUTPUTS (ORDER):       TSOL
- WISHART PRIOR DF INTERPRETATION (WISHTYPE):0
  KNUTHSUMOFF:                               0
  INCLUDE LNTWOPI:                           NO
  INCLUDE CONSTANT TERM TO PRIOR (PRIORC):   NO
@@ -245,56 +254,59 @@ Days until program expires : 176
  MONITORING OF SEARCH:
 
 
-0ITERATION NO.:    0    OBJECTIVE VALUE:   5848.18625441393        NO. OF FUNC. EVALS.:   8
+0ITERATION NO.:    0    OBJECTIVE VALUE:   6276.65354331229        NO. OF FUNC. EVALS.:   8
  CUMULATIVE NO. OF FUNC. EVALS.:        8
- NPARAMETR:  4.0000E+03  4.0000E+03  5.0000E+01  1.2000E+00  3.0000E-01  1.0000E+00  3.0000E-01
+ NPARAMETR:  4.0000E+03  4.0000E+03  5.0000E+01  1.2000E+00  1.0000E-01  1.0000E+00  3.0000E-01
  PARAMETER:  1.0000E-01  1.0000E-01  1.0000E-01  1.0000E-01  1.0000E-01  1.0000E-01  1.0000E-01
- GRADIENT:  -4.0617E+02  4.4405E+02  1.1215E+03 -1.1837E+02 -4.0250E+02  3.6922E+01 -3.1560E+02
+ GRADIENT:  -1.1481E+03  1.0831E+03  1.4713E+03 -1.3099E+02 -1.2711E+03  2.2979E+01 -2.3857E+02
 
-0ITERATION NO.:   21    OBJECTIVE VALUE:   5430.34959612915        NO. OF FUNC. EVALS.: 319
- CUMULATIVE NO. OF FUNC. EVALS.:      327
- NPARAMETR:  4.9269E+03  1.4776E+03  4.1505E+01  1.1987E+00  1.0107E-01  3.8019E-01  2.6706E-01
- PARAMETER:  3.1324E-01 -9.4059E-01 -8.6220E-02  9.9043E-02 -4.4395E-01 -3.8353E-01  4.1842E-02
- GRADIENT:   1.7160E-02  1.5965E-02 -2.4188E-02  8.3090E-03  2.3358E-03  1.3005E-03 -4.6853E-03
- NUMSIGDIG:         4.3         4.6         4.2         2.9         4.6         4.6         4.4
+0ITERATION NO.:   20    OBJECTIVE VALUE:   5430.34959836484        NO. OF FUNC. EVALS.: 239
+ CUMULATIVE NO. OF FUNC. EVALS.:      247
+ NPARAMETR:  4.9270E+03  1.4777E+03  4.1504E+01  1.1988E+00  1.0108E-01  3.8020E-01  2.6705E-01
+ PARAMETER:  3.1325E-01 -9.4055E-01 -8.6225E-02  9.9038E-02  1.0535E-01 -3.8352E-01  4.1832E-02
+ GRADIENT:   9.0972E-03 -4.0163E-03  1.3521E-02 -1.4868E-03 -9.8646E-04  6.0018E-04 -1.8397E-02
 
  #TERM:
-0MINIMIZATION TERMINATED
- DUE TO ROUNDING ERRORS (ERROR=134)
- NO. OF FUNCTION EVALUATIONS USED:      327
- NO. OF SIG. DIGITS IN FINAL EST.:  3.0
+0MINIMIZATION SUCCESSFUL
+ NO. OF FUNCTION EVALUATIONS USED:      247
+ NO. OF SIG. DIGITS IN FINAL EST.:  4.0
 
  ETABAR IS THE ARITHMETIC MEAN OF THE ETA-ESTIMATES,
  AND THE P-VALUE IS GIVEN FOR THE NULL HYPOTHESIS THAT THE TRUE MEAN IS 0.
 
- ETABAR:        -6.6634E-04
+ ETABAR:        -6.4900E-04
  SE:             4.0196E-02
  N:                      60
 
- P VAL.:         9.8677E-01
+ P VAL.:         9.8712E-01
 
- ETASHRINKSD(%)  1.2386E+00
- ETASHRINKVR(%)  2.4618E+00
+ ETASHRINKSD(%)  2.0643E+00
+ ETASHRINKVR(%)  4.0859E+00
  EBVSHRINKSD(%)  1.4240E+00
  EBVSHRINKVR(%)  2.8278E+00
- EPSSHRINKSD(%)  4.2124E+00  4.2124E+00
- EPSSHRINKVR(%)  8.2474E+00  8.2474E+00
+ RELATIVEINF(%)  9.7172E+01
+ EPSSHRINKSD(%)  4.2118E+00  4.2118E+00
+ EPSSHRINKVR(%)  8.2462E+00  8.2462E+00
 
   
  TOTAL DATA POINTS NORMALLY DISTRIBUTED (N):          480
  N*LOG(2PI) CONSTANT TO OBJECTIVE FUNCTION:    882.18099187648579     
- OBJECTIVE FUNCTION VALUE WITHOUT CONSTANT:    5430.3495961291537     
- OBJECTIVE FUNCTION VALUE WITH CONSTANT:       6312.5305880056394     
+ OBJECTIVE FUNCTION VALUE WITHOUT CONSTANT:    5430.3495983648445     
+ OBJECTIVE FUNCTION VALUE WITH CONSTANT:       6312.5305902413302     
  REPORTED OBJECTIVE FUNCTION DOES NOT CONTAIN CONSTANT
   
  TOTAL EFFECTIVE ETAS (NIND*NETA):                            60
   
  #TERE:
- Elapsed estimation  time in seconds:    62.45
+ Elapsed estimation  time in seconds:    18.34
  TESTING R MATRIX FOR POSITIVE DEFINITNESS
- R MATRIX IS POSITIVE DEFINITE
- Elapsed covariance  time in seconds:    36.52
- Elapsed postprocess time in seconds:     0.38
+ R MATRIX IS NOT POSITIVE DEFINITE
+ PRECONDITIONING CYCLE NO.            1
+ TESTING R MATRIX FOR POSITIVE DEFINITNESS
+ R MATRIX IS NOT POSITIVE DEFINITE
+ PRECONDITIONING CYCLE NO.            2
+ Elapsed covariance  time in seconds:    46.29
+ Elapsed postprocess time in seconds:     0.20
 1
  
  
@@ -408,7 +420,7 @@ Days until program expires : 176
 
          TH 1      TH 2      TH 3      TH 4     
  
-         5.90E+02  2.41E+02  1.84E+00  1.42E-01
+         6.33E+02  2.67E+02  2.26E+00  1.09E-01
  
 
 
@@ -418,7 +430,7 @@ Days until program expires : 176
          ETA1     
  
  ETA1
-+        1.84E-02
++        2.51E-02
  
 
 
@@ -428,10 +440,10 @@ Days until program expires : 176
          EPS1      EPS2     
  
  EPS1
-+        1.29E-01
++        1.25E-01
  
  EPS2
-+       .........  3.15E-02
++       .........  2.24E-02
  
 1
 
@@ -442,7 +454,7 @@ Days until program expires : 176
          ETA1     
  
  ETA1
-+        2.89E-02
++        3.94E-02
  
 
 
@@ -452,10 +464,10 @@ Days until program expires : 176
          EPS1      EPS2     
  
  EPS1
-+        1.05E-01
++        1.01E-01
  
  EPS2
-+       .........  3.05E-02
++       .........  2.17E-02
  
 1
  ************************************************************************************************************************
@@ -469,28 +481,28 @@ Days until program expires : 176
             TH 1      TH 2      TH 3      TH 4      OM11      SG11      SG12      SG22  
  
  TH 1
-+        3.48E+05
++        4.01E+05
  
  TH 2
-+        1.30E+05  5.80E+04
++        1.56E+05  7.12E+04
  
  TH 3
-+       -4.68E+02 -2.87E+02  3.40E+00
++       -6.72E+02 -4.15E+02  5.09E+00
  
  TH 4
-+       -7.19E+00 -7.24E+00  1.42E-01  2.03E-02
++       -3.80E+01 -1.89E+01  1.81E-01  1.20E-02
  
  OM11
-+       -9.89E-01 -8.51E-02 -1.15E-03  1.47E-04  3.37E-04
++       -3.75E+00 -9.19E-01 -5.16E-03  5.66E-05  6.28E-04
  
  SG11
-+        6.02E+00  2.24E+00 -6.50E-04  9.05E-03  5.61E-05  1.68E-02
++       -7.75E+00 -1.88E+00 -2.79E-02  1.54E-03  7.21E-04  1.55E-02
  
  SG12
 +       ......... ......... ......... ......... ......... ......... .........
  
  SG22
-+       -3.64E+00 -5.35E-01 -1.55E-02 -2.21E-03 -7.77E-05 -1.32E-03 .........  9.91E-04
++        3.82E+00  1.48E+00 -3.48E-03 -2.79E-04 -4.12E-04 -1.74E-03 .........  5.03E-04
  
 1
  ************************************************************************************************************************
@@ -504,28 +516,28 @@ Days until program expires : 176
             TH 1      TH 2      TH 3      TH 4      OM11      SG11      SG12      SG22  
  
  TH 1
-+        5.90E+02
++        6.33E+02
  
  TH 2
-+        9.18E-01  2.41E+02
++        9.23E-01  2.67E+02
  
  TH 3
-+       -4.31E-01 -6.45E-01  1.84E+00
++       -4.70E-01 -6.90E-01  2.26E+00
  
  TH 4
-+       -8.57E-02 -2.11E-01  5.42E-01  1.42E-01
++       -5.49E-01 -6.47E-01  7.35E-01  1.09E-01
  
  OM11
-+       -9.13E-02 -1.93E-02 -3.41E-02  5.62E-02  1.84E-02
++       -2.36E-01 -1.37E-01 -9.12E-02  2.06E-02  2.51E-02
  
  SG11
-+        7.89E-02  7.20E-02 -2.72E-03  4.91E-01  2.36E-02  1.29E-01
++       -9.82E-02 -5.65E-02 -9.91E-02  1.13E-01  2.31E-01  1.25E-01
  
  SG12
 +       ......... ......... ......... ......... ......... ......... .........
  
  SG22
-+       -1.96E-01 -7.05E-02 -2.67E-01 -4.93E-01 -1.34E-01 -3.23E-01 .........  3.15E-02
++        2.69E-01  2.48E-01 -6.87E-02 -1.14E-01 -7.34E-01 -6.24E-01 .........  2.24E-02
  
 1
  ************************************************************************************************************************
@@ -539,31 +551,31 @@ Days until program expires : 176
             TH 1      TH 2      TH 3      TH 4      OM11      SG11      SG12      SG22  
  
  TH 1
-+        2.77E-05
++        2.84E-05
  
  TH 2
-+       -7.25E-05  2.23E-04
++       -7.43E-05  2.26E-04
  
  TH 3
-+       -2.20E-03  9.26E-03  1.02E+00
++       -2.68E-03  8.75E-03  9.22E-01
  
  TH 4
-+        3.00E-03 -1.56E-02 -5.44E+00  1.20E+02
++        1.44E-02 -1.53E-02 -8.73E+00  2.38E+02
  
  OM11
-+        6.35E-02 -1.28E-01  2.37E+00 -3.17E+01  3.23E+03
++        7.87E-02 -1.86E-01  1.56E+01 -2.28E+02  5.33E+03
  
  SG11
-+        1.06E-03  1.98E-03  2.90E+00 -5.53E+01  3.44E+01  9.31E+01
++        2.92E-03 -1.11E-02  4.11E+00 -7.13E+01  4.98E+02  1.67E+02
  
  SG12
 +       ......... ......... ......... ......... ......... ......... .........
  
  SG22
-+        4.13E-02 -4.26E-02  4.80E+00  1.09E+02  4.30E+02  5.32E+01 .........  1.56E+03
++        6.79E-02 -2.42E-01  2.31E+01 -4.28E+02  6.03E+03  9.86E+02 .........  1.05E+04
  
- Elapsed finaloutput time in seconds:     0.08
- #CPUT: Total CPU Time in Seconds,       97.922
+ Elapsed finaloutput time in seconds:     0.05
+ #CPUT: Total CPU Time in Seconds,       64.375
 Stop Time: 
-Mon 09/23/2024 
-11:39 AM
+Fri 10/04/2024 
+07:08 PM

@@ -1,0 +1,36 @@
+##DATA C:/git/adpoBenchmark/data/sim_0_0_1_1.csv
+##MAP   Aa = AMT CObs = IOBS id = ID time = TIME WT = WT
+##MODEL test()
+  {
+  deriv(Aa = - Ka * Aa)
+  deriv(A1 = Ka * Aa - Vmax * C **GAMMA/ (Km **GAMMA + C **GAMMA))
+  fixef(GAMMA= c(0, 1.6,))  
+  C = A1 / V
+  dosepoint(Aa, idosevar = AaDose, infdosevar = AaInfDose, infratevar =  AaInfRate)
+  error(CEps = 0.5)
+  observe(CObs=C + CEps * sqrt(1 + C^2 * (CMultStdev/sigma())^2))
+  fixef( CMultStdev = c(0,1,))
+  stparm(Vmax = tvVmax * exp( nVmax ))
+  fixef(tvVmax= c(100, 4000, ))
+  stparm(Km = tvKm )
+  fixef(tvKm= c(100, 4000, ))
+  fcovariate(WT)
+  stparm(V = tvV *(WT/70)^dVdWT )
+  fixef(tvV= c(1, 50, ))
+  stparm(Ka = tvKa )
+  fixef(tvKa= c(0.01, 1.2, 3))
+
+
+
+
+  ranef(diag(nVmax) = c(0.1))
+  fixef(dVdWT=c(0, 1.1,))
+  }
+##ESTARGS
+  ODE=DVERK sort=FALSE method=FOCE-ELS stdErr=Auto-Detect numIterations = 10 maxStepsODE = 100000000
+
+
+
+## Phenotype: ([('COMP', 0), ('ETAs', 0), ('V~WT', 1), ('GAMMA', 1)])
+## Genotype: [0, 0, 1, 1]
+## Num non-influential tokens: 0

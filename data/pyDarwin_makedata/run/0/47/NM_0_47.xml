@@ -5,12 +5,12 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 xsi:schemaLocation="http://namespaces.oreilly.com/xmlnut/address output.xsd"
 xmlns:nm="http://namespaces.oreilly.com/xmlnut/address"
 >
-<nm:start_datetime>2024-09-08T15:36:30.976</nm:start_datetime>
+<nm:start_datetime>2024-10-04T15:31:40.308</nm:start_datetime>
 <nm:control_stream><![CDATA[
 $PROBLEM    ADPO benchmark - NONMEM
 $ABBR DERIV2=NO
 $INPUT   ID TIME AMT DV EVID BQL WT
-$DATA      ..\..\..\data_sim.csv IGNORE=@
+$DATA      C:/git/adpoBenchmark/data/pyDarwin_makedata/data_sim.csv IGNORE=@
 $SUBROUTINE ADVAN6 TOL=7
 $MODEL
   COMP=(DEPOT,DEFDOSE)
@@ -47,8 +47,8 @@ $THETA
   (0.01,1.2,3) 		; THETA(4) KA UNITS = 1/time
   (0.0001,1.6,3) 	;; THETA(5) GAMMA
 
-  (0.0001,2,10)	 ;; THETA(6) K23
-  (0.0001,3,10)	 ;; THETA(7) K32
+  (0.0001,2)	 ;; THETA(6) K23
+  (0.0001,3)	 ;; THETA(7) K32
   ;; Start OMEGA5
 $OMEGA  BLOCK(2)
   0.1		; ETA(1) ETA ON VMAX
@@ -72,47 +72,20 @@ $TABLE ID VMAX KM V2 KA FIRSTONLY NOAPPEND NOPRINT FILE= ../../../PARMS_1_4_0_1.
 
  (WARNING  2) NM-TRAN INFERS THAT THE DATA ARE POPULATION.
 ]]></nm:nmtran>
-<nm:nonmem nm:version='7.4.3'>
+<nm:nonmem nm:version='7.5.1'>
 <nm:license_information><![CDATA[
 License Registered to: Certara USA
 Expiration Date:    14 MAR 2025
-Current Date:        8 SEP 2024
-Days until program expires : 191
+Current Date:        4 OCT 2024
+Days until program expires : 165
 ]]></nm:license_information>
 <nm:program_information><![CDATA[
-1NONLINEAR MIXED EFFECTS MODEL PROGRAM (NONMEM) VERSION 7.4.3
+1NONLINEAR MIXED EFFECTS MODEL PROGRAM (NONMEM) VERSION 7.5.1
  ORIGINALLY DEVELOPED BY STUART BEAL, LEWIS SHEINER, AND ALISON BOECKMANN
  CURRENT DEVELOPERS ARE ROBERT BAUER, ICON DEVELOPMENT SOLUTIONS,
  AND ALISON BOECKMANN. IMPLEMENTATION, EFFICIENCY, AND STANDARDIZATION
  PERFORMED BY NOUS INFOSYSTEMS.
 ]]></nm:program_information>
-<nm:theta_lb>
-<nm:val nm:name='1'>100.00000000000000</nm:val>
-<nm:val nm:name='2'>100.00000000000000</nm:val>
-<nm:val nm:name='3'>1.0000000000000000</nm:val>
-<nm:val nm:name='4'>1.00000000000000002E-002</nm:val>
-<nm:val nm:name='5'>1.00000000000000005E-004</nm:val>
-<nm:val nm:name='6'>1.00000000000000005E-004</nm:val>
-<nm:val nm:name='7'>1.00000000000000005E-004</nm:val>
-</nm:theta_lb>
-<nm:theta_in>
-<nm:val nm:name='1'>4000.0000000000000</nm:val>
-<nm:val nm:name='2'>1000.0000000000000</nm:val>
-<nm:val nm:name='3'>50.000000000000000</nm:val>
-<nm:val nm:name='4'>1.2000000000000000</nm:val>
-<nm:val nm:name='5'>1.6000000000000001</nm:val>
-<nm:val nm:name='6'>2.0000000000000000</nm:val>
-<nm:val nm:name='7'>3.0000000000000000</nm:val>
-</nm:theta_in>
-<nm:theta_ub>
-<nm:val nm:name='1'>10000.000000000000</nm:val>
-<nm:val nm:name='2'>3000.0000000000000</nm:val>
-<nm:val nm:name='3'>1000000.0000000000</nm:val>
-<nm:val nm:name='4'>3.0000000000000000</nm:val>
-<nm:val nm:name='5'>3.0000000000000000</nm:val>
-<nm:val nm:name='6'>10.000000000000000</nm:val>
-<nm:val nm:name='7'>10.000000000000000</nm:val>
-</nm:theta_ub>
 <nm:problem nm:number='1' nm:subproblem='0' nm:superproblem1='0' nm:iteration1='0' nm:superproblem2='0' nm:iteration2='0'>
 <nm:problem_title>ADPO benchmark - NONMEM</nm:problem_title>
 <nm:problem_information><![CDATA[
@@ -153,8 +126,8 @@ Days until program expires : 191
   0.1000E+01     0.5000E+02     0.1000E+07
   0.1000E-01     0.1200E+01     0.3000E+01
   0.1000E-03     0.1600E+01     0.3000E+01
-  0.1000E-03     0.2000E+01     0.1000E+02
-  0.1000E-03     0.3000E+01     0.1000E+02
+  0.1000E-03     0.2000E+01     0.1000E+07
+  0.1000E-03     0.3000E+01     0.1000E+07
 0INITIAL ESTIMATE OF OMEGA:
  BLOCK SET NO.   BLOCK                                                                    FIXED
         1                                                                                   NO
@@ -174,6 +147,8 @@ SEED   1 RESET TO INITIAL: YES
 0TABLES STEP OMITTED:    NO
  NO. OF TABLES:           2
  SEED NUMBER (SEED):    11456
+ NPDTYPE:    0
+ INTERPTYPE:    0
  RANMETHOD:             3U
  MC SAMPLES (ESAMPLE):    300
  WRES SQUARE ROOT TYPE (WRESCHOL): EIGENVALUE
@@ -184,6 +159,7 @@ SEED   1 RESET TO INITIAL: YES
  HEADER:                 NO
  FILE TO BE FORWARDED:   NO
  FORMAT:                S1PE11.4
+ IDFORMAT:
  LFORMAT:
  RFORMAT:
  FIXED_EFFECT_ETAS:
@@ -196,12 +172,13 @@ SEED   1 RESET TO INITIAL: YES
  HEADER:                YES
  FILE TO BE FORWARDED:   NO
  FORMAT:                S1PE11.4
+ IDFORMAT:
  LFORMAT:
  RFORMAT:
  FIXED_EFFECT_ETAS:
 0USER-CHOSEN ITEMS:
  ID VMAX KM V2 KA
-1DOUBLE PRECISION PREDPP VERSION 7.4.3
+1DOUBLE PRECISION PREDPP VERSION 7.5.1
 
  GENERAL NONLINEAR KINETICS MODEL (DVERK1, ADVAN6)
 0MODEL SUBROUTINE USER-SUPPLIED - ID NO. 9999
@@ -245,12 +222,39 @@ SEED   1 RESET TO INITIAL: YES
  nm:data_format='(7e7.0,1f2.0)' nm:data_nobs='0' nm:data_nind='60' nm:data_mdv100='0' nm:nthetat='7'
  nm:theta_bound_test_omitted='no' nm:omega_blockdim='2' nm:omega_bound_test_omitted='no' nm:sigma_diagdim='2'
  nm:sigma_bound_test_omitted='no' nm:sim_omitted='no' nm:sim_obj_evaluated='no' nm:sim_rewind='no'
- nm:sim_supreset='yes' nm:sim_ranmethod='4u' nm:sim_seed1_01='2345' nm:sim_seed2_01='0'
- nm:sim_dist_01='pseudo-normal' nm:sim_newran='0' nm:sim_etader_order_max='0' nm:tab_omitted='no' nm:tab_number='2'
- nm:tab_seed='11456' nm:tab_ranmethod='3u' nm:tab_esample='300' nm:tab_wres='eigenvalue'
- nm:tab_fixedetas_01='BLANK' nm:tab_fixedetas_02='BLANK' nm:pred_advan='6' nm:pred_evid='5' nm:pred_time='2'
- nm:pred_amt='3'
+ nm:sim_clockseed='0' nm:sim_supreset='yes' nm:sim_ranmethod='4u' nm:sim_newran='0' nm:sim_etader_order_max='0'
+ nm:sim_source_eps='1' nm:sim_ttdf='-1' nm:sim_seed1_01='2345' nm:sim_seed2_01='0' nm:sim_dist_01='pseudo-normal'
+ nm:tab_omitted='no' nm:tab_number='2' nm:tab_seed='11456' nm:tab_npdtype='0' nm:tab_interptype='0'
+ nm:tab_ranmethod='3u' nm:tab_esample='300' nm:tab_wres='eigenvalue' nm:tab_fixedetas_01='BLANK'
+ nm:tab_fixedetas_02='BLANK' nm:pred_advan='6' nm:pred_evid='5' nm:pred_time='2' nm:pred_amt='3'
 />
+<nm:theta_lb>
+<nm:val nm:name='1'>100.00000000000000</nm:val>
+<nm:val nm:name='2'>100.00000000000000</nm:val>
+<nm:val nm:name='3'>1.0000000000000000</nm:val>
+<nm:val nm:name='4'>1.00000000000000002E-002</nm:val>
+<nm:val nm:name='5'>1.00000000000000005E-004</nm:val>
+<nm:val nm:name='6'>1.00000000000000005E-004</nm:val>
+<nm:val nm:name='7'>1.00000000000000005E-004</nm:val>
+</nm:theta_lb>
+<nm:theta_in>
+<nm:val nm:name='1'>4000.0000000000000</nm:val>
+<nm:val nm:name='2'>1000.0000000000000</nm:val>
+<nm:val nm:name='3'>50.000000000000000</nm:val>
+<nm:val nm:name='4'>1.2000000000000000</nm:val>
+<nm:val nm:name='5'>1.6000000000000001</nm:val>
+<nm:val nm:name='6'>2.0000000000000000</nm:val>
+<nm:val nm:name='7'>3.0000000000000000</nm:val>
+</nm:theta_in>
+<nm:theta_ub>
+<nm:val nm:name='1'>10000.000000000000</nm:val>
+<nm:val nm:name='2'>3000.0000000000000</nm:val>
+<nm:val nm:name='3'>1000000.0000000000</nm:val>
+<nm:val nm:name='4'>3.0000000000000000</nm:val>
+<nm:val nm:name='5'>3.0000000000000000</nm:val>
+<nm:val nm:name='6'>1000000.0000000000</nm:val>
+<nm:val nm:name='7'>1000000.0000000000</nm:val>
+</nm:theta_ub>
 <nm:simulation_information><![CDATA[
 1
  SIMULATION STEP PERFORMED
@@ -260,7 +264,7 @@ SEED   1 RESET TO INITIAL: YES
 <nm:sim_info
  nm:sim_bootstrap='0' nm:sim_seed1_01='677031508' nm:sim_seed2_01='0'
 />
-<nm:sim_elapsed_time>0.08</nm:sim_elapsed_time>
+<nm:sim_elapsed_time>0.15</nm:sim_elapsed_time>
 <nm:estimation nm:number='1' nm:type='1'>
 <nm:table_series>0</nm:table_series>
 <nm:estimation_information><![CDATA[
@@ -271,11 +275,11 @@ SEED   1 RESET TO INITIAL: YES
 />
 </nm:estimation>
 <nm:post_process_times>
-<nm:post_elapsed_time>0.00</nm:post_elapsed_time>
-<nm:finaloutput_elapsed_time>0.08</nm:finaloutput_elapsed_time>
+<nm:post_elapsed_time>0.01</nm:post_elapsed_time>
+<nm:finaloutput_elapsed_time>0.30</nm:finaloutput_elapsed_time>
 </nm:post_process_times>
 </nm:problem>
 </nm:nonmem>
-<nm:stop_datetime>2024-09-08T15:36:31.177</nm:stop_datetime>
-<nm:total_cputime>0.188</nm:total_cputime>
+<nm:stop_datetime>2024-10-04T15:31:41.252</nm:stop_datetime>
+<nm:total_cputime>0.516</nm:total_cputime>
 </nm:output>

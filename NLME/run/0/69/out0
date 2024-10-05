@@ -1,0 +1,85 @@
+$model
+
+ Model Overview 
+ ------------------------------------------- 
+Model Name        :  NLME_0_69
+Working Directory :  C:/git/adpoBenchmark/NLME/run/0/69
+Model Type        :  Textual
+
+ PML 
+ ------------------------------------------- 
+ test()
+  {
+  deriv(Aa = - Ka * Aa)
+  deriv(A1 = Ka * Aa + K21*A2 - K12*A1 + K31*A3 - K12*A2 - Vmax * C **GAMMA/ (Km **GAMMA + C **GAMMA))
+  deriv(A2 = K12 * A1 - K21*A2) 
+  deriv(A3 = K13 * A1 - K31*A3)
+  fixef(GAMMA= c(0, 1.6,))  
+  C = A1 / V
+  dosepoint(Aa, idosevar = AaDose, infdosevar = AaInfDose, infratevar =  AaInfRate)
+  error(CEps = 0.5)
+  observe(CObs=C + CEps * sqrt(1 + C^2 * (CMultStdev/sigma())^2))
+  fixef( CMultStdev = c(0,1,))
+  stparm(Vmax = tvVmax * exp( nVmax ))
+  fixef(tvVmax= c(100, 4000, ))
+  stparm(Km = tvKm * exp( nV ))
+  fixef(tvKm= c(100, 4000, ))
+  fcovariate(WT)
+  stparm(V = tvV *(WT/70)^dVdWT * exp( nKm ))
+  fixef(tvV= c(1, 50, ))
+  stparm(Ka = tvKa )
+  fixef(tvKa= c(0.01, 1.2, 3))
+  fixef(K12= c(0.0001, 2, ))
+  fixef(K21= c(0.0001, 3, ))
+  fixef(K13= c(0.0001, 0.1, ))
+  fixef(K31= c(0.0001, 0.05, ))
+  ranef(diag(nVmax,nKm,nV) = c(0.1,0.1,0.1))
+  fixef(dVdWT=c(0, 1.1,))
+  }
+
+ Structural Parameters 
+ ------------------------------------------- 
+ Vmax Km V Ka
+ ------------------------------------------- 
+ Column Mappings 
+ ------------------------------------------- 
+Model Variable Name : Data Column name
+id                  : ID
+time                : TIME
+Aa                  : AMT
+WT                  : WT
+CObs                : IOBS
+
+
+$params
+$params[[1]]
+
+ Engine Parameters 
+ ------------------------------------------- 
+Is population               :  TRUE
+Sort input data             :  FALSE
+Engine used                 :  FOCE-ELS
+Maximum number of iterations:  10
+ODE solver                  :  Non-stiff DVERK
+
+ Advanced Options 
+ ------------------------------------------- 
+Number of integration points:  1
+Number of non-param iter    :  0
+Number of MAPNP iter        :  0
+Use synthetic gradients     :  FALSE
+LAGL nDigit                 :  7
+BLUP nDigit                 :  13
+Linearization step size     :  0.002
+ODE relative tolerance      :  1e-06
+ODE absolute tolerance      :  1e-06
+ODE max steps               :  1e+08
+
+ Standard Errors 
+ ------------------------------------------- 
+Standard Errors Method      :  Auto-Detect
+Finite Difference Method    :  Central Difference
+Step size                   :  0.01
+
+ ------------------------------------------- 
+

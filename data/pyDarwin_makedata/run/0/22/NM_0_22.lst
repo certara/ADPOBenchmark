@@ -1,28 +1,28 @@
-Sun 09/08/2024 
-03:31 PM
+Fri 10/04/2024 
+03:25 PM
 $PROBLEM    ADPO benchmark - NONMEM
-$ABBR DERIV2=NO 
+$ABBR DERIV2=NO
 $INPUT   ID TIME AMT DV EVID BQL WT
-$DATA      ..\..\..\data_sim.csv IGNORE=@
+$DATA      C:/git/adpoBenchmark/data/pyDarwin_makedata/data_sim.csv IGNORE=@
 $SUBROUTINE ADVAN6 TOL=7
 $MODEL
   COMP=(DEPOT,DEFDOSE)
   COMP=(CENTRAL,NODOSE,DEFOBS)
 
-$PK      
-  CWT = WT/70 
+$PK
+  CWT = WT/70
 
-  TVVMAX= THETA(1)   
+  TVVMAX= THETA(1)
   VMAX=TVVMAX*EXP(ETA(1)) 
   TVKM = THETA(2)
-  KM = TVKM *EXP(ETA(2))  
+  KM = TVKM *EXP(ETA(2)) 
   TVV2=THETA(3) *CWT**THETA(5)
-  V2=TVV2 *EXP(ETA(3))    
-  TVKA=THETA(4) 
-  KA=TVKA *EXP(ETA(4))   
+  V2=TVV2 *EXP(ETA(3)) 
+  TVKA=THETA(4)
+  KA=TVKA *EXP(ETA(4)) 
 
   SC = V2
-$ERROR    
+$ERROR
   IPRED = F
   IOBS = F*EXP(EPS(2)) + EPS(1)
   Y=F*EXP(EPS(2)) + EPS(1)
@@ -32,11 +32,11 @@ $DES
   DADT(2) =  KA*A(1)-VMAX*CONC/(KM+CONC) 
 
 
-$THETA   
+$THETA
   (100,4000,10000)	; THETA(1) VMAX UNITS =  mass/time
   (100,1000,3000)	; THETA(2) KM UNITS = mass/volume
   (1,50) 		; THETA(3) V  UNITS = volume
-  (0.01,1.2,3) 		; THETA(4) KA UNITS = 1/time    
+  (0.01,1.2,3) 		; THETA(4) KA UNITS = 1/time
 
   (0,1.1,10) 	;; THETA(5) V~WT
 
@@ -46,10 +46,10 @@ $OMEGA
   0.1		; ETA(2) ETA ON KM
   0.1		; ETA(3) ETA ON V2
   0.1		; ETA(4) ETA ON KA
-$SIGMA     
+$SIGMA
   (1) ;; EPS(1) ADDITIVE
   (0.3) ;; EPS(2) PROPORTIONAL
-$SIM (2345) ONLYSIM 
+$SIM (2345) ONLYSIM
 $TABLE ID TIME AMT IOBS EVID WT FILE=../../../OUT_0_3_1_0.DAT NOPRINT NOHEADER NOAPPEND
   ;;; Model Identifier =  0,3,1,0
 $TABLE ID VMAX KM V2 KA FIRSTONLY NOAPPEND NOPRINT FILE= ../../../PARMS_0_3_1_0.DAT
@@ -66,9 +66,9 @@ NM-TRAN MESSAGES
   
 License Registered to: Certara USA
 Expiration Date:    14 MAR 2025
-Current Date:        8 SEP 2024
-Days until program expires : 191
-1NONLINEAR MIXED EFFECTS MODEL PROGRAM (NONMEM) VERSION 7.4.3
+Current Date:        4 OCT 2024
+Days until program expires : 165
+1NONLINEAR MIXED EFFECTS MODEL PROGRAM (NONMEM) VERSION 7.5.1
  ORIGINALLY DEVELOPED BY STUART BEAL, LEWIS SHEINER, AND ALISON BOECKMANN
  CURRENT DEVELOPERS ARE ROBERT BAUER, ICON DEVELOPMENT SOLUTIONS,
  AND ALISON BOECKMANN. IMPLEMENTATION, EFFICIENCY, AND STANDARDIZATION
@@ -127,6 +127,8 @@ SEED   1 RESET TO INITIAL: YES
 0TABLES STEP OMITTED:    NO
  NO. OF TABLES:           2
  SEED NUMBER (SEED):    11456
+ NPDTYPE:    0
+ INTERPTYPE:    0
  RANMETHOD:             3U
  MC SAMPLES (ESAMPLE):    300
  WRES SQUARE ROOT TYPE (WRESCHOL): EIGENVALUE
@@ -137,6 +139,7 @@ SEED   1 RESET TO INITIAL: YES
  HEADER:                 NO
  FILE TO BE FORWARDED:   NO
  FORMAT:                S1PE11.4
+ IDFORMAT:
  LFORMAT:
  RFORMAT:
  FIXED_EFFECT_ETAS:
@@ -149,12 +152,13 @@ SEED   1 RESET TO INITIAL: YES
  HEADER:                YES
  FILE TO BE FORWARDED:   NO
  FORMAT:                S1PE11.4
+ IDFORMAT:
  LFORMAT:
  RFORMAT:
  FIXED_EFFECT_ETAS:
 0USER-CHOSEN ITEMS:
  ID VMAX KM V2 KA
-1DOUBLE PRECISION PREDPP VERSION 7.4.3
+1DOUBLE PRECISION PREDPP VERSION 7.5.1
 
  GENERAL NONLINEAR KINETICS MODEL (DVERK1, ADVAN6)
 0MODEL SUBROUTINE USER-SUPPLIED - ID NO. 9999
@@ -198,13 +202,13 @@ SEED   1 RESET TO INITIAL: YES
  SIMULATION STEP PERFORMED
  SOURCE  1:
     SEED1:    1700129141   SEED2:             0
- Elapsed simulation  time in seconds:     0.01
+ Elapsed simulation  time in seconds:     0.07
  ESTIMATION STEP OMITTED:                 YES
- Elapsed finaloutput time in seconds:     0.07
- #CPUT: Total CPU Time in Seconds,        0.141
+ Elapsed finaloutput time in seconds:     0.27
+ #CPUT: Total CPU Time in Seconds,        0.328
 Stop Time: 
-Sun 09/08/2024 
-03:32 PM
+Fri 10/04/2024 
+03:26 PM
 OFV = 99999999
 success = False
 covariance = False
@@ -213,4 +217,4 @@ Condition # = 99999999
 Num Non fixed THETAs = 5
 Num Non fixed OMEGAs = 4
 Num Non fixed SIGMAs = 2
-Original run directory = d:/git/adpoBenchmark/data/pydarwin_makedata/run\0\22
+Original run directory = C:/git/adpoBenchmark/data/pyDarwin_makedata/run\0\22

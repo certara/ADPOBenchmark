@@ -1,4 +1,10 @@
 rm(list=ls())
+## path to python.exe can be found with where python.exe command from DOS command line
+WindowspyDarwinInterpreter <- "C:/Users/msale/AppData/Local/Programs/Python/Python310/python.exe"
+Windowsnmfe_path <- "C:/nm75g64/util/nmfe75.bat"
+WindowsINSTALLDIRADPO <- "D:/NLME_Engine_ADPO"
+WindowsINSTALLDIRnoHessian <- "D:/NLME_Engine_noHessian"
+Linuxnlme_dir <- "/home/user/InstallDirNLME/"
 home_dir <- getwd()
 
 # used by NLME
@@ -7,26 +13,26 @@ if (Sys.info()['sysname'] == "Linux") {
   nmfe_path <- "/opt/nm751/util/nmfe75"
 
   gcc_dir <- dirname(system("which gcc", intern = TRUE))
-  nlme_dir <- "/home/user/InstallDirNLME/"
+ # nlme_dir <- "/home/user/InstallDirNLME/"
   if (grepl("Ubuntu", Sys.info()["version"])) {
     Sys.setenv("PML_BIN_DIR" = "UBUNTU2204")
   }
 
-  INSTALLDIRStandard <- nlme_dir
+  INSTALLDIRStandard <- Linuxnlme_dir
   INSTALLDIRADPO <- "home/user/NLME_Engine_ADPO"
   INSTALLDIRnoHessian <- "home/user/NLME_Engine_noHessian"
 
 } else {
-  pyDarwinInterpreter <- "C:/python/venv/bin/python"
-  nmfe_path <- "C:/nm751/util/nmfe75"
+  pyDarwinInterpreter <- WindowspyDarwinInterpreter
+  nmfe_path <- Windowsnmfe_path
 
   # for Windows NLME engine
   gcc_dir <- "C:\\Program Files\\Certara\\mingw64"
   nlme_dir <- "C:\\Program Files\\Certara\\NLME_Engine"
 
   INSTALLDIRStandard <- nlme_dir
-  INSTALLDIRADPO <- "D:/NLME_Engine_ADPO"
-  INSTALLDIRnoHessian <- "D:/NLME_Engine_noHessian"
+  INSTALLDIRADPO <- WindowsINSTALLDIRADPO
+  INSTALLDIRnoHessian <- WindowsINSTALLDIRnoHessian
 }
 
 nlme_dirs <- c(standard = INSTALLDIRStandard,
@@ -55,6 +61,7 @@ source(file.path(home_dir,"GetTrueParms.R"))
 
 make_data(home_dir, pyDarwinInterpreter, nmfe_path, nlme_dir, gcc_dir)
 # make NONMEM control files
+message("Veryfying data sets")
 for(i in 1:72){
   check_data(home_dir,i)
 }
@@ -123,7 +130,7 @@ ggsave("NMvsNLMESTCovTime.jpeg",
        width=8,
        height=5)
 print(NM_NLMEST_COVTime)
-# ratio of each "true" parameters
+# ratio of each "true" parameters. true parameters are read from the simulated parameters in the original simulation
 
 TrueParms <- GetTrueParms(home_dir) %>%
   dplyr::summarise(VmaxGeoMean = exp(mean(log(VMAX))),
@@ -135,5 +142,5 @@ TrueParms <- GetTrueParms(home_dir) %>%
                    VCV = 100*sd(log(V2)),
                    KACV = 100*sd(log(KA)))
 fraction <- all_data %>%
-  mutate(NM_NLMEStEst = NMEst_time/NLME_STEst_time,
+  mutate(NM_NLMEStEst = NMEst_time/NLME_STEst_time)
 TrueParms

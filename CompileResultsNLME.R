@@ -1,5 +1,8 @@
 run_nlme <- function(home_dir, which_version = "standard", nlme_dirs) {
   Sys.setenv("INSTALLDIR" = nlme_dirs[which_version])
+
+  message("Starting NONMEM benchmarking")
+  # BAK files are just so we can look at intermediate results with locking the file
   if (which_version == "ADPO") {
     syngrads <- TRUE
     outputfilename <-  "NLMEResults_ADPO.csv"
