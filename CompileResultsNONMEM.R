@@ -22,6 +22,7 @@ run_NONMEM <- function(home_dir, nmfe_path) {
     Est_time = as.numeric(),
     Cov_time = as.numeric(),
     Success = as.logical(),
+    Status = as.integer(),
     Covar = as.logical(),
     Iterations = as.integer(),
     Algorithm = as.character(),
@@ -38,7 +39,8 @@ run_NONMEM <- function(home_dir, nmfe_path) {
     CVVmax = as.numeric(),
     RMSE = as.numeric(),
     MAE = as.numeric(),
-    crash = as.logical()
+    crash = as.logical(),
+    return_code = as.integer()
   )
 
   Curr_model <- 0
@@ -52,6 +54,7 @@ run_NONMEM <- function(home_dir, nmfe_path) {
       for (this_comp in 0:2) {
         for (this_eta in 0:5) {
           Curr_model <- Curr_model + 1
+         # Curr_model <- 72
           # skip stuck models
           # if (Curr_model %in% c(9, 12, 27, 45, 48, 63, 67)) next
 
@@ -93,22 +96,16 @@ run_NONMEM <- function(home_dir, nmfe_path) {
               #rval <- system(command, timeout = time)
               if(exists("rval")) rm(rval)
               if(file.exists(xml_file)) file.remove(xml_file)
-              rval <- withTimeout(system(command, timeout = timeout), # 3600 * 6 for execution
-                                  substitute=TRUE,
-                                  envir=parent.frame(),
-                                  timeout = timeout + 60,
-                                  cpu=99999,
-                                  elapsed = timeout + 60, # 60 seconds for comppiling
-                                  onTimeout="warning")
-
+              rval <- system(command, timeout = timeout) # 3600 * 6 for execution
               if (file.exists(FMSG_file))    file.remove(FMSG_file)
               # can't tell if timeout or crashed??
-              if (file.exists(xml_file) & !is.null(rval)) { # if timed out xml file is corrupted, rval is null
+              if (file.exists(xml_file) & rval !=124) { # if timed out xml file is corrupted, rval is 124
                 parms <- GetNMParms(xml_file)
                 data_file <- parms$dataFile
                 iterations <- parms$iterations
                 messages <- parms$messages
                 success <- parms$success
+                status <- parms$status
                 Covar <- parms$covar
                 NTHETA <- length(parms$theta)
                 if (rval != 124) {
@@ -142,19 +139,17 @@ run_NONMEM <- function(home_dir, nmfe_path) {
                   Est_time,
                   " seconds ############"
                 )
-              } else{
-                Run_time <- 9999999
-                if (!is.null(rval)){
-                   if(rval == 124) {
+              } else{ # timeout from system
+                if(rval == 124){
                     Est_time <- Cov_time <-  timeout
-                  } else{
-                    Est_time <- Sys.time() - StartTime
-                    Cov_time <-  -99999
-                    }
-                  }else{
-                  message_char <- "timed out"
-                  converge <- Covar <- success <- finished <- FALSE
-                  status <- iterations <- RMSE <- MAE <-   -99999
+                    message_char <- "timed out"
+                    converge <- Covar <- success <- finished <- FALSE
+                    status <- iterations <- RMSE <- MAE <-   -99999
+                    }else{ # crash
+                      Est_time <- Cov_time <-  timeout
+                      message_char <- "crash"
+                      converge <- Covar <- success <- finished <- FALSE
+                      status <- iterations <- RMSE <- MAE <-   -99999
                 }
                 }
             }, error = function(e) {
@@ -163,8 +158,8 @@ run_NONMEM <- function(home_dir, nmfe_path) {
               status <- iterations <- RMSE <- MAE <-   -99999
               if (rval == 124) {
                 message_char <- "timed out"
-              } else{
-                message_char <- "-99999"
+              } else{ # probably failed to parsexml??
+                message_char <- "crash"
               }
             })
 
@@ -173,8 +168,8 @@ run_NONMEM <- function(home_dir, nmfe_path) {
             NOMEGA <- ETANOMEGA[this_eta + 1]
 
             This_Result = data.frame(
-              StartTime = as.character(StartTime),
-              EndTime = as.character(EndTime),
+              StartTime = strptime(StartTime, format = "%Y-%m-%d %H:%M:%S"),
+              EndTime = strptime(EndTime, format = "%Y-%m-%d %H:%M:%S"),
               Model_num = Curr_model,
               this_comp = this_comp,
               this_eta = this_eta,
@@ -185,6 +180,7 @@ run_NONMEM <- function(home_dir, nmfe_path) {
               Est_time = Est_time,
               Cov_time = Cov_time,
               Success = success,
+              Status = status,
               Covar = Covar,
               Iterations = iterations,
               Algorithm = "NONMEM",
@@ -212,14 +208,16 @@ run_NONMEM <- function(home_dir, nmfe_path) {
             Results <- rbind(Results, This_Result)
             write.csv(
               Results,
-              file.path(home_dir, "NONMEMResults.csv"),
+              file.path(home_dir, "NONMEMResultsjust72.csv"),
               quote = FALSE,
               row.names = FALSE
             )
             try({
               file.copy(
-                file.path(home_dir, "NONMEMResults.csv"),
-                file.path(home_dir, "NONMEMResults_bak.csv")
+               # file.path(home_dir, "NONMEMResults.csv"),
+               # file.path(home_dir, "NONMEMResults_bak.csv")
+                file.path(home_dir, "NONMEMResultsjust72.csv"),
+                file.path(home_dir, "NONMEMResultjust72bak.csv")
               )
             })
           }
@@ -228,6 +226,6 @@ run_NONMEM <- function(home_dir, nmfe_path) {
     }
   }
 
-  #setwd(home_dir)
+  +#setwd(home_dir)
   message("Done at ", strptime(Sys.time(), format = "%Y-%m-%d %H:%M"))
 }

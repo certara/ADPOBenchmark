@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="ASCII"?>
 <!DOCTYPE nm:output SYSTEM "output.dtd">
 <output>
-<start_datetime>2024-09-15T18:59:27.351</start_datetime>
+<start_datetime>2024-10-07T01:05:16.585</start_datetime>
 <control_stream><![CDATA[
+$SIZES MAXFCN = 5000000
 $PROBLEM    Dual Numbers benchmark
 $INPUT       ID TIME AMT DV WT
   ;; $DATA      c:/git/adpoBenchmark/data/sim_1_5_0_1.csv IGNORE=@
-$DATA      D:/git/adpoBenchmark/data/sim_1_5_0_1.csv IGNORE=@
+$DATA      d:/git/adpobenchmark/data/sim_1_5_0_1.csv IGNORE=@
 
 $SUBROUTINE ADVAN6 TOL=7
 $MODEL
@@ -41,15 +42,15 @@ $THETA
   (100,4000)	; THETA(2) KM UNITS =  CONC
   (0,50) 	; THETA(3) V  UNITS = L
   (0,1.2) 	; THETA(4) KA UNITS = 1/HR
-  (0,1.7) 	;; THETA(5) GAMMA
+  (0,1.6) 	;; THETA(5) GAMMA
 
-  (0,2)	 ;; THETA(6) K23
-  (0,3)	 ;; THETA(7) K32
+  (0.0001,2)	 ;; THETA(6) K23
+  (0.0001,3)	 ;; THETA(7) K32
 ; empty $OMEGA
 $OMEGA BLOCK(3)
-  0.3		; ETA(1) ETA ON VMAX
-  0.1 0.3		; ETA(2) ETA ON KM
-  0.1 0.1 0.3		; ETA(3) ETA ON V2
+  0.1		; ETA(1) ETA ON VMAX
+  0.05 0.1		; ETA(2) ETA ON KM
+  0.05 0.05 0.1		; ETA(3) ETA ON V2
 $SIGMA
   (1) ;; EPS(1) ADDITIVE
   (0.3) ;; EPS(2) PROPORTIONAL
@@ -58,6 +59,7 @@ $SIGMA
   ;;; Model Identifier =  1,5,0,1
 
 $TABLE ID TIME IPRED DV NOAPPEND ONEHEADER NOPRINT FILE= Run1Preds.dat
+
 ;; Phenotype: ([('COMP', 1), ('ETAs', 5), ('V~WT', 0), ('GAMMA', 1)])
 ;; Genotype: [1, 5, 0, 1]
 ;; Num non-influential tokens: 0
@@ -72,8 +74,8 @@ $TABLE ID TIME IPRED DV NOAPPEND ONEHEADER NOPRINT FILE= Run1Preds.dat
 <license_information><![CDATA[
 License Registered to: Certara USA
 Expiration Date:    14 MAR 2025
-Current Date:       15 SEP 2024
-Days until program expires : 184
+Current Date:        7 OCT 2024
+Days until program expires : 162
 ]]></license_information>
 <program_information><![CDATA[
 1NONLINEAR MIXED EFFECTS MODEL PROGRAM (NONMEM) VERSION 7.4.3
@@ -88,15 +90,15 @@ Days until program expires : 184
 <val name='3'>0.0000000000000000</val>
 <val name='4'>0.0000000000000000</val>
 <val name='5'>0.0000000000000000</val>
-<val name='6'>0.0000000000000000</val>
-<val name='7'>0.0000000000000000</val>
+<val name='6'>1.00000000000000005E-004</val>
+<val name='7'>1.00000000000000005E-004</val>
 </theta_lb>
 <theta_in>
 <val name='1'>4000.0000000000000</val>
 <val name='2'>4000.0000000000000</val>
 <val name='3'>50.000000000000000</val>
 <val name='4'>1.2000000000000000</val>
-<val name='5'>1.7000000000000000</val>
+<val name='5'>1.6000000000000001</val>
 <val name='6'>2.0000000000000000</val>
 <val name='7'>3.0000000000000000</val>
 </theta_in>
@@ -149,15 +151,15 @@ Days until program expires : 184
   0.1000E+03     0.4000E+04     0.1000E+07
   0.0000E+00     0.5000E+02     0.1000E+07
   0.0000E+00     0.1200E+01     0.1000E+07
-  0.0000E+00     0.1700E+01     0.1000E+07
-  0.0000E+00     0.2000E+01     0.1000E+07
-  0.0000E+00     0.3000E+01     0.1000E+07
+  0.0000E+00     0.1600E+01     0.1000E+07
+  0.1000E-03     0.2000E+01     0.1000E+07
+  0.1000E-03     0.3000E+01     0.1000E+07
 0INITIAL ESTIMATE OF OMEGA:
  BLOCK SET NO.   BLOCK                                                                    FIXED
         1                                                                                   NO
-                  0.3000E+00
-                  0.1000E+00   0.3000E+00
-                  0.1000E+00   0.1000E+00   0.3000E+00
+                  0.1000E+00
+                  0.5000E-01   0.1000E+00
+                  0.5000E-01   0.5000E-01   0.1000E+00
 0INITIAL ESTIMATE OF SIGMA:
  0.1000E+01
  0.0000E+00   0.3000E+00
@@ -225,5 +227,3 @@ Days until program expires : 184
              * PARAMETER IS NOT SUPPLIED BY PK SUBROUTINE;
                WILL DEFAULT TO ONE IF APPLICABLE
 0DATA ITEM INDICES USED BY PRED ARE:
-   EVENT ID DATA ITEM IS DATA ITEM NO.:      6
-   TIME DATA ITEM IS DATA ITEM NO.:          2

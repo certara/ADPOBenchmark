@@ -1,15 +1,22 @@
-timeout <-  3600*6
+
 run_nlme <- function(home_dir, which_version = "standard", nlme_dirs) {
   Sys.setenv("INSTALLDIR" = nlme_dirs[which_version])
-
+  timeout <-  3600*6
   message("Starting NLME benchmarking")
   # BAK files are just so we can look at intermediate results with locking the file
   if (which_version == "ADPO") {
+    # ADPO and NoHessian are internal only, not available in public repo
+    hash_file <- "d:/users/hash.txt"
+    txt <- as.numeric(readtext(hash_file)$text)
+    Sys.setenv("NLME_HASH" = as.numeric(txt))
     syngrads <- TRUE
     outputfilename <-  "NLMEResults_ADPO.csv"
     backupfilename <-  "NLMEResults_ADPOBAK.csv"
 
   } else if (which_version == "NoHessian") {
+    hash_file <- "d:/users/hash.txt"
+    txt <- as.numeric(readtext(hash_file)$text)
+    Sys.setenv("NLME_HASH" = txt)
     syngrads <- FALSE
     outputfilename <-  "NLMEResults_NoHessian.csv"
     backupfilename <-  "NLMEResults_NoHessianBAK.csv"
@@ -17,6 +24,13 @@ run_nlme <- function(home_dir, which_version = "standard", nlme_dirs) {
     syngrads <- FALSE
     outputfilename <-  "NLMEResults_Standard.csv"
     backupfilename <-  "NLMEResults_StandardBAK.csv"
+  }  else if (which_version == "noCache") {
+    hash_file <- "d:/users/hash.txt"
+    txt <- as.numeric(readtext(hash_file)$text)
+    Sys.setenv("NLME_HASH" = as.numeric(txt))
+    syngrads <- FALSE
+    outputfilename <-  "NLMEResults_NoCache.csv"
+    backupfilename <-  "NLMEResults_NoCacheBAK.csv"
   }
 
   ETANOMEGA <- c(1, 2, 3, 4, 3, 6) # no simple way to get n_omega from fit object
@@ -33,6 +47,7 @@ run_nlme <- function(home_dir, which_version = "standard", nlme_dirs) {
     Est_time = as.numeric(),
     Cov_time = as.numeric(),
     Success = as.logical(),
+    Status = as.integer(),
     Covar = as.logical(),
     Iterations = as.integer(),
     Algorithm = as.character(),
@@ -53,7 +68,6 @@ run_nlme <- function(home_dir, which_version = "standard", nlme_dirs) {
 
   )
   Curr_model <- 0
-  this_gamma <- this_vwt <- this_eta <- this_comp <- 0
   for (this_gamma in 0:1) {
     for (this_vwt in 0:1) {
       for (this_comp in 0:2) {
@@ -61,13 +75,11 @@ run_nlme <- function(home_dir, which_version = "standard", nlme_dirs) {
           Curr_model <- Curr_model + 1
           StartTime <- Sys.time()
           runOk <- TRUE
-
           tryCatch({
-            # setwd(file.path(home_dir,"nlme",Curr_model))
             model_meta <- create_model_from_metamodel(file.path(
               home_dir,
               "NLME",
-              Curr_model,
+               Curr_model,
               paste0("Run", Curr_model, ".mmdl")
             ),
             directoryToRun = file.path(home_dir, "NLME", Curr_model, paste0("Run", Curr_model)))
@@ -93,32 +105,29 @@ run_nlme <- function(home_dir, which_version = "standard", nlme_dirs) {
             if(file.exists(model_orig@modelInfo@workingDir)){
              unlink(model_orig@modelInfo@workingDir, recursive = TRUE)
           }
-            withTimeout(fit <- fitmodel(
-              model_orig,
-              numIterations = 1000,
-              numCores = 1,
-              ODE = "DVERK",
-              sort = FALSE,
-              method = "FOCE-ELS",
-              workingDir = model_orig@modelInfo@workingDir,
-              stdErr = "Auto-Detect",
-              maxStepsODE = 100000,
-              allowSyntheticGradient = syngrads,
-              #  installationDirectory = installationDirectory,
-              runInBackground = FALSE
-            ),
+              Rval <- withTimeout(fit <- fitmodel(
+                model_orig,
+                numIterations = 9999,
+                numCores = 1,
+                ODE = "DVERK",
+                sort = FALSE,
+                method = "FOCE-ELS",
+                workingDir = model_orig@modelInfo@workingDir,
+                stdErr = "Auto-Detect",
+                maxStepsODE = 100000,
+                allowSyntheticGradient = syngrads,
+                #  installationDirectory = installationDirectory,
+                runInBackground = FALSE
+              ),
             substitute=TRUE,
             envir=parent.frame(),
             timeout = timeout + 60,
             cpu=99999,
             elapsed = timeout + 60, # 60 seconds for compiling
             onTimeout="warning")
-
-
           }, error = function(cond) {
             runOk <- FALSE # this fails if no license
-            message("In Error!!\n\n!!!error\n\n!!!error\n\n!!!error\n\n!!!error")
-
+            message("Error!!\nNo License???")
           })
           EndTime <- Sys.time()
 
@@ -142,8 +151,9 @@ run_nlme <- function(home_dir, which_version = "standard", nlme_dirs) {
               }
             }
             This_Result <- data.frame(
-              StartTime = strptime(StartTime, format = "%Y-%m-%d %H:%M"),
-              EndTime = EndTime,
+
+              StartTime = strptime(StartTime, format = "%Y-%m-%d %H:%M:%S"),
+              EndTime = strptime(EndTime, format = "%Y-%m-%d %H:%M:%S"),
               Model_num = Curr_model,
               this_comp = this_comp,
               this_eta = this_eta,
@@ -154,9 +164,10 @@ run_nlme <- function(home_dir, which_version = "standard", nlme_dirs) {
               Est_time = -999,
               Cov_time = -999,
               Success = FALSE,
+              Status = -999,
               Covar = FALSE,
               Iterations = -999,
-              Algorithm = "NLME",
+              Algorithm = which_version, #"NLME",
               Good_inits = TRUE,
               log_path = log_path,
               control_file = control_file,
@@ -173,12 +184,12 @@ run_nlme <- function(home_dir, which_version = "standard", nlme_dirs) {
               crash = TRUE
             )
           } else{ # all OK
-            if (fit$Overall$RetCode < 4) {
+            if (fit$Overall$RetCode < 4 & fit$Overall$RetCode > 0) {
               Success <-  TRUE
             } else{
               Success <- FALSE
             }
-
+            status <- fit$Overall$RetCode
             n_theta <- dim(fit$theta)[1] - 1 # one theta for residual error
             n_omega <- ETANOMEGA[this_eta + 1] # dim(fit$omega)[1]
             logfile <- fit$nlme7engine.log
@@ -192,11 +203,11 @@ run_nlme <- function(home_dir, which_version = "standard", nlme_dirs) {
             ))
 
             Covar <- !is.na(fit$Overall$Condition)
-            TVVmax = fit$theta$Estimate[2]
-            TVKM = fit$theta$Estimate[3]
-            TVV = fit$theta$Estimate[4]
-            TVKA = fit$theta$Estimate[5]
-            CVVmax = fit$omega$nVmax
+            TVVmax = fit$theta$Estimate[fit$theta$Parameter == 'tvVmax']
+            TVKM = fit$theta$Estimate[fit$theta$Parameter == 'tvKm']
+            TVV = fit$theta$Estimate[fit$theta$Parameter == 'tvV']
+            TVKA = fit$theta$Estimate[fit$theta$Parameter == 'tvKa']
+            CVVmax = fit$omega$nVmax[1]
             Iterations <-  -999
             try({
               if (!is.null(fit$ConvergenceData) &&
@@ -226,8 +237,8 @@ run_nlme <- function(home_dir, which_version = "standard", nlme_dirs) {
               DV <-  IPRED <-   RMSE <- MAE  <- -999
             }
             This_Result = data.frame(
-              StartTime = as.character(StartTime),
-              EndTime = as.character(EndTime),
+              StartTime = strptime(StartTime, format = "%Y-%m-%d %H:%M:%S"),
+              EndTime = strptime(EndTime, format = "%Y-%m-%d %H:%M:%S"),
               Model_num = Curr_model,
               this_comp = this_comp,
               this_eta = this_eta,
@@ -238,9 +249,10 @@ run_nlme <- function(home_dir, which_version = "standard", nlme_dirs) {
               Est_time = Est_time,
               Cov_time = Cov_time,
               Success = Success,
+              Status = status,
               Covar = Covar,
               Iterations = Iterations,
-              Algorithm = "NLME",
+              Algorithm = which_version, #"NLME",
               Good_inits = TRUE,
               log_path = log_path,
               control_file = file.path(
@@ -271,9 +283,11 @@ run_nlme <- function(home_dir, which_version = "standard", nlme_dirs) {
             row.names = FALSE
           )
           try({
-            file.copy(
-              file.path(home_dir, outputfilename),
-              file.path(home_dir, backupfilename)
+            write.csv(
+              Results,
+              file.path(home_dir, backupfilename),
+              quote = FALSE,
+              row.names = FALSE
             )
           })
         }
@@ -281,5 +295,6 @@ run_nlme <- function(home_dir, which_version = "standard", nlme_dirs) {
     }
   }
 
-  message("Done at ", format(Sys.time(), format = "%F %R %Z"))
-}
+
+  +message("Done at ", format(Sys.time(), format = "%F %R %Z"))
+ }

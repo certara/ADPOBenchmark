@@ -19,6 +19,7 @@ GetNMParms <- function(xml_file){
    iterations_children <- xml_children(iterations_node)[[2]]
    iterations <- as.integer(xml_attr(iterations_children,"iteration"))
   }
+
 messages_node <- xml_find_all(data, "//nm:termination_txtmsg")
 messages_children <- xml_children(messages_node)
 message_contents <- xml_contents(messages_node)
@@ -157,6 +158,7 @@ OFV <-   xml_find_all(data, "//nm:final_objective_function")  %>%
 Max_Eigen <- xml_find_all(data, "//nm:covariance_status")
 return(list(
   OFV = OFV,
+  status = status,
   theta = theta,
   omega = omega,
   sigma = sigma,
