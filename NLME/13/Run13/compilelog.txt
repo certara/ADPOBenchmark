@@ -1,0 +1,21 @@
+WORKING_DIR=D:/git/ADPOBenchmark/GEN241019114638.32/Shared, MPIFLAG=MPINO, LOCAL_HOST=NO, NUM_NODES=1, SHARED_DRIVE=
+model=test.mdl, nlmeDir=D:/NLME_Engine_noHessian
+---------------------
+> md .\Work
+---------------------
+Translating...
+---------------------
+> "D:/NLME_Engine_noHessian\TDL5.exe" /hash 1770978959 /L .\test.mdl .\Work 1> log.txt 2>&1
+---------------------
+Compiling...
+---------------------
+> "C:/PHSTMinGW64/\bin\gcc.exe" -std=c++11 -m64 -I"D:/NLME_Engine_noHessian" -malign-double -fverbose-asm -c -O3 .\Work\Model.cpp
+---------------------
+---------------------
+> move /y Model.o .\Work
+---------------------
+        1 file(s) moved.
+Linking...
+---------------------
+> "C:/PHSTMinGW64/\bin\gfortran.exe" -O3 --enable-stdcall-fixup -static .\Work\Model.o "D:/NLME_Engine_noHessian\libNLME7.a" "D:/NLME_Engine_noHessian\libcrlibm.a" "D:/NLME_Engine_noHessian\libNLME7_FORT.a" "D:/NLME_Engine_noHessian\libLAPACK.a" "D:/NLME_Engine_noHessian\libBLAS.a" "D:/NLME_Engine_noHessian\libMPI_STUB.a" -lstdc++ -o NLME7.exe
+---------------------
