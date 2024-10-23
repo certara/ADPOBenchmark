@@ -1,10 +1,9 @@
  ELS FOCE/Laplace engine log file 
- MAX ITERS =        1000
-
+ MAX ITERS =        9999
 
 
  Model evaluation ODE level used:
-  3=DVERK non-stiff
+  13=DVERK non-stiff, C++
 
  Other flags and run conditions/tolerances:
 
@@ -26,11 +25,16 @@
          7  NDIGITlagl 
  0.200E-02  tolmodlinz 
  0.100E-01  tolstderr  
+ 0.200E-03  GradTolOuter  
+ 0.100E-03  StepTolOuter  
+ 0.171E-04  GradTolInner  
+ 0.707E-07  StepTolInner  
+ 0.100E-02  RefDeltaLAGL
          0  NREP_PCWRES
          1  NPRESAMPLE 
          0  NGETMAPNP  
-           0  iflaganagrad
-           3  iodelevelused
+           1  iflaganagrad
+          13  iodelevelused
            1  iflagstderr 
            3  iflagwhichstderr
 
@@ -48,131 +52,293 @@
   0.11000000E+01        9   1 THETA
   0.50000000E+00        1   1 EPS_STD_DEV
   0.25000000E+00        1   1 EPS_VARIANCE
-  0.31000000E+00        1   1 OMEGA
-  0.10000000E+00        2   1 OMEGA
-  0.31000000E+00        2   2 OMEGA
-  0.10000000E+00        3   1 OMEGA
-  0.10000000E+00        3   2 OMEGA
-  0.31000000E+00        3   3 OMEGA
-  0.36911594E+04        1   1 -LOGLIKE
-  0.65001379E+04        1   1 ELSOBJ  
+  0.10000000E+00        1   1 OMEGA
+  0.50000000E-01        2   1 OMEGA
+  0.10000000E+00        2   2 OMEGA
+  0.50000000E-01        3   1 OMEGA
+  0.50000000E-01        3   2 OMEGA
+  0.10000000E+00        3   3 OMEGA
+  0.37765043E+04        1   1 -LOGLIKE
+  0.66708276E+04        1   1 ELSOBJ  
 
  Total # Subjects     =          60
  Total # Observations =         480
 
 
  FOCE Hessian approximation used
-iteration =     1    LL value =    3651.4026    
-iteration =     2    LL value =    3610.5195    
-iteration =     3    LL value =    3574.6527    
-iteration =     4    LL value =    3547.7028    
-iteration =     5    LL value =    3532.0032    
-iteration =     6    LL value =    3523.8625    
-iteration =     7    LL value =    3516.8187    
-iteration =     8    LL value =    3510.2790    
-iteration =     9    LL value =    3477.9588    
-iteration =    10    LL value =    3472.2549    
-iteration =    11    LL value =    3469.0430    
-iteration =    12    LL value =    3467.1599    
-iteration =    13    LL value =    3466.9650    
-iteration =    14    LL value =    3466.5008    
-iteration =    15    LL value =    3464.6066    
-iteration =    16    LL value =    3461.8578    
-iteration =    17    LL value =    3461.0442    
-iteration =    18    LL value =    3460.1717    
-iteration =    19    LL value =    3459.3001    
-iteration =    20    LL value =    3458.2770    
-iteration =    21    LL value =    3457.2923    
-iteration =    22    LL value =    3456.4304    
-iteration =    23    LL value =    3456.3427    
-iteration =    24    LL value =    3455.6688    
-iteration =    26    LL value =    3455.4237    
-iteration =    27    LL value =    3455.1772    
-iteration =    28    LL value =    3454.9287    
-iteration =    29    LL value =    3454.1452    
-iteration =    30    LL value =    3453.2171    
-iteration =    31    LL value =    3452.4720    
-iteration =    32    LL value =    3451.5840    
-iteration =    33    LL value =    3451.1415    
-iteration =    34    LL value =    3448.2331    
-iteration =    35    LL value =    3447.5213    
-iteration =    36    LL value =    3447.3831    
-iteration =    37    LL value =    3446.9845    
-iteration =    38    LL value =    3446.5226    
-iteration =    39    LL value =    3446.4544    
-iteration =    40    LL value =    3446.4513    
-iteration =    41    LL value =    3446.4196    
-iteration =    42    LL value =    3446.4133    
-iteration =    43    LL value =    3446.3909    
-iteration =    44    LL value =    3446.3442    
-iteration =    45    LL value =    3446.3183    
-iteration =    46    LL value =    3446.3133    
-iteration =    48    LL value =    3446.3088    
-iteration =    49    LL value =    3446.2770    
-iteration =    50    LL value =    3446.2579    
-iteration =    51    LL value =    3446.1959    
-iteration =    52    LL value =    3446.1029    
+iteration = 1 LL value =    3563.6378    
+iteration = 2 LL value =    3545.9184    
+iteration = 3 LL value =    3516.8703    
+iteration = 4 LL value =    3464.7170    
+iteration = 5 LL value =    3451.2916    
+iteration = 6 LL value =    3448.2402    
+iteration = 7 LL value =    3445.3660    
+iteration = 8 LL value =    3442.8382    
+iteration = 9 LL value =    3441.9152    
+iteration = 10 LL value =    3441.2968    
+iteration = 11 LL value =    3440.7424    
+iteration = 12 LL value =    3439.7050    
+iteration = 13 LL value =    3437.7152    
+iteration = 14 LL value =    3437.0834    
+iteration = 15 LL value =    3435.8879    
+iteration = 16 LL value =    3435.4900    
+iteration = 17 LL value =    3435.2696    
+iteration = 18 LL value =    3434.9908    
+iteration = 19 LL value =    3434.7762    
+iteration = 20 LL value =    3434.5566    
+iteration = 21 LL value =    3433.7113    
+iteration = 22 LL value =    3432.9887    
+iteration = 23 LL value =    3431.9519    
+iteration = 24 LL value =    3431.9040    
+iteration = 25 LL value =    3431.7164    
+iteration = 26 LL value =    3431.3573    
+iteration = 27 LL value =    3430.4739    
+iteration = 28 LL value =    3429.5829    
+iteration = 29 LL value =    3428.7646    
+iteration = 30 LL value =    3428.1613    
+iteration = 31 LL value =    3427.5616    
+iteration = 32 LL value =    3427.3768    
+iteration = 33 LL value =    3427.0984    
+iteration = 34 LL value =    3426.9256    
+iteration = 35 LL value =    3426.7731    
+iteration = 36 LL value =    3426.5501    
+iteration = 37 LL value =    3426.5396    
+iteration = 38 LL value =    3426.5139    
+iteration = 39 LL value =    3426.4098    
+iteration = 40 LL value =    3426.0767    
+iteration = 41 LL value =    3425.5445    
+iteration = 42 LL value =    3425.0911    
+iteration = 43 LL value =    3424.9188    
+iteration = 44 LL value =    3424.8931    
+iteration = 45 LL value =    3424.8853    
+iteration = 46 LL value =    3424.8853    
+iteration = 47 LL value =    3424.8607    
+iteration = 48 LL value =    3424.8186    
+iteration = 49 LL value =    3424.7218    
+iteration = 50 LL value =    3424.6832    
+iteration = 51 LL value =    3424.6465    
+iteration = 52 LL value =    3424.6234    
+iteration = 53 LL value =    3424.6014    
+iteration = 54 LL value =    3424.5916    
+iteration = 55 LL value =    3424.5451    
+iteration = 56 LL value =    3424.4546    
+iteration = 57 LL value =    3424.3217    
+iteration = 58 LL value =    3424.3159    
+iteration = 59 LL value =    3424.2905    
+iteration = 60 LL value =    3424.2539    
+iteration = 61 LL value =    3424.2154    
+iteration = 62 LL value =    3424.1704    
+iteration = 63 LL value =    3424.1483    
+iteration = 64 LL value =    3424.1421    
+iteration = 65 LL value =    3424.1335    
+iteration = 66 LL value =    3424.1305    
+iteration = 67 LL value =    3424.1301    
+iteration = 68 LL value =    3424.1297    
+iteration = 69 LL value =    3424.1297    
+iteration = 70 LL value =    3424.1296    
+iteration = 71 LL value =    3424.1296    
+iteration = 72 LL value =    3424.1290    
+iteration = 73 LL value =    3424.1279    
+iteration = 74 LL value =    3424.1263    
+iteration = 75 LL value =    3424.1243    
+iteration = 76 LL value =    3424.1226    
+iteration = 77 LL value =    3424.1222    
+iteration = 78 LL value =    3424.1222    
+iteration = 79 LL value =    3424.1222    
+iteration = 80 LL value =    3424.1212    
+iteration = 81 LL value =    3424.1181    
+iteration = 82 LL value =    3424.1164    
+iteration = 83 LL value =    3424.1146    
+iteration = 84 LL value =    3424.1126    
+iteration = 85 LL value =    3424.1094    
+iteration = 86 LL value =    3424.1076    
+iteration = 87 LL value =    3424.1052    
+iteration = 88 LL value =    3424.1012    
+iteration = 89 LL value =    3424.0988    
+iteration = 90 LL value =    3424.0950    
+iteration = 91 LL value =    3424.0937    
+iteration = 92 LL value =    3424.0933    
+iteration = 93 LL value =    3424.0923    
+iteration = 94 LL value =    3424.0918    
+iteration = 95 LL value =    3424.0918    
  Main umdriver optimization for engine 5 terminated
- ITRMCD exit code from umdriver =            7
+ ITRMCD exit code from umdriver =            3
  1,2,3 = probable success, 4 = maxiterations reached
  7 = Linesearch failed to find any good gradient to move
 
  Starting std error computation
 
+ Hessian based std error successful
+ Standard errors of estimated parameters
+
+internal_coords     Param       Param_val         Std_err     rel_std_err
+
+       1            GAMMA    0.217044E+01    0.192863E+00    0.888590E-01
+       2       CMultStdev    0.499814E+00    0.229712E-01    0.459596E-01
+       3           tvVmax    0.229135E+04    0.253711E+03    0.110726E+00
+       4             tvKm    0.473253E+03    0.638730E+02    0.134966E+00
+       5              tvV    0.637049E+02    0.482591E+01    0.757540E-01
+       6             tvKa    0.138952E+01    0.128078E+00    0.921741E-01
+       7              K12    0.124220E+01    0.267350E+00    0.215224E+00
+       8              K21    0.681956E+01    0.144214E+01    0.211470E+00
+       9            dVdWT    0.110599E+01    0.195327E+00    0.176608E+00
+      10             CEps    0.494740E+00    0.581320E+00    0.117500E+01
+      11            nVmax    0.460821E+00    0.675483E-01    0.146582E+00
+      12         nVmaxnKm   -0.643126E-01    0.698755E-01    0.108650E+01
+      13              nKm    0.422683E+00    0.421526E-01    0.997262E-01
+      14          nVmaxnV    0.442216E+00    0.722431E-01    0.163366E+00
+      15            nKmnV    0.549550E-01    0.536975E-01    0.977116E+00
+      16               nV    0.401009E+00    0.441763E-01    0.110163E+00
+
+
+external_coords     Param       Param_val         Std_err     rel_std_err
+
+       1            GAMMA    0.217044E+01    0.192863E+00    0.888590E-01
+       2       CMultStdev    0.499814E+00    0.229712E-01    0.459596E-01
+       3           tvVmax    0.229135E+04    0.253711E+03    0.110726E+00
+       4             tvKm    0.473253E+03    0.638730E+02    0.134966E+00
+       5              tvV    0.637049E+02    0.482591E+01    0.757540E-01
+       6             tvKa    0.138952E+01    0.128078E+00    0.921741E-01
+       7              K12    0.124220E+01    0.267350E+00    0.215224E+00
+       8              K21    0.681956E+01    0.144214E+01    0.211470E+00
+       9            dVdWT    0.110599E+01    0.195327E+00    0.176608E+00
+      10             CEps    0.494740E+00    0.581320E+00    0.117500E+01
+      11            nVmax    0.212356E+00    0.622553E-01    0.293165E+00
+      12         nVmaxnKm   -0.296366E-01    0.325663E-01    0.109886E+01
+      13              nKm    0.182797E+00    0.365685E-01    0.200050E+00
+      14          nVmaxnV    0.203782E+00    0.538807E-01    0.264403E+00
+      15            nKmnV   -0.521150E-02    0.368595E-01    0.707272E+01
+      16               nV    0.359383E+00    0.673479E-01    0.187399E+00
+
+
+ Score based  std error successful
+ Standard errors of estimated parameters
+
+internal_coords     Param       Param_val         Std_err     rel_std_err
+
+       1            GAMMA    0.217044E+01    0.365453E+00    0.168377E+00
+       2       CMultStdev    0.499814E+00    0.351462E-01    0.703187E-01
+       3           tvVmax    0.229135E+04    0.630590E+03    0.275205E+00
+       4             tvKm    0.473253E+03    0.156907E+03    0.331550E+00
+       5              tvV    0.637049E+02    0.960269E+02    0.150737E+01
+       6             tvKa    0.138952E+01    0.699075E+00    0.503105E+00
+       7              K12    0.124220E+01    0.167433E+02    0.134788E+02
+       8              K21    0.681956E+01    0.464367E+02    0.680935E+01
+       9            dVdWT    0.110599E+01    0.427869E+00    0.386865E+00
+      10             CEps    0.494740E+00    0.873091E+01    0.176475E+02
+      11            nVmax    0.460821E+00    0.226192E+00    0.490846E+00
+      12         nVmaxnKm   -0.643126E-01    0.205099E+00    0.318910E+01
+      13              nKm    0.422683E+00    0.612293E-01    0.144859E+00
+      14          nVmaxnV    0.442216E+00    0.259258E+00    0.586270E+00
+      15            nKmnV    0.549550E-01    0.100089E+00    0.182129E+01
+      16               nV    0.401009E+00    0.735762E-01    0.183478E+00
+
+
+external_coords     Param       Param_val         Std_err     rel_std_err
+
+       1            GAMMA    0.217044E+01    0.365453E+00    0.168377E+00
+       2       CMultStdev    0.499814E+00    0.351462E-01    0.703187E-01
+       3           tvVmax    0.229135E+04    0.630590E+03    0.275205E+00
+       4             tvKm    0.473253E+03    0.156907E+03    0.331550E+00
+       5              tvV    0.637049E+02    0.960269E+02    0.150737E+01
+       6             tvKa    0.138952E+01    0.699075E+00    0.503105E+00
+       7              K12    0.124220E+01    0.167433E+02    0.134788E+02
+       8              K21    0.681956E+01    0.464367E+02    0.680935E+01
+       9            dVdWT    0.110599E+01    0.427869E+00    0.386865E+00
+      10             CEps    0.494740E+00    0.873091E+01    0.176475E+02
+      11            nVmax    0.212356E+00    0.208468E+00    0.981693E+00
+      12         nVmaxnKm   -0.296366E-01    0.939632E-01    0.317051E+01
+      13              nKm    0.182797E+00    0.540914E-01    0.295910E+00
+      14          nVmaxnV    0.203782E+00    0.211605E+00    0.103839E+01
+      15            nKmnV   -0.521150E-02    0.100436E+00    0.192720E+02
+      16               nV    0.359383E+00    0.194677E+00    0.541698E+00
+
+
  Auto-detect: selecting appropriate type of STDERR:
- Auto-detect: Both Score and Hessian failed
+ Auto-detect: Sandwich is chosen since both Score and Hessian succeeded
 
- Warning: Hessian based standard error
- computation failed in Cholesky factorization step
- of numerical Hessian of -2LL function
- infohess from dpotrf =          -5
- bad NaN value in starting Hessian
+ Sandwich based std error successful
+ Standard errors of estimated parameters
 
- Warning: Score based standard error
- computation failed in Cholesky factorization step
- of score information matrix
- infoscore from dpotrf =           7
+internal_coords     Param       Param_val         Std_err     rel_std_err
+
+       1            GAMMA    0.217044E+01    0.181427E+00    0.835900E-01
+       2       CMultStdev    0.499814E+00    0.192510E-01    0.385164E-01
+       3           tvVmax    0.229135E+04    0.174903E+03    0.763318E-01
+       4             tvKm    0.473253E+03    0.391341E+02    0.826916E-01
+       5              tvV    0.637049E+02    0.324666E+01    0.509640E-01
+       6             tvKa    0.138952E+01    0.102604E+00    0.738414E-01
+       7              K12    0.124220E+01    0.222114E-01    0.178807E-01
+       8              K21    0.681956E+01    0.141309E+00    0.207212E-01
+       9            dVdWT    0.110599E+01    0.999640E-01    0.903841E-01
+      10             CEps    0.494740E+00    0.219678E+00    0.444027E+00
+      11            nVmax    0.460821E+00    0.350654E-01    0.760934E-01
+      12         nVmaxnKm   -0.643126E-01    0.307502E-01    0.478136E+00
+      13              nKm    0.422683E+00    0.398638E-01    0.943113E-01
+      14          nVmaxnV    0.442216E+00    0.330333E-01    0.746994E-01
+      15            nKmnV    0.549550E-01    0.429560E-01    0.781657E+00
+      16               nV    0.401009E+00    0.448419E-01    0.111823E+00
+
+
+external_coords     Param       Param_val         Std_err     rel_std_err
+
+       1            GAMMA    0.217044E+01    0.181427E+00    0.835900E-01
+       2       CMultStdev    0.499814E+00    0.192510E-01    0.385164E-01
+       3           tvVmax    0.229135E+04    0.174903E+03    0.763318E-01
+       4             tvKm    0.473253E+03    0.391341E+02    0.826916E-01
+       5              tvV    0.637049E+02    0.324666E+01    0.509640E-01
+       6             tvKa    0.138952E+01    0.102604E+00    0.738414E-01
+       7              K12    0.124220E+01    0.222114E-01    0.178807E-01
+       8              K21    0.681956E+01    0.141309E+00    0.207212E-01
+       9            dVdWT    0.110599E+01    0.999640E-01    0.903841E-01
+      10             CEps    0.494740E+00    0.219678E+00    0.444027E+00
+      11            nVmax    0.212356E+00    0.323178E-01    0.152187E+00
+      12         nVmaxnKm   -0.296366E-01    0.142808E-01    0.481863E+00
+      13              nKm    0.182797E+00    0.338440E-01    0.185145E+00
+      14          nVmaxnV    0.203782E+00    0.189720E-01    0.930994E-01
+      15            nKmnV   -0.521150E-02    0.193954E-01    0.372166E+01
+      16               nV    0.359383E+00    0.505640E-01    0.140697E+00
+
 
  Engine Convergence Summary:
+ Convergence achieved
 
- Convergence failed
+ ITRMCD value on last iteration =           3
+ NLME7 return code=           3
 
- ITRMCD value on last iteration=           7
- NLME7 return code=           7
+ Optimal parameters:
 
-  0.10897994E+01        1   1 THETA        BOUNDS:   0.100E-03  0.300E+01
-  0.53497066E+00        2   1 THETA        BOUNDS:   0.000E+00  0.100+101
-  0.10746920E+05        3   1 THETA        BOUNDS:   0.100E+03  0.100+101
-  0.47605003E+04        4   1 THETA        BOUNDS:   0.100E+03  0.100+101
-  0.47173055E+02        5   1 THETA        BOUNDS:   0.100E+01  0.100+101
-  0.13542428E+01        6   1 THETA        BOUNDS:   0.100E-01  0.300E+01
-  0.42625755E+01        7   1 THETA        BOUNDS:   0.100E-03  0.100E+02
-  0.62924415E+01        8   1 THETA        BOUNDS:   0.100E-03  0.100E+02
-  0.77540431E+00        9   1 THETA        BOUNDS:   0.000E+00  0.100E+02
-  0.10117950E+01        1   1 EPS_STD_DEV  BOUNDS:   0.100E-02  0.100+101
-  0.10237291E+01        1   1 EPS_VARIANCE
-  0.54964075E-03        1   1 OMEGA
- -0.95365327E-03        2   1 OMEGA
-  0.21230471E+00        2   2 OMEGA
-  0.27276522E-03        3   1 OMEGA
- -0.69912063E-01        3   2 OMEGA
-  0.10926205E+00        3   3 OMEGA
-  0.34461028E+04        1   1 -LOGLIKE
-  0.60100245E+04        1   1 ELSOBJ  
+  0.21704437E+01        1   1 THETA        BOUNDS:   0.000E+00  0.100+101
+  0.49981353E+00        2   1 THETA        BOUNDS:   0.000E+00  0.100+101
+  0.22913460E+04        3   1 THETA        BOUNDS:   0.100E+03  0.100+101
+  0.47325299E+03        4   1 THETA        BOUNDS:   0.100E+03  0.100+101
+  0.63704933E+02        5   1 THETA        BOUNDS:   0.100E+01  0.100+101
+  0.13895208E+01        6   1 THETA        BOUNDS:   0.100E-01  0.300E+01
+  0.12421950E+01        7   1 THETA        BOUNDS:   0.100E-03  0.100+101
+  0.68195602E+01        8   1 THETA        BOUNDS:   0.100E-03  0.100+101
+  0.11059906E+01        9   1 THETA        BOUNDS:   0.000E+00  0.100+101
+  0.49473951E+00        1   1 EPS_STD_DEV  BOUNDS:   0.100E-02  0.100+101
+  0.24476718E+00        1   1 EPS_VARIANCE
+  0.21235591E+00        1   1 OMEGA
+ -0.29636601E-01        2   1 OMEGA
+  0.18279712E+00        2   2 OMEGA
+  0.20378230E+00        3   1 OMEGA
+ -0.52114979E-02        3   2 OMEGA
+  0.35938284E+00        3   3 OMEGA
+  0.34240918E+04        1   1 -LOGLIKE
+  0.59660027E+04        1   1 ELSOBJ  
  
  EPSILON SHRINKAGES
-  Epsilon shrinkage for CEps =     0.105677
+  Epsilon shrinkage for CEps =     0.130804
 
  ETA SHRINKAGES
-   eta-shrinkage( 1) =          0.89720
-   eta-shrinkage( 2) =          0.11732
-   eta-shrinkage( 3) =          0.14553
+   eta-shrinkage( 1) =          0.41094
+   eta-shrinkage( 2) =          0.13224
+   eta-shrinkage( 3) =          0.20192
 
  RUNTIMES
 
-   engine runtime (secs) =   2762.703
-   stderr runtime (secs) =   2342.656
+   engine runtime (secs) =   1453.922
+   stderr runtime (secs) =    494.781
 
- EXITCODE            7
- Linesearch failed using central difference gradient or central difference gradient failed.
- Function value was out of range.
+ EXITCODE            3

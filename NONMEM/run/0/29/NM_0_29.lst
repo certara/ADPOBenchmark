@@ -1,30 +1,31 @@
-Sun 09/08/2024 
-03:51 PM
+Sat 10/05/2024 
+07:23 AM
+$SIZES MAXFCN = 5000000
 $PROBLEM    Dual Numbers benchmark
 $INPUT       ID TIME AMT DV WT
   ;; $DATA      c:/git/adpoBenchmark/data/sim_1_4_1_0.csv IGNORE=@
-$DATA      D:/git/adpoBenchmark/data/sim_1_4_1_0.csv IGNORE=@
+$DATA      d:/git/adpobenchmark/data/sim_1_4_1_0.csv IGNORE=@
 
-$SUBROUTINE ADVAN6 TOL=7 
+$SUBROUTINE ADVAN6 TOL=7
 $MODEL
   COMP=(DEPOT,DEFDOSE)
   COMP=(CENTRAL,NODOSE,DEFOBS)
   COMP=(PERI,NODOSE)
-$PK      
-  CWT = WT/70 
+$PK
+  CWT = WT/70
 
-  TVVMAX= THETA(1)   
+  TVVMAX= THETA(1)
   VMAX=TVVMAX*EXP(ETA(1)) 
   TVKM = THETA(2)
-  KM = TVKM  
+  KM = TVKM 
   TVV2=THETA(3) *CWT**THETA(5)
-  V2=TVV2 *EXP(ETA(2))    
-  TVKA=THETA(4) 
-  KA=TVKA   
+  V2=TVV2 *EXP(ETA(2)) 
+  TVKA=THETA(4)
+  KA=TVKA 
   K23=THETA(6)
   K32=THETA(7)
   SC = V2
-$ERROR    
+$ERROR
   IPRED = F
   Y=F*EXP(EPS(2)) + EPS(1)
 $DES
@@ -33,21 +34,21 @@ $DES
   DADT(2) =  KA*A(1)-VMAX*CONC/(KM+CONC) -K23*A(2)+K32*A(3)
   DADT(3) = K23*A(2)-K32*A(3)
 
-$THETA   
+$THETA
   (100,4000)	; THETA(1) VMAX UNITS =  MG/HR
   (100,4000)	; THETA(2) KM UNITS =  CONC
   (0,50) 	; THETA(3) V  UNITS = L
-  (0,1.2) 	; THETA(4) KA UNITS = 1/HR    
+  (0,1.2) 	; THETA(4) KA UNITS = 1/HR
 
   (0,1.1) 	;; THETA(5) V~WT
-  (0,2)	 ;; THETA(6) K23
-  (0,3)	 ;; THETA(7) K32
-; empty $OMEGA    
+  (0.0001,2)	 ;; THETA(6) K23
+  (0.0001,3)	 ;; THETA(7) K32
+; empty $OMEGA
 $OMEGA BLOCK(2)
-  0.3		; ETA(1) ETA ON VMAX
-  0.1 0.3		; ETA(2) ETA ON V2
+  0.1		; ETA(1) ETA ON VMAX
+  0.05 0.1		; ETA(2) ETA ON V2
 
-$SIGMA     
+$SIGMA
   (1) ;; EPS(1) ADDITIVE
   (0.3) ;; EPS(2) PROPORTIONAL
   ;;$EST METHOD=COND INTER MAXEVALS=9999 NOHABORT NOOMEGABOUNDTEST NOSIGMABOUNDTEST NOTHETABOUNDTEST
@@ -55,6 +56,7 @@ $SIGMA
   ;;; Model Identifier =  1,4,1,0
 
 $TABLE ID TIME IPRED DV NOAPPEND ONEHEADER NOPRINT FILE= Run1Preds.dat
+
 ;; Phenotype: ([('COMP', 1), ('ETAs', 4), ('V~WT', 1), ('GAMMA', 0)])
 ;; Genotype: [1, 4, 1, 0]
 ;; Num non-influential tokens: 0
@@ -67,8 +69,8 @@ NM-TRAN MESSAGES
   
 License Registered to: Certara USA
 Expiration Date:    14 MAR 2025
-Current Date:        8 SEP 2024
-Days until program expires : 191
+Current Date:        5 OCT 2024
+Days until program expires : 164
 1NONLINEAR MIXED EFFECTS MODEL PROGRAM (NONMEM) VERSION 7.4.3
  ORIGINALLY DEVELOPED BY STUART BEAL, LEWIS SHEINER, AND ALISON BOECKMANN
  CURRENT DEVELOPERS ARE ROBERT BAUER, ICON DEVELOPMENT SOLUTIONS,
@@ -111,13 +113,13 @@ Days until program expires : 191
   0.0000E+00     0.5000E+02     0.1000E+07
   0.0000E+00     0.1200E+01     0.1000E+07
   0.0000E+00     0.1100E+01     0.1000E+07
-  0.0000E+00     0.2000E+01     0.1000E+07
-  0.0000E+00     0.3000E+01     0.1000E+07
+  0.1000E-03     0.2000E+01     0.1000E+07
+  0.1000E-03     0.3000E+01     0.1000E+07
 0INITIAL ESTIMATE OF OMEGA:
  BLOCK SET NO.   BLOCK                                                                    FIXED
         1                                                                                   NO
-                  0.3000E+00
-                  0.1000E+00   0.3000E+00
+                  0.1000E+00
+                  0.5000E-01   0.1000E+00
 0INITIAL ESTIMATE OF SIGMA:
  0.1000E+01
  0.0000E+00   0.3000E+00
@@ -227,11 +229,11 @@ Days until program expires : 191
  IPRD=NIPRED
  IRS=NIRES
 
- Elapsed evaluation time in seconds:     0.11
+ Elapsed evaluation time in seconds:     0.10
  TOLERANCES FOR TABLE/SCATTER STEP:
  NRD (RELATIVE) VALUE OF TOLERANCE:   7
  ANRD (ABSOLUTE) VALUE OF TOLERANCE:  12
- Elapsed postprocess time in seconds:     0.28
+ Elapsed postprocess time in seconds:     0.10
 1
  
  
@@ -265,7 +267,7 @@ Days until program expires : 191
 
 
 
- #OBJV:********************************************  7503063.418       **************************************************
+ #OBJV:********************************************  8799478.468       **************************************************
 1
  ************************************************************************************************************************
  ********************                                                                                ********************
@@ -291,10 +293,10 @@ Days until program expires : 191
          ETA1      ETA2     
  
  ETA1
-+        3.00E-01
++        1.00E-01
  
  ETA2
-+        1.00E-01  3.00E-01
++        5.00E-02  1.00E-01
  
 
 
@@ -318,10 +320,10 @@ Days until program expires : 191
          ETA1      ETA2     
  
  ETA1
-+        5.48E-01
++        3.16E-01
  
  ETA2
-+        3.33E-01  5.48E-01
++        5.00E-01  3.16E-01
  
 
 
@@ -336,11 +338,11 @@ Days until program expires : 191
  EPS2
 +        0.00E+00  5.48E-01
  
- Elapsed finaloutput time in seconds:     0.05
+ Elapsed finaloutput time in seconds:     0.09
  #CPUT: Total CPU Time in Seconds,        0.313
 Stop Time: 
-Sun 09/08/2024 
-03:52 PM
+Sat 10/05/2024 
+07:24 AM
 OFV = 99999999
 success = False
 covariance = False
@@ -349,4 +351,4 @@ Condition # = 99999999
 Num Non fixed THETAs = 7
 Num Non fixed OMEGAs = 3
 Num Non fixed SIGMAs = 2
-Original run directory = d:/git/adpoBenchmark/nonmem/run\0\29
+Original run directory = d:/git/adpobenchmark/NONMEM/run\0\29

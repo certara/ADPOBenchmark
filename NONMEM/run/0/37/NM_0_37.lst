@@ -1,29 +1,30 @@
-Sun 09/08/2024 
-03:52 PM
+Sat 10/05/2024 
+07:24 AM
+$SIZES MAXFCN = 5000000
 $PROBLEM    Dual Numbers benchmark
 $INPUT       ID TIME AMT DV WT
   ;; $DATA      c:/git/adpoBenchmark/data/sim_0_0_0_1.csv IGNORE=@
-$DATA      D:/git/adpoBenchmark/data/sim_0_0_0_1.csv IGNORE=@
+$DATA      d:/git/adpobenchmark/data/sim_0_0_0_1.csv IGNORE=@
 
-$SUBROUTINE ADVAN6 TOL=7 
+$SUBROUTINE ADVAN6 TOL=7
 $MODEL
   COMP=(DEPOT,DEFDOSE)
   COMP=(CENTRAL,NODOSE,DEFOBS)
 
-$PK      
-  CWT = WT/70 
+$PK
+  CWT = WT/70
 
-  TVVMAX= THETA(1)   
+  TVVMAX= THETA(1)
   VMAX=TVVMAX*EXP(ETA(1)) 
   TVKM = THETA(2)
-  KM = TVKM  
+  KM = TVKM 
   TVV2=THETA(3) 
-  V2=TVV2    
-  TVKA=THETA(4) 
-  KA=TVKA   
+  V2=TVV2 
+  TVKA=THETA(4)
+  KA=TVKA 
 
   SC = V2
-$ERROR    
+$ERROR
   IPRED = F
   Y=F*EXP(EPS(2)) + EPS(1)
 $DES
@@ -32,16 +33,16 @@ $DES
   DADT(2) =  KA*A(1)-VMAX*CONC**THETA(5)/(KM**THETA(5)+CONC**THETA(5)) 
 
 
-$THETA   
+$THETA
   (100,4000)	; THETA(1) VMAX UNITS =  MG/HR
   (100,4000)	; THETA(2) KM UNITS =  CONC
   (0,50) 	; THETA(3) V  UNITS = L
-  (0,1.2) 	; THETA(4) KA UNITS = 1/HR    
-  (0,1.7) 	;; THETA(5) GAMMA
-; empty $OMEGA    
+  (0,1.2) 	; THETA(4) KA UNITS = 1/HR
+  (0,1.6) 	;; THETA(5) GAMMA
+; empty $OMEGA
 $OMEGA  
-  0.3		; ETA(1) ETA ON VMAX
-$SIGMA     
+  0.1		; ETA(1) ETA ON VMAX
+$SIGMA
   (1) ;; EPS(1) ADDITIVE
   (0.3) ;; EPS(2) PROPORTIONAL
   ;;$EST METHOD=COND INTER MAXEVALS=9999 NOHABORT NOOMEGABOUNDTEST NOSIGMABOUNDTEST NOTHETABOUNDTEST
@@ -49,6 +50,7 @@ $SIGMA
   ;;; Model Identifier =  0,0,0,1
 
 $TABLE ID TIME IPRED DV NOAPPEND ONEHEADER NOPRINT FILE= Run1Preds.dat
+
 ;; Phenotype: ([('COMP', 0), ('ETAs', 0), ('V~WT', 0), ('GAMMA', 1)])
 ;; Genotype: [0, 0, 0, 1]
 ;; Num non-influential tokens: 0
@@ -61,8 +63,8 @@ NM-TRAN MESSAGES
   
 License Registered to: Certara USA
 Expiration Date:    14 MAR 2025
-Current Date:        8 SEP 2024
-Days until program expires : 191
+Current Date:        5 OCT 2024
+Days until program expires : 164
 1NONLINEAR MIXED EFFECTS MODEL PROGRAM (NONMEM) VERSION 7.4.3
  ORIGINALLY DEVELOPED BY STUART BEAL, LEWIS SHEINER, AND ALISON BOECKMANN
  CURRENT DEVELOPERS ARE ROBERT BAUER, ICON DEVELOPMENT SOLUTIONS,
@@ -102,9 +104,9 @@ Days until program expires : 191
   0.1000E+03     0.4000E+04     0.1000E+07
   0.0000E+00     0.5000E+02     0.1000E+07
   0.0000E+00     0.1200E+01     0.1000E+07
-  0.0000E+00     0.1700E+01     0.1000E+07
+  0.0000E+00     0.1600E+01     0.1000E+07
 0INITIAL ESTIMATE OF OMEGA:
- 0.3000E+00
+ 0.1000E+00
 0INITIAL ESTIMATE OF SIGMA:
  0.1000E+01
  0.0000E+00   0.3000E+00
@@ -212,11 +214,11 @@ Days until program expires : 191
  IPRD=NIPRED
  IRS=NIRES
 
- Elapsed evaluation time in seconds:     0.20
+ Elapsed evaluation time in seconds:     0.15
  TOLERANCES FOR TABLE/SCATTER STEP:
  NRD (RELATIVE) VALUE OF TOLERANCE:   7
  ANRD (ABSOLUTE) VALUE OF TOLERANCE:  12
- Elapsed postprocess time in seconds:     0.59
+ Elapsed postprocess time in seconds:     0.64
 1
  
  
@@ -250,7 +252,7 @@ Days until program expires : 191
 
 
 
- #OBJV:********************************************     6876.030       **************************************************
+ #OBJV:********************************************     6922.773       **************************************************
 1
  ************************************************************************************************************************
  ********************                                                                                ********************
@@ -266,7 +268,7 @@ Days until program expires : 191
 
          TH 1      TH 2      TH 3      TH 4      TH 5     
  
-         4.00E+03  4.00E+03  5.00E+01  1.20E+00  1.70E+00
+         4.00E+03  4.00E+03  5.00E+01  1.20E+00  1.60E+00
  
 
 
@@ -276,7 +278,7 @@ Days until program expires : 191
          ETA1     
  
  ETA1
-+        3.00E-01
++        1.00E-01
  
 
 
@@ -300,7 +302,7 @@ Days until program expires : 191
          ETA1     
  
  ETA1
-+        5.48E-01
++        3.16E-01
  
 
 
@@ -316,10 +318,10 @@ Days until program expires : 191
 +        0.00E+00  5.48E-01
  
  Elapsed finaloutput time in seconds:     0.07
- #CPUT: Total CPU Time in Seconds,        0.375
+ #CPUT: Total CPU Time in Seconds,        0.422
 Stop Time: 
-Sun 09/08/2024 
-03:53 PM
+Sat 10/05/2024 
+07:25 AM
 OFV = 99999999
 success = False
 covariance = False
@@ -328,4 +330,4 @@ Condition # = 99999999
 Num Non fixed THETAs = 5
 Num Non fixed OMEGAs = 1
 Num Non fixed SIGMAs = 2
-Original run directory = d:/git/adpoBenchmark/nonmem/run\0\37
+Original run directory = d:/git/adpobenchmark/NONMEM/run\0\37

@@ -5,12 +5,13 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 xsi:schemaLocation="http://namespaces.oreilly.com/xmlnut/address output.xsd"
 xmlns:nm="http://namespaces.oreilly.com/xmlnut/address"
 >
-<nm:start_datetime>2024-09-08T15:47:57.455</nm:start_datetime>
+<nm:start_datetime>2024-10-05T07:20:29.882</nm:start_datetime>
 <nm:control_stream><![CDATA[
+$SIZES MAXFCN = 5000000
 $PROBLEM    Dual Numbers benchmark
 $INPUT       ID TIME AMT DV WT
   ;; $DATA      c:/git/adpoBenchmark/data/sim_0_3_0_0.csv IGNORE=@
-$DATA      D:/git/adpoBenchmark/data/sim_0_3_0_0.csv IGNORE=@
+$DATA      d:/git/adpobenchmark/data/sim_0_3_0_0.csv IGNORE=@
 
 $SUBROUTINE ADVAN6 TOL=7
 $MODEL
@@ -46,10 +47,10 @@ $THETA
   (0,1.2) 	; THETA(4) KA UNITS = 1/HR
 ; empty $OMEGA
 $OMEGA
-  0.3		; ETA(1) ETA ON VMAX
-  0.3		; ETA(2) ETA ON KM
-  0.3		; ETA(3) ETA ON V2
-  0.3		; ETA(4) ETA ON KA
+  0.1		; ETA(1) ETA ON VMAX
+  0.1		; ETA(2) ETA ON KM
+  0.1		; ETA(3) ETA ON V2
+  0.1		; ETA(4) ETA ON KA
 $SIGMA
   (1) ;; EPS(1) ADDITIVE
   (0.3) ;; EPS(2) PROPORTIONAL
@@ -58,6 +59,7 @@ $SIGMA
   ;;; Model Identifier =  0,3,0,0
 
 $TABLE ID TIME IPRED DV NOAPPEND ONEHEADER NOPRINT FILE= Run1Preds.dat
+
 ;; Phenotype: ([('COMP', 0), ('ETAs', 3), ('V~WT', 0), ('GAMMA', 0)])
 ;; Genotype: [0, 3, 0, 0]
 ;; Num non-influential tokens: 0
@@ -72,8 +74,8 @@ $TABLE ID TIME IPRED DV NOAPPEND ONEHEADER NOPRINT FILE= Run1Preds.dat
 <nm:license_information><![CDATA[
 License Registered to: Certara USA
 Expiration Date:    14 MAR 2025
-Current Date:        8 SEP 2024
-Days until program expires : 191
+Current Date:        5 OCT 2024
+Days until program expires : 164
 ]]></nm:license_information>
 <nm:program_information><![CDATA[
 1NONLINEAR MIXED EFFECTS MODEL PROGRAM (NONMEM) VERSION 7.4.3
@@ -138,10 +140,10 @@ Days until program expires : 191
   0.0000E+00     0.5000E+02     0.1000E+07
   0.0000E+00     0.1200E+01     0.1000E+07
 0INITIAL ESTIMATE OF OMEGA:
- 0.3000E+00
- 0.0000E+00   0.3000E+00
- 0.0000E+00   0.0000E+00   0.3000E+00
- 0.0000E+00   0.0000E+00   0.0000E+00   0.3000E+00
+ 0.1000E+00
+ 0.0000E+00   0.1000E+00
+ 0.0000E+00   0.0000E+00   0.1000E+00
+ 0.0000E+00   0.0000E+00   0.0000E+00   0.1000E+00
 0INITIAL ESTIMATE OF SIGMA:
  0.1000E+01
  0.0000E+00   0.3000E+00
@@ -251,9 +253,9 @@ Days until program expires : 191
  nm:etastype='0' nm:noninfeta='0' nm:file='nm_0_04.ext' nm:notitle='0' nm:nolabel='0' nm:format='s1pe12.5'
  nm:order='tsol' nm:wishtype='0' nm:knuthsumoff='0' nm:lntwopi='0' nm:priorc='0' nm:olntwopi='0' nm:ctype='0'
 />
-<nm:estimation_elapsed_time>0.05</nm:estimation_elapsed_time>
+<nm:estimation_elapsed_time>0.04</nm:estimation_elapsed_time>
 <nm:final_objective_function_text>MINIMUM VALUE OF OBJECTIVE FUNCTION</nm:final_objective_function_text>
-<nm:final_objective_function>6712.9423665681397</nm:final_objective_function>
+<nm:final_objective_function>6680.0438883590068</nm:final_objective_function>
 <nm:theta>
 <nm:val nm:name='1'>4000.0000000000000</nm:val>
 <nm:val nm:name='2'>4000.0000000000000</nm:val>
@@ -262,22 +264,22 @@ Days until program expires : 191
 </nm:theta>
 <nm:omega>
 <nm:row nm:rname='1'>
-<nm:col nm:cname='1'>0.29999999999999993</nm:col>
+<nm:col nm:cname='1'>0.10000000000000001</nm:col>
 </nm:row>
 <nm:row nm:rname='2'>
 <nm:col nm:cname='1'>0.0000000000000000</nm:col>
-<nm:col nm:cname='2'>0.29999999999999993</nm:col>
+<nm:col nm:cname='2'>0.10000000000000001</nm:col>
 </nm:row>
 <nm:row nm:rname='3'>
 <nm:col nm:cname='1'>0.0000000000000000</nm:col>
 <nm:col nm:cname='2'>0.0000000000000000</nm:col>
-<nm:col nm:cname='3'>0.29999999999999993</nm:col>
+<nm:col nm:cname='3'>0.10000000000000001</nm:col>
 </nm:row>
 <nm:row nm:rname='4'>
 <nm:col nm:cname='1'>0.0000000000000000</nm:col>
 <nm:col nm:cname='2'>0.0000000000000000</nm:col>
 <nm:col nm:cname='3'>0.0000000000000000</nm:col>
-<nm:col nm:cname='4'>0.29999999999999993</nm:col>
+<nm:col nm:cname='4'>0.10000000000000001</nm:col>
 </nm:row>
 </nm:omega>
 <nm:sigma>
@@ -291,22 +293,22 @@ Days until program expires : 191
 </nm:sigma>
 <nm:omegac>
 <nm:row nm:rname='1'>
-<nm:col nm:cname='1'>0.54772255750516607</nm:col>
+<nm:col nm:cname='1'>0.31622776601683794</nm:col>
 </nm:row>
 <nm:row nm:rname='2'>
 <nm:col nm:cname='1'>0.0000000000000000</nm:col>
-<nm:col nm:cname='2'>0.54772255750516607</nm:col>
+<nm:col nm:cname='2'>0.31622776601683794</nm:col>
 </nm:row>
 <nm:row nm:rname='3'>
 <nm:col nm:cname='1'>0.0000000000000000</nm:col>
 <nm:col nm:cname='2'>0.0000000000000000</nm:col>
-<nm:col nm:cname='3'>0.54772255750516607</nm:col>
+<nm:col nm:cname='3'>0.31622776601683794</nm:col>
 </nm:row>
 <nm:row nm:rname='4'>
 <nm:col nm:cname='1'>0.0000000000000000</nm:col>
 <nm:col nm:cname='2'>0.0000000000000000</nm:col>
 <nm:col nm:cname='3'>0.0000000000000000</nm:col>
-<nm:col nm:cname='4'>0.54772255750516607</nm:col>
+<nm:col nm:cname='4'>0.31622776601683794</nm:col>
 </nm:row>
 </nm:omegac>
 <nm:sigmac>
@@ -321,10 +323,10 @@ Days until program expires : 191
 </nm:estimation>
 <nm:post_process_times>
 <nm:post_elapsed_time>0.04</nm:post_elapsed_time>
-<nm:finaloutput_elapsed_time>0.13</nm:finaloutput_elapsed_time>
+<nm:finaloutput_elapsed_time>0.07</nm:finaloutput_elapsed_time>
 </nm:post_process_times>
 </nm:problem>
 </nm:nonmem>
-<nm:stop_datetime>2024-09-08T15:47:57.727</nm:stop_datetime>
-<nm:total_cputime>0.188</nm:total_cputime>
+<nm:stop_datetime>2024-10-05T07:20:30.107</nm:stop_datetime>
+<nm:total_cputime>0.203</nm:total_cputime>
 </nm:output>

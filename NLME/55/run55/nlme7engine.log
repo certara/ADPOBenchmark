@@ -1,10 +1,9 @@
  ELS FOCE/Laplace engine log file 
- MAX ITERS =        1000
-
+ MAX ITERS =        9999
 
 
  Model evaluation ODE level used:
-  3=DVERK non-stiff
+  13=DVERK non-stiff, C++
 
  Other flags and run conditions/tolerances:
 
@@ -26,11 +25,16 @@
          7  NDIGITlagl 
  0.200E-02  tolmodlinz 
  0.100E-01  tolstderr  
+ 0.200E-03  GradTolOuter  
+ 0.100E-03  StepTolOuter  
+ 0.171E-04  GradTolInner  
+ 0.707E-07  StepTolInner  
+ 0.100E-02  RefDeltaLAGL
          0  NREP_PCWRES
          1  NPRESAMPLE 
          0  NGETMAPNP  
-           0  iflaganagrad
-           3  iodelevelused
+           1  iflaganagrad
+          13  iodelevelused
            1  iflagstderr 
            3  iflagwhichstderr
 
@@ -46,50 +50,45 @@
   0.11000000E+01        7   1 THETA
   0.50000000E+00        1   1 EPS_STD_DEV
   0.25000000E+00        1   1 EPS_VARIANCE
-  0.54700000E+00        1   1 OMEGA
-  0.37503443E+04        1   1 -LOGLIKE
-  0.66185075E+04        1   1 ELSOBJ  
+  0.10000000E+00        1   1 OMEGA
+  0.39593257E+04        1   1 -LOGLIKE
+  0.70364705E+04        1   1 ELSOBJ  
 
  Total # Subjects     =          60
  Total # Observations =         480
 
 
  FOCE Hessian approximation used
-iteration =     1    LL value =    3672.5189    
-iteration =     2    LL value =    3638.2895    
-iteration =     3    LL value =    3540.4588    
-iteration =     4    LL value =    3511.4180    
-iteration =     5    LL value =    3511.3957    
-iteration =     6    LL value =    3471.1392    
-iteration =     7    LL value =    3462.4950    
-iteration =     8    LL value =    3455.2782    
-iteration =     9    LL value =    3451.8039    
-iteration =    10    LL value =    3449.0187    
-iteration =    11    LL value =    3448.4083    
-iteration =    12    LL value =    3447.5561    
-iteration =    13    LL value =    3446.1568    
-iteration =    14    LL value =    3444.1722    
-iteration =    15    LL value =    3441.6747    
-iteration =    16    LL value =    3439.1380    
-iteration =    17    LL value =    3437.8014    
-iteration =    18    LL value =    3435.9096    
-iteration =    19    LL value =    3434.5124    
-iteration =    20    LL value =    3433.1259    
-iteration =    21    LL value =    3432.8029    
-iteration =    22    LL value =    3432.6543    
-iteration =    23    LL value =    3432.5466    
-iteration =    24    LL value =    3432.2856    
-iteration =    25    LL value =    3431.7091    
-iteration =    26    LL value =    3431.1212    
-iteration =    27    LL value =    3430.1438    
-iteration =    28    LL value =    3429.7609    
-iteration =    29    LL value =    3429.6886    
-iteration =    30    LL value =    3429.6833    
-iteration =    31    LL value =    3429.6467    
-iteration =    32    LL value =    3429.6417    
-iteration =    33    LL value =    3429.6416    
-iteration =    34    LL value =    3429.6415    
-iteration =    35    LL value =    3429.6415    
+iteration = 1 LL value =    3906.5189    
+iteration = 2 LL value =    3845.9938    
+iteration = 3 LL value =    3764.4901    
+iteration = 4 LL value =    3658.2661    
+iteration = 5 LL value =    3583.4674    
+iteration = 6 LL value =    3550.4515    
+iteration = 7 LL value =    3499.4628    
+iteration = 8 LL value =    3497.0715    
+iteration = 9 LL value =    3495.9053    
+iteration = 10 LL value =    3493.3893    
+iteration = 11 LL value =    3491.8375    
+iteration = 12 LL value =    3486.7612    
+iteration = 13 LL value =    3459.1260    
+iteration = 14 LL value =    3444.3761    
+iteration = 15 LL value =    3437.8492    
+iteration = 16 LL value =    3433.7748    
+iteration = 17 LL value =    3433.1342    
+iteration = 18 LL value =    3432.6841    
+iteration = 19 LL value =    3432.3330    
+iteration = 20 LL value =    3431.8501    
+iteration = 21 LL value =    3431.3828    
+iteration = 22 LL value =    3430.8190    
+iteration = 23 LL value =    3430.2908    
+iteration = 24 LL value =    3429.8200    
+iteration = 25 LL value =    3429.7856    
+iteration = 26 LL value =    3429.7185    
+iteration = 27 LL value =    3429.6853    
+iteration = 28 LL value =    3429.6418    
+iteration = 29 LL value =    3429.6356    
+iteration = 30 LL value =    3429.6339    
  Main umdriver optimization for engine 5 terminated
  ITRMCD exit code from umdriver =            1
  1,2,3 = probable success, 4 = maxiterations reached
@@ -102,28 +101,28 @@ iteration =    35    LL value =    3429.6415
 
 internal_coords     Param       Param_val         Std_err     rel_std_err
 
-       1            GAMMA    0.182593E+01    0.112717E+00    0.617311E-01
-       2       CMultStdev    0.497375E+00    0.212055E-01    0.426349E-01
-       3           tvVmax    0.308510E+04    0.429260E+03    0.139140E+00
-       4             tvKm    0.692294E+03    0.131380E+03    0.189775E+00
-       5              tvV    0.441708E+02    0.206635E+01    0.467810E-01
-       6             tvKa    0.136291E+01    0.141594E+00    0.103891E+00
-       7            dVdWT    0.950604E+00    0.136193E+00    0.143270E+00
-       8             CEps    0.499601E+00    0.352219E+01    0.705002E+01
-       9            nVmax    0.393754E+00    0.406257E-01    0.103175E+00
+       1            GAMMA    0.182798E+01    0.112955E+00    0.617924E-01
+       2       CMultStdev    0.497358E+00    0.212263E-01    0.426782E-01
+       3           tvVmax    0.307776E+04    0.427773E+03    0.138989E+00
+       4             tvKm    0.689579E+03    0.130711E+03    0.189551E+00
+       5              tvV    0.442028E+02    0.207356E+01    0.469102E-01
+       6             tvKa    0.136445E+01    0.142593E+00    0.104506E+00
+       7            dVdWT    0.952891E+00    0.137358E+00    0.144149E+00
+       8             CEps    0.225458E+00    0.352032E+01    0.156140E+02
+       9            nVmax    0.394037E+00    0.407894E-01    0.103517E+00
 
 
 external_coords     Param       Param_val         Std_err     rel_std_err
 
-       1            GAMMA    0.182593E+01    0.112717E+00    0.617311E-01
-       2       CMultStdev    0.497375E+00    0.212055E-01    0.426349E-01
-       3           tvVmax    0.308510E+04    0.429260E+03    0.139140E+00
-       4             tvKm    0.692294E+03    0.131380E+03    0.189775E+00
-       5              tvV    0.441708E+02    0.206635E+01    0.467810E-01
-       6             tvKa    0.136291E+01    0.141594E+00    0.103891E+00
-       7            dVdWT    0.950604E+00    0.136193E+00    0.143270E+00
-       8             CEps    0.499601E+00    0.352219E+01    0.705002E+01
-       9            nVmax    0.155042E+00    0.319930E-01    0.206351E+00
+       1            GAMMA    0.182798E+01    0.112955E+00    0.617924E-01
+       2       CMultStdev    0.497358E+00    0.212263E-01    0.426782E-01
+       3           tvVmax    0.307776E+04    0.427773E+03    0.138989E+00
+       4             tvKm    0.689579E+03    0.130711E+03    0.189551E+00
+       5              tvV    0.442028E+02    0.207356E+01    0.469102E-01
+       6             tvKa    0.136445E+01    0.142593E+00    0.104506E+00
+       7            dVdWT    0.952891E+00    0.137358E+00    0.144149E+00
+       8             CEps    0.225458E+00    0.352032E+01    0.156140E+02
+       9            nVmax    0.155265E+00    0.321450E-01    0.207033E+00
 
 
  Score based  std error successful
@@ -131,28 +130,28 @@ external_coords     Param       Param_val         Std_err     rel_std_err
 
 internal_coords     Param       Param_val         Std_err     rel_std_err
 
-       1            GAMMA    0.182593E+01    0.940356E-01    0.515000E-01
-       2       CMultStdev    0.497375E+00    0.274750E-01    0.552400E-01
-       3           tvVmax    0.308510E+04    0.357953E+03    0.116027E+00
-       4             tvKm    0.692294E+03    0.106471E+03    0.153795E+00
-       5              tvV    0.441708E+02    0.199972E+01    0.452725E-01
-       6             tvKa    0.136291E+01    0.113976E+00    0.836268E-01
-       7            dVdWT    0.950604E+00    0.146460E+00    0.154070E+00
-       8             CEps    0.499601E+00    0.337406E+02    0.675350E+02
-       9            nVmax    0.393754E+00    0.563080E-01    0.143003E+00
+       1            GAMMA    0.182798E+01    0.940163E-01    0.514319E-01
+       2       CMultStdev    0.497358E+00    0.274285E-01    0.551483E-01
+       3           tvVmax    0.307776E+04    0.354225E+03    0.115092E+00
+       4             tvKm    0.689579E+03    0.105850E+03    0.153499E+00
+       5              tvV    0.442028E+02    0.200048E+01    0.452568E-01
+       6             tvKa    0.136445E+01    0.113848E+00    0.834389E-01
+       7            dVdWT    0.952891E+00    0.143826E+00    0.150936E+00
+       8             CEps    0.225458E+00    0.210161E+02    0.932151E+02
+       9            nVmax    0.394037E+00    0.560826E-01    0.142328E+00
 
 
 external_coords     Param       Param_val         Std_err     rel_std_err
 
-       1            GAMMA    0.182593E+01    0.940356E-01    0.515000E-01
-       2       CMultStdev    0.497375E+00    0.274750E-01    0.552400E-01
-       3           tvVmax    0.308510E+04    0.357953E+03    0.116027E+00
-       4             tvKm    0.692294E+03    0.106471E+03    0.153795E+00
-       5              tvV    0.441708E+02    0.199972E+01    0.452725E-01
-       6             tvKa    0.136291E+01    0.113976E+00    0.836268E-01
-       7            dVdWT    0.950604E+00    0.146460E+00    0.154070E+00
-       8             CEps    0.499601E+00    0.337406E+02    0.675350E+02
-       9            nVmax    0.155042E+00    0.443429E-01    0.286006E+00
+       1            GAMMA    0.182798E+01    0.940163E-01    0.514319E-01
+       2       CMultStdev    0.497358E+00    0.274285E-01    0.551483E-01
+       3           tvVmax    0.307776E+04    0.354225E+03    0.115092E+00
+       4             tvKm    0.689579E+03    0.105850E+03    0.153499E+00
+       5              tvV    0.442028E+02    0.200048E+01    0.452568E-01
+       6             tvKa    0.136445E+01    0.113848E+00    0.834389E-01
+       7            dVdWT    0.952891E+00    0.143826E+00    0.150936E+00
+       8             CEps    0.225458E+00    0.210161E+02    0.932151E+02
+       9            nVmax    0.155265E+00    0.441972E-01    0.284657E+00
 
 
  Auto-detect: selecting appropriate type of STDERR:
@@ -163,28 +162,28 @@ external_coords     Param       Param_val         Std_err     rel_std_err
 
 internal_coords     Param       Param_val         Std_err     rel_std_err
 
-       1            GAMMA    0.182593E+01    0.150905E+00    0.826457E-01
-       2       CMultStdev    0.497375E+00    0.219440E-01    0.441196E-01
-       3           tvVmax    0.308510E+04    0.570324E+03    0.184864E+00
-       4             tvKm    0.692294E+03    0.173684E+03    0.250882E+00
-       5              tvV    0.441708E+02    0.267256E+01    0.605051E-01
-       6             tvKa    0.136291E+01    0.189421E+00    0.138983E+00
-       7            dVdWT    0.950604E+00    0.133393E+00    0.140324E+00
-       8             CEps    0.499601E+00    0.422076E+00    0.844827E+00
-       9            nVmax    0.393754E+00    0.332618E-01    0.844736E-01
+       1            GAMMA    0.182798E+01    0.151363E+00    0.828037E-01
+       2       CMultStdev    0.497358E+00    0.219906E-01    0.442149E-01
+       3           tvVmax    0.307776E+04    0.568652E+03    0.184762E+00
+       4             tvKm    0.689579E+03    0.172947E+03    0.250801E+00
+       5              tvV    0.442028E+02    0.269209E+01    0.609031E-01
+       6             tvKa    0.136445E+01    0.191939E+00    0.140672E+00
+       7            dVdWT    0.952891E+00    0.135749E+00    0.142460E+00
+       8             CEps    0.225458E+00    0.606035E+00    0.268801E+01
+       9            nVmax    0.394037E+00    0.334437E-01    0.848746E-01
 
 
 external_coords     Param       Param_val         Std_err     rel_std_err
 
-       1            GAMMA    0.182593E+01    0.150905E+00    0.826457E-01
-       2       CMultStdev    0.497375E+00    0.219440E-01    0.441196E-01
-       3           tvVmax    0.308510E+04    0.570324E+03    0.184864E+00
-       4             tvKm    0.692294E+03    0.173684E+03    0.250882E+00
-       5              tvV    0.441708E+02    0.267256E+01    0.605051E-01
-       6             tvKa    0.136291E+01    0.189421E+00    0.138983E+00
-       7            dVdWT    0.950604E+00    0.133393E+00    0.140324E+00
-       8             CEps    0.499601E+00    0.422076E+00    0.844827E+00
-       9            nVmax    0.155042E+00    0.261939E-01    0.168947E+00
+       1            GAMMA    0.182798E+01    0.151363E+00    0.828037E-01
+       2       CMultStdev    0.497358E+00    0.219906E-01    0.442149E-01
+       3           tvVmax    0.307776E+04    0.568652E+03    0.184762E+00
+       4             tvKm    0.689579E+03    0.172947E+03    0.250801E+00
+       5              tvV    0.442028E+02    0.269209E+01    0.609031E-01
+       6             tvKa    0.136445E+01    0.191939E+00    0.140672E+00
+       7            dVdWT    0.952891E+00    0.135749E+00    0.142460E+00
+       8             CEps    0.225458E+00    0.606035E+00    0.268801E+01
+       9            nVmax    0.155265E+00    0.263561E-01    0.169749E+00
 
 
  Engine Convergence Summary:
@@ -195,28 +194,28 @@ external_coords     Param       Param_val         Std_err     rel_std_err
 
  Optimal parameters:
 
-  0.18259318E+01        1   1 THETA        BOUNDS:   0.100E-03  0.300E+01
-  0.49737508E+00        2   1 THETA        BOUNDS:   0.000E+00  0.100+101
-  0.30850995E+04        3   1 THETA        BOUNDS:   0.100E+03  0.100+101
-  0.69229403E+03        4   1 THETA        BOUNDS:   0.100E+03  0.100+101
-  0.44170762E+02        5   1 THETA        BOUNDS:   0.100E+01  0.100+101
-  0.13629106E+01        6   1 THETA        BOUNDS:   0.100E-01  0.300E+01
-  0.95060417E+00        7   1 THETA        BOUNDS:   0.000E+00  0.100E+02
-  0.49960075E+00        1   1 EPS_STD_DEV  BOUNDS:   0.100E-02  0.100+101
-  0.24960091E+00        1   1 EPS_VARIANCE
-  0.15504184E+00        1   1 OMEGA
-  0.34296415E+04        1   1 -LOGLIKE
-  0.59771020E+04        1   1 ELSOBJ  
+  0.18279761E+01        1   1 THETA        BOUNDS:   0.000E+00  0.100+101
+  0.49735849E+00        2   1 THETA        BOUNDS:   0.000E+00  0.100+101
+  0.30777592E+04        3   1 THETA        BOUNDS:   0.100E+03  0.100+101
+  0.68957946E+03        4   1 THETA        BOUNDS:   0.100E+03  0.100+101
+  0.44202791E+02        5   1 THETA        BOUNDS:   0.100E+01  0.100+101
+  0.13644482E+01        6   1 THETA        BOUNDS:   0.100E-01  0.300E+01
+  0.95289057E+00        7   1 THETA        BOUNDS:   0.000E+00  0.100+101
+  0.22545834E+00        1   1 EPS_STD_DEV  BOUNDS:   0.100E-02  0.100+101
+  0.50831462E-01        1   1 EPS_VARIANCE
+  0.15526496E+00        1   1 OMEGA
+  0.34296339E+04        1   1 -LOGLIKE
+  0.59770868E+04        1   1 ELSOBJ  
  
  EPSILON SHRINKAGES
-  Epsilon shrinkage for CEps =     0.054498
+  Epsilon shrinkage for CEps =     0.054310
 
  ETA SHRINKAGES
-   eta-shrinkage( 1) =          0.07191
+   eta-shrinkage( 1) =          0.07248
 
  RUNTIMES
 
-   engine runtime (secs) =     86.688
-   stderr runtime (secs) =     44.500
+   engine runtime (secs) =     50.125
+   stderr runtime (secs) =     31.875
 
  EXITCODE            1

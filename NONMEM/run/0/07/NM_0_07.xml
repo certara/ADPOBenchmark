@@ -5,12 +5,13 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 xsi:schemaLocation="http://namespaces.oreilly.com/xmlnut/address output.xsd"
 xmlns:nm="http://namespaces.oreilly.com/xmlnut/address"
 >
-<nm:start_datetime>2024-09-08T15:48:51.938</nm:start_datetime>
+<nm:start_datetime>2024-10-05T07:21:09.257</nm:start_datetime>
 <nm:control_stream><![CDATA[
+$SIZES MAXFCN = 5000000
 $PROBLEM    Dual Numbers benchmark
 $INPUT       ID TIME AMT DV WT
   ;; $DATA      c:/git/adpoBenchmark/data/sim_1_0_0_0.csv IGNORE=@
-$DATA      D:/git/adpoBenchmark/data/sim_1_0_0_0.csv IGNORE=@
+$DATA      d:/git/adpobenchmark/data/sim_1_0_0_0.csv IGNORE=@
 
 $SUBROUTINE ADVAN6 TOL=7
 $MODEL
@@ -47,11 +48,11 @@ $THETA
   (0,1.2) 	; THETA(4) KA UNITS = 1/HR
 
 
-  (0,2)	 ;; THETA(5) K23
-  (0,3)	 ;; THETA(6) K32
+  (0.0001,2)	 ;; THETA(5) K23
+  (0.0001,3)	 ;; THETA(6) K32
 ; empty $OMEGA
 $OMEGA
-  0.3		; ETA(1) ETA ON VMAX
+  0.1		; ETA(1) ETA ON VMAX
 $SIGMA
   (1) ;; EPS(1) ADDITIVE
   (0.3) ;; EPS(2) PROPORTIONAL
@@ -60,6 +61,7 @@ $SIGMA
   ;;; Model Identifier =  1,0,0,0
 
 $TABLE ID TIME IPRED DV NOAPPEND ONEHEADER NOPRINT FILE= Run1Preds.dat
+
 ;; Phenotype: ([('COMP', 1), ('ETAs', 0), ('V~WT', 0), ('GAMMA', 0)])
 ;; Genotype: [1, 0, 0, 0]
 ;; Num non-influential tokens: 0
@@ -74,8 +76,8 @@ $TABLE ID TIME IPRED DV NOAPPEND ONEHEADER NOPRINT FILE= Run1Preds.dat
 <nm:license_information><![CDATA[
 License Registered to: Certara USA
 Expiration Date:    14 MAR 2025
-Current Date:        8 SEP 2024
-Days until program expires : 191
+Current Date:        5 OCT 2024
+Days until program expires : 164
 ]]></nm:license_information>
 <nm:program_information><![CDATA[
 1NONLINEAR MIXED EFFECTS MODEL PROGRAM (NONMEM) VERSION 7.4.3
@@ -89,8 +91,8 @@ Days until program expires : 191
 <nm:val nm:name='2'>100.00000000000000</nm:val>
 <nm:val nm:name='3'>0.0000000000000000</nm:val>
 <nm:val nm:name='4'>0.0000000000000000</nm:val>
-<nm:val nm:name='5'>0.0000000000000000</nm:val>
-<nm:val nm:name='6'>0.0000000000000000</nm:val>
+<nm:val nm:name='5'>1.00000000000000005E-004</nm:val>
+<nm:val nm:name='6'>1.00000000000000005E-004</nm:val>
 </nm:theta_lb>
 <nm:theta_in>
 <nm:val nm:name='1'>4000.0000000000000</nm:val>
@@ -145,10 +147,10 @@ Days until program expires : 191
   0.1000E+03     0.4000E+04     0.1000E+07
   0.0000E+00     0.5000E+02     0.1000E+07
   0.0000E+00     0.1200E+01     0.1000E+07
-  0.0000E+00     0.2000E+01     0.1000E+07
-  0.0000E+00     0.3000E+01     0.1000E+07
+  0.1000E-03     0.2000E+01     0.1000E+07
+  0.1000E-03     0.3000E+01     0.1000E+07
 0INITIAL ESTIMATE OF OMEGA:
- 0.3000E+00
+ 0.1000E+00
 0INITIAL ESTIMATE OF SIGMA:
  0.1000E+01
  0.0000E+00   0.3000E+00
@@ -262,7 +264,7 @@ Days until program expires : 191
 />
 <nm:estimation_elapsed_time>0.06</nm:estimation_elapsed_time>
 <nm:final_objective_function_text>MINIMUM VALUE OF OBJECTIVE FUNCTION</nm:final_objective_function_text>
-<nm:final_objective_function>6325.0422397071961</nm:final_objective_function>
+<nm:final_objective_function>6380.3969900782895</nm:final_objective_function>
 <nm:theta>
 <nm:val nm:name='1'>4000.0000000000000</nm:val>
 <nm:val nm:name='2'>4000.0000000000000</nm:val>
@@ -273,7 +275,7 @@ Days until program expires : 191
 </nm:theta>
 <nm:omega>
 <nm:row nm:rname='1'>
-<nm:col nm:cname='1'>0.29999999999999993</nm:col>
+<nm:col nm:cname='1'>0.10000000000000001</nm:col>
 </nm:row>
 </nm:omega>
 <nm:sigma>
@@ -287,7 +289,7 @@ Days until program expires : 191
 </nm:sigma>
 <nm:omegac>
 <nm:row nm:rname='1'>
-<nm:col nm:cname='1'>0.54772255750516607</nm:col>
+<nm:col nm:cname='1'>0.31622776601683794</nm:col>
 </nm:row>
 </nm:omegac>
 <nm:sigmac>
@@ -302,10 +304,10 @@ Days until program expires : 191
 </nm:estimation>
 <nm:post_process_times>
 <nm:post_elapsed_time>0.06</nm:post_elapsed_time>
-<nm:finaloutput_elapsed_time>0.06</nm:finaloutput_elapsed_time>
+<nm:finaloutput_elapsed_time>0.23</nm:finaloutput_elapsed_time>
 </nm:post_process_times>
 </nm:problem>
 </nm:nonmem>
-<nm:stop_datetime>2024-09-08T15:48:52.169</nm:stop_datetime>
-<nm:total_cputime>0.219</nm:total_cputime>
+<nm:stop_datetime>2024-10-05T07:21:09.852</nm:stop_datetime>
+<nm:total_cputime>0.234</nm:total_cputime>
 </nm:output>

@@ -1,31 +1,31 @@
-##DATA d:/git/adpoBenchmark/data/sim_{COMP[6]}_{ETAs[6]}_{V~WT[3]}_{GAMMA[3]}.csv 
+##DATA {data_dir}/sim_{COMP[6]}_{ETAs[6]}_{V~WT[3]}_{GAMMA[3]}.csv
 ##MAP   Aa = AMT CObs = IOBS id = ID time = TIME WT = WT
-##MODEL test()  
-  { 
+##MODEL test()
+  {
   deriv(Aa = - Ka * Aa)
   {COMP[1]}
   C = A1 / V
   dosepoint(Aa, idosevar = AaDose, infdosevar = AaInfDose, infratevar =  AaInfRate)
-  error(CEps = 0.5) 
-  observe(CObs=C + CEps * sqrt(1 + C^2 * (CMultStdev/sigma())^2)) 
+  error(CEps = 0.5)
+  observe(CObs=C + CEps * sqrt(1 + C^2 * (CMultStdev/sigma())^2))
   fixef( CMultStdev = c(0,1,))
   stparm(Vmax = tvVmax {ETAs[1]})
-  fixef(tvVmax= c(100, 4000, ))  
+  fixef(tvVmax= c(100, 4000, ))
   stparm(Km = tvKm {ETAs[3]})
-  fixef(tvKm= c(100, 4000, ))  
+  fixef(tvKm= c(100, 4000, ))
   fcovariate(WT)
   stparm(V = tvV {V~WT[1]} {ETAs[2]})
-  fixef(tvV= c(1, 50, )) 
+  fixef(tvV= c(1, 50, ))
   stparm(Ka = tvKa {ETAs[4]})
-  fixef(tvKa= c(0.01, 1.2, 3))   
+  fixef(tvKa= c(0.01, 1.2, 3))
   {COMP[2]}
-  {COMP[3]}  
+  {COMP[3]}
   {COMP[4]}
-  {COMP[5]} 
+  {COMP[5]}
   {ETAs[5]}
-  {V~WT[2]}  
-   } 
+  {V~WT[2]}
+   }
 ##ESTARGS
  ODE=DVERK sort=FALSE method=FOCE-ELS stdErr=Auto-Detect numIterations = 10 maxStepsODE = 100000000
- 
+
 

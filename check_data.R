@@ -6,9 +6,9 @@ check_data <- function(home_dir, curr_model){
   phenotype <- control[[1]][phenotype[[1]]]
   phenotype <- str_trim(str_replace(phenotype,"  ;;; Model Identifier = ",""))
   phenotype <- str_split(phenotype,",")[[1]]
-  datafile <-  control[[1]][grep(tolower(paste0("DATA      ",home_dir)), tolower(unlist(control)))]
+  datafile <-  control[[1]][grep(tolower(paste0("^\\$DATA      ",home_dir)), tolower(unlist(control)))]
   datafile <- tolower(datafile)
-  datafile <- str_trim(str_replace(datafile,"\\$data" ,""))
+  datafile <- str_trim(str_replace(datafile,"^\\$data" ,""))
   datafile <- str_trim(str_replace(datafile,tolower(paste0(home_dir,"/data/sim_")),""))
   datafile <- str_trim(str_replace(datafile,".csv ignore=@",""))
   datafile <- str_split(datafile,"_")[[1]]
@@ -25,10 +25,11 @@ check_data <- function(home_dir, curr_model){
   phenotype <- str_trim(str_replace(phenotype,"## Genotype: \\[",""))
   phenotype <- str_trim(str_replace(phenotype,"\\]",""))
   phenotype <- str_split(phenotype,", ")[[1]]
-  datafile <-  control[[1]][grep("##DATA ", unlist(control))]
+  datafile <-  control[[1]][grep("^##DATA ", unlist(control))]
   datafile <- str_trim(str_replace(datafile,"##DATA",""))
   datafile <- tolower(datafile)
   datafile <- str_trim(str_replace(datafile,tolower(paste0(home_dir,"/data/sim_")),""))
+  datafile <- str_trim(str_replace(datafile,tolower("sim_"), ""))
   datafile <- str_trim(str_replace(datafile,".csv",""))
   datafile <- str_split(datafile,"_")[[1]]
   if(!(all(datafile==phenotype))){

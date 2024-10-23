@@ -1,33 +1,33 @@
-##DATA d:/git/adpoBenchmark/data/sim_2_1_1_1.csv 
+##DATA d:/git/adpobenchmark/data/sim_2_1_1_1.csv
 ##MAP   Aa = AMT CObs = IOBS id = ID time = TIME WT = WT
-##MODEL test()  
-  { 
+##MODEL test()
+  {
   deriv(Aa = - Ka * Aa)
   deriv(A1 = Ka * Aa + K21*A2 - K12*A1 + K31*A3 - K12*A2 - Vmax * C **GAMMA/ (Km **GAMMA + C **GAMMA))
   deriv(A2 = K12 * A1 - K21*A2) 
   deriv(A3 = K13 * A1 - K31*A3)
-  fixef(GAMMA= c(0.0001, 1.6, 3 ))  
+  fixef(GAMMA= c(0, 1.6,))  
   C = A1 / V
   dosepoint(Aa, idosevar = AaDose, infdosevar = AaInfDose, infratevar =  AaInfRate)
-  error(CEps = 0.5) 
-  observe(CObs=C + CEps * sqrt(1 + C^2 * (CMultStdev/sigma())^2)) 
+  error(CEps = 0.5)
+  observe(CObs=C + CEps * sqrt(1 + C^2 * (CMultStdev/sigma())^2))
   fixef( CMultStdev = c(0,1,))
   stparm(Vmax = tvVmax * exp( nVmax ))
-  fixef(tvVmax= c(100, 4000, ))  
+  fixef(tvVmax= c(100, 4000, ))
   stparm(Km = tvKm )
-  fixef(tvKm= c(100, 4000, ))  
+  fixef(tvKm= c(100, 4000, ))
   fcovariate(WT)
   stparm(V = tvV *(WT/70)^dVdWT * exp( nV ))
-  fixef(tvV= c(1, 50, )) 
+  fixef(tvV= c(1, 50, ))
   stparm(Ka = tvKa )
-  fixef(tvKa= c(0.01, 1.2, 3))   
-  fixef(K12= c(0.0001, 2, 10 ))
-  fixef(K21= c(0.0001, 3, 10 ))  
-  fixef(K13= c(0.0001, 0.1, 10 ))
-  fixef(K31= c(0.0001, 0.05, 10 )) 
-  ranef(diag(nVmax,nV) = c(0.31,0.31))
-  fixef(dVdWT=c(0, 1.1, 10 ))  
-  } 
+  fixef(tvKa= c(0.01, 1.2, 3))
+  fixef(K12= c(0.0001, 2, ))
+  fixef(K21= c(0.0001, 3, ))
+  fixef(K13= c(0.0001, 0.1, ))
+  fixef(K31= c(0.0001, 0.05, ))
+  ranef(diag(nVmax,nV) = c(0.1,0.1))
+  fixef(dVdWT=c(0, 1.1,))
+  }
 ##ESTARGS
   ODE=DVERK sort=FALSE method=FOCE-ELS stdErr=Auto-Detect numIterations = 9999 maxStepsODE = 100000000
 

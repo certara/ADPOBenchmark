@@ -2,27 +2,27 @@ $SIZES MAXFCN = 5000000
  $PROBLEM    Dual Numbers benchmark
   $INPUT       ID TIME AMT DV WT
  ;; $DATA      c:/git/adpoBenchmark/data/sim_{COMP[6]}_{ETAs[6]}_{V~WT[3]}_{GAMMA[3]}.csv IGNORE=@
-  $DATA      D:/git/adpoBenchmark/data/sim_{COMP[6]}_{ETAs[6]}_{V~WT[3]}_{GAMMA[3]}.csv IGNORE=@
-            
-  $SUBROUTINE ADVAN6 TOL=7 
+  $DATA      {data_dir}/sim_{COMP[6]}_{ETAs[6]}_{V~WT[3]}_{GAMMA[3]}.csv IGNORE=@
+
+  $SUBROUTINE ADVAN6 TOL=7
   $MODEL
    COMP=(DEPOT,DEFDOSE)
    COMP=(CENTRAL,NODOSE,DEFOBS)
    {COMP[1]}
-  $PK      
-  CWT = WT/70 
- 
-  TVVMAX= THETA(1)   
+  $PK
+  CWT = WT/70
+
+  TVVMAX= THETA(1)
   VMAX=TVVMAX{ETAs[1]}
   TVKM = THETA(2)
-  KM = TVKM {ETAs[2]} 
+  KM = TVKM {ETAs[2]}
   TVV2=THETA(3) {V~WT[1]}
-  V2=TVV2 {ETAs[3]}   
-  TVKA=THETA(4) 
-  KA=TVKA {ETAs[4]}  
+  V2=TVV2 {ETAs[3]}
+  TVKA=THETA(4)
+  KA=TVKA {ETAs[4]}
   {COMP[2]}
   SC = V2
-  $ERROR    
+  $ERROR
   IPRED = F
   Y=F*EXP(EPS(2)) + EPS(1)
 $DES
@@ -30,22 +30,22 @@ $DES
   DADT(1) = -KA*A(1)
   DADT(2) =  KA*A(1)-VMAX*CONC{GAMMA[1]}/(KM{GAMMA[1]}+CONC{GAMMA[1]}) {COMP[3]}
   {COMP[4]}
- 
-$THETA   
+
+$THETA
   (100,4000)	; THETA(1) VMAX UNITS =  MG/HR
   (100,4000)	; THETA(2) KM UNITS =  CONC
   (0,50) 	; THETA(3) V  UNITS = L
-  (0,1.2) 	; THETA(4) KA UNITS = 1/HR    
+  (0,1.2) 	; THETA(4) KA UNITS = 1/HR
   {GAMMA[2]}
   {V~WT[2]}
   {COMP[5]}
-  $OMEGA    
+  $OMEGA
   {ETAs[5]}
-  $SIGMA     
+  $SIGMA
   (1) ;; EPS(1) ADDITIVE
   (0.3) ;; EPS(2) PROPORTIONAL
 ;;$EST METHOD=COND INTER MAXEVALS=9999 NOHABORT NOOMEGABOUNDTEST NOSIGMABOUNDTEST NOTHETABOUNDTEST
 ;;$COV UNCOND PRECOND=2
 ;;; Model Identifier =  {COMP[6]},{ETAs[6]},{V~WT[3]},{GAMMA[3]}
- 
+
 $TABLE ID TIME IPRED DV NOAPPEND ONEHEADER NOPRINT FILE= Run1Preds.dat
