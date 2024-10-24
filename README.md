@@ -3,7 +3,7 @@
 ADPO is an abbreviation for Automatic differentiation parameter optimization. The method has been developed by Certara
 and may present an opportunity for improved performance of parameter optimization in first order conditional 
 method for mixed effects models. Briefly, rather than the finite difference method being used to calculate the
-gradients WRT ETAs in the conditional step (the "inner loop") a closed form solution to the derivative is calculated using the chain rule. This approach has been adapted from a similar approach used in neural networks.  [(https://en.wikipedia.org/wiki/Automatic_differentiation#:~:text=Automatic%20differentiation%20is%20particularly%20important,without%20a%20manually%2Dcomputed%20derivative.)].\
+gradients WRT ETAs in the conditional step (the "inner loop") a closed form solution to the derivative is calculated using the chain rule. This approach has been adapted from a similar approach used in neural networks.  [(https://en.wikipedia.org/wiki/Automatic_differentiation].\
 
 ## Software requirements:
 
