@@ -1,38 +1,18 @@
 
-run_nlme <- function(home_dir, which_version = "standard", nlme_dirs) {
-  Sys.setenv("INSTALLDIR" = nlme_dirs[which_version])
+run_nlme <- function(home_dir, nlme_dir) {
+  Sys.setenv("INSTALLDIR" = nlme_dir)
+  which_version <- "Standard"
   timeout <-  3600*6
   message("Starting NLME benchmarking")
   # BAK files are just so we can look at intermediate results with locking the file
-  if (which_version == "ADPO") {
-    # ADPO and NoHessian are internal only, not available in public repo
-    hash_file <- "d:/users/hash.txt"
-    txt <- as.numeric(readtext(hash_file)$text)
-    Sys.setenv("NLME_HASH" = as.numeric(txt))
-    syngrads <- TRUE
-    outputfilename <-  "NLMEResults_ADPO.csv"
-    backupfilename <-  "NLMEResults_ADPOBAK.csv"
 
-  } else if (which_version == "NoHessian") {
-    hash_file <- "d:/users/hash.txt"
-    txt <- as.numeric(readtext(hash_file)$text)
-    Sys.setenv("NLME_HASH" = txt)
-    syngrads <- FALSE
-    outputfilename <-  "NLMEResults_NoHessian.csv"
-    backupfilename <-  "NLMEResults_NoHessianBAK.csv"
-  } else if (which_version == "standard") {
-    syngrads <- FALSE
-    outputfilename <-  "NLMEResults_Standard.csv"
-    backupfilename <-  "NLMEResults_StandardBAK.csv"
-  }  else if (which_version == "noCache") {
-    hash_file <- "d:/users/hash.txt"
-    txt <- as.numeric(readtext(hash_file)$text)
-    Sys.setenv("NLME_HASH" = as.numeric(txt))
-    syngrads <- FALSE
-    outputfilename <-  "NLMEResults_NoCache.csv"
-    backupfilename <-  "NLMEResults_NoCacheBAK.csv"
-  }
-
+  syngrads <- FALSE
+  outputfilename <-  "NLMEResults_Standard.csv"
+  backupfilename <-  "NLMEResults_StandardBAK.csv"
+  # need to fix this, reinstall release NLME
+  hash_file <- "d:/users/hash.txt"
+  txt <- as.numeric(readtext(hash_file)$text)
+  Sys.setenv("NLME_HASH" = txt)
   ETANOMEGA <- c(1, 2, 3, 4, 3, 6) # no simple way to get n_omega from fit object
   Results <- data.frame(
     StartTime = as.character(),
@@ -68,6 +48,7 @@ run_nlme <- function(home_dir, which_version = "standard", nlme_dirs) {
 
   )
   Curr_model <- 0
+  this_gamma <- this_vwt <- this_comp <- this_eta <- 0
   for (this_gamma in 0:1) {
     for (this_vwt in 0:1) {
       for (this_comp in 0:2) {
@@ -75,7 +56,7 @@ run_nlme <- function(home_dir, which_version = "standard", nlme_dirs) {
           Curr_model <- Curr_model + 1
           StartTime <- Sys.time()
           runOk <- TRUE
-          tryCatch({
+          tryCatch({Curr_model
             model_meta <- create_model_from_metamodel(file.path(
               home_dir,
               "NLME",
@@ -84,10 +65,10 @@ run_nlme <- function(home_dir, which_version = "standard", nlme_dirs) {
             ),
             directoryToRun = file.path(home_dir, "NLME", Curr_model, paste0("Run", Curr_model)))
 
-            model_orig <- model_meta$model
+            model <- model_meta$model
             message(
               "############ Running ",
-              model_orig@modelInfo@workingDir,
+              model@modelInfo@workingDir,
               " at ",
               format(Sys.time(), format = "%F %R %Z") ,
               " with ",
@@ -95,52 +76,46 @@ run_nlme <- function(home_dir, which_version = "standard", nlme_dirs) {
               " ############"
             )
             modelNum <- str_sub(rev(setdiff(
-              strsplit(model_orig@modelInfo@workingDir, "/|\\\\")[[1]],
+              strsplit(model@modelInfo@workingDir, "/|\\\\")[[1]],
               ""
             ))[1], start = 0)
-            if (file.exists(file.path(model_orig@modelInfo@workingDir, "err2.txt"))) {
-              file.remove(file.path(model_orig@modelInfo@workingDir, "err2.txt"))
+            if (file.exists(file.path(model@modelInfo@workingDir, "err2.txt"))) {
+              file.remove(file.path(model@modelInfo@workingDir, "err2.txt"))
             }
             if(exists("fit")) rm(fit)
-            if(file.exists(model_orig@modelInfo@workingDir)){
-             unlink(model_orig@modelInfo@workingDir, recursive = TRUE)
-          }
-              Rval <- withTimeout(fit <- fitmodel(
-                model_orig,
+            if(file.exists(model@modelInfo@workingDir)){
+             unlink(model@modelInfo@workingDir, recursive = TRUE)
+            }
+              fit <- fitmodel(
+                model,
                 numIterations = 9999,
                 numCores = 1,
                 ODE = "DVERK",
                 sort = FALSE,
                 method = "FOCE-ELS",
-                workingDir = model_orig@modelInfo@workingDir,
+                workingDir = model@modelInfo@workingDir,
                 stdErr = "Auto-Detect",
                 maxStepsODE = 100000,
                 allowSyntheticGradient = syngrads,
                 #  installationDirectory = installationDirectory,
                 runInBackground = FALSE
-              ),
-            substitute=TRUE,
-            envir=parent.frame(),
-            timeout = timeout + 60,
-            cpu=99999,
-            elapsed = timeout + 60, # 60 seconds for compiling
-            onTimeout="warning")
+              )
           }, error = function(cond) {
             runOk <- FALSE # this fails if no license
-            message("Error!!\nNo License???")
+            message(cond, "Error!!\nNo License???")
           })
           EndTime <- Sys.time()
 
           if (!(runOk) |
-              file.exists(file.path(model_orig@modelInfo@workingDir, "err2.txt")) |
+              file.exists(file.path(model@modelInfo@workingDir, "err2.txt")) |
             !exists("fit")) {
             EndTime <- Sys.time()
             control_file <- file.path(home_dir,
                                       "nlme",
                                       Curr_model,
                                       paste0("Run", Curr_model, ".mmdl"))
-            if (file.exists(file.path(model_orig@modelInfo@workingDir, "err2.txt"))) {
-              file_conn <- file(model_orig@modelInfo@workingDirm, "err2.txt")
+            if (file.exists(file.path(model@modelInfo@workingDir, "err2.txt"))) {
+              file_conn <- file(model@modelInfo@workingDirm, "err2.txt")
               messages <- readLines(file_conn)
               close(file_conn)
             } else{
@@ -150,6 +125,7 @@ run_nlme <- function(home_dir, which_version = "standard", nlme_dirs) {
                 messages <- "timed out"
               }
             }
+
             This_Result <- data.frame(
 
               StartTime = strptime(StartTime, format = "%Y-%m-%d %H:%M:%S"),
@@ -169,9 +145,9 @@ run_nlme <- function(home_dir, which_version = "standard", nlme_dirs) {
               Iterations = -999,
               Algorithm = which_version, #"NLME",
               Good_inits = TRUE,
-              log_path = log_path,
+              log_path = "Unknown",
               control_file = control_file,
-              data_set = data_file,
+              data_set = "Unknown",
               nparms = -999,
               messages = messages,
               TVVmax = -99,
@@ -189,6 +165,7 @@ run_nlme <- function(home_dir, which_version = "standard", nlme_dirs) {
             } else{
               Success <- FALSE
             }
+
             status <- fit$Overall$RetCode
             n_theta <- dim(fit$theta)[1] - 1 # one theta for residual error
             n_omega <- ETANOMEGA[this_eta + 1] # dim(fit$omega)[1]
@@ -226,7 +203,7 @@ run_nlme <- function(home_dir, which_version = "standard", nlme_dirs) {
             control <- readLines(file_conn)
             close(file_conn)
             data_file <- str_replace(control[1], "##DATA ", "")
-            log_path <- file.path(model_orig@modelInfo@workingDir,
+            log_path <- file.path(model@modelInfo@workingDir,
                                   "nlme7engine.log")
             if (!is.null(fit$residuals)) {
               DV <- log(fit$residuals$DV)
@@ -274,7 +251,7 @@ run_nlme <- function(home_dir, which_version = "standard", nlme_dirs) {
               crash = FALSE
             )
           }
-          CleanUpNLME(model_orig@modelInfo@workingDir)
+          CleanUpNLME(model@modelInfo@workingDir)
           Results <- rbind(Results, This_Result)
           write.csv(
             Results,

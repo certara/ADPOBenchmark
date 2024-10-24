@@ -13,12 +13,24 @@ CleanUpNM <- function(wd) {
     invert = TRUE,
     value = TRUE
   )
-
-  file.remove(files)
+  cfiles <-
+    list.files(
+      path = wd,
+      pattern = "co.$",
+      full.names = TRUE,
+      recursive = TRUE  )
+  sfiles <-
+    list.files(
+      path = wd,
+      pattern = "sh.$",
+      full.names = TRUE,
+      recursive = TRUE  )
+  file.remove(c(files,cfiles,sfiles))
 }
 CleanUpNLME <- function(wd) {
   # just the big stuff
   # keep err? and .log file
+
   files <- grep(
     list.files(
       path = wd,

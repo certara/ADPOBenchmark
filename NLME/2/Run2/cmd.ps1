@@ -1,5 +1,5 @@
 \n$env:NLME_HASH = 1770978959
-$INSTALLDIR="D:\NLME_Engine_noHessian"
+$INSTALLDIR="C:\Program Files\Certara\NLME_Engine"
 if($INSTALLDIR -eq "" -or $INSTALLDIR -eq $null)
 {
   "Installation directory is not specified"
