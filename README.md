@@ -53,3 +53,10 @@ After the benchmark analysis for NLME and NONMEM is complete, run `MakePlots.R` 
 | 1 | NLME Standard   | 100      | 97.22   |
 | 2 | NONMEM          | 70.83    | 83.33   |
 
+Additional outputs are available in the NLMEResults_standard.csv and NONMEMResults.csv file including:
+Number of iterations
+Typical value of parameter estimates
+Root mean square error (RMSE)
+Mean absolute Error (MAE)
+
+These can be accessed by the user for additional diagnostics such as comparing the typical values of parameters to the "true" value. Note that the best available approximation to the "true" values will thm mean and SD used for the simulations. However, a better comparitor would be the mean and SD of the draws from those distributions. For interested user, these can be generates by rerunning the script used for the simulation. This script is not provided here, as it requires pyDarwin to run. Interested user can contact us at support@certara.com for help running the simulation.
