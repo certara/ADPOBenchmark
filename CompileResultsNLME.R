@@ -9,10 +9,6 @@ run_nlme <- function(home_dir, nlme_dir) {
   syngrads <- FALSE
   outputfilename <-  "NLMEResults_Standard.csv"
   backupfilename <-  "NLMEResults_StandardBAK.csv"
-  # need to fix this, reinstall release NLME
-  hash_file <- "d:/users/hash.txt"
-  txt <- as.numeric(readtext(hash_file)$text)
-  Sys.setenv("NLME_HASH" = txt)
   ETANOMEGA <- c(1, 2, 3, 4, 3, 6) # no simple way to get n_omega from fit object
   Results <- data.frame(
     StartTime = as.character(),
