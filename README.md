@@ -22,9 +22,9 @@ The ADPO method remains under active development with expected release in Phoeni
 
 *NONMEM is run using the nmfe??.bat command, where ?? is the version of NONMEM (e.g., 7.5 -\> nmfe75.bat)*
 
-## Usage
+## Background and Usage
 
-The scripts provided in the repository run performance benchmarks for "Standard" NLME against NONMEM for 72 ODE models (ADVAN6 and DVERK ODE solvers). These models are fit to simulated data. The simulated data is generated from the same 72 models, so the estimation model is fitting, to the extent possible, the "true" model in all 72 cases. Further, the initial estimates for each model are those used for the simulation.
+The scripts provided in the repository run performance benchmarks for "Standard" NLME against NONMEM for 72 ODE models (ADVAN6 and the corresponding DVERK ODE solvers). These models are fit to simulated data. The simulated data are generated from the same 72 models, so the estimation model is fitting, to the extent possible, the "true" model in all 72 cases. The same 72 data sets were used for NONMEM and NLME. Further, the initial estimates for each model are those used for the simulation. The models were 1, 2 and 3 compartment with Michaelis-Menten elimination. The Michaelis-Menten elimination was with or without a "gamma" exponent. Different between subject variability terms were including and a range of off-diagonal OMEGA strucures. These models were chosen to produce a range of numerical challenge and with a range of execution time, up to > 6 hours for NONMEM.
 
 It is likely that some customization of the script will be needed. At minimum, the path to nmfe??.bat (batch file for executing NONMEM) and the path to the NLME-Engine installation directory should be reviewed for accuracy.
 
