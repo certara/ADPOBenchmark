@@ -5,7 +5,7 @@
 "ADPO" is an abbreviation for Automatic differentiation parameter optimization. The method has been developed by Certara and integrated into the NLME-Engine, and may present an opportunity for improved performance of parameter optimization in first order conditional method for mixed effects models.
 
 ![](TimeNParm_All.jpeg)
-
+Where "AD" is automatic differentiaion, "standard" is the current release of NLME, "NoHessian" is the standard release with the current estimate of the Hessian matrix is NOT used to initialize the ETA search, and "NoCache" disables caching of certain values. "NONMEM" is NONMEM version 7.43.
 Briefly, rather than the finite difference method being used to calculate the gradients WRT ETAs in the conditional step (the "inner loop"), a closed form solution to the derivative is calculated using the chain rule. This approach has been adapted from a [similar approach](https://en.wikipedia.org/wiki/Automatic_differentiation) used in neural networks.
 
 The ADPO method remains under active development with expected release in Phoenix 8.6 and RsNLME 3.1. At this time, we have supplied a set of scripts in the repository to compare the performance across a standard set of models for the currently released NLME-Engine (available in Phoenix 8.5 and RsNLME 3.0) versus NONMEM. Additional scripts to compare ADPO, No Hessian, and No Cache methods will be provided once the next version of the NLME-Engine has been officially released.
