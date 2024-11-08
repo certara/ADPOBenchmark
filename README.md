@@ -1,45 +1,55 @@
-# ADPOBenchmark 
-## Overview:
-ADPO is an abbreviation for Automatic differentiation parameter optimization. The method has been developed by Certara
-and may present an opportunity for improved performance of parameter optimization in first order conditional 
-method for mixed effects models. Briefly, rather than the finite difference method being used to calculate the
-gradients WRT ETAs in the conditional step (the "inner loop") a closed form solution to the derivative is calculated using the chain rule. This approach has been adapted from a similar approach used in neural networks.  [(https://en.wikipedia.org/wiki/Automatic_differentiation].\
+# ADPOBenchmark
 
-## Software requirements:
+## Overview
 
-Running the suite of benchmarks requires:
+"ADPO" is an abbreviation for Automatic differentiation parameter optimization. The method has been developed by Certara and integrated into the NLME-Engine, and may present an opportunity for improved performance of parameter optimization in first order conditional method for mixed effects models.
 
-NONMEM (https://www.iconplc.com/solutions/technologies/nonmem)
+![](TimeNParm_All.jpeg)
 
-NONMEM is run using the nmfe??.bat command, where ?? is the version of NONMEM (e.g., 7.5 -> nmfe75.bat)
+Briefly, rather than the finite difference method being used to calculate the gradients WRT ETAs in the conditional step (the "inner loop"), a closed form solution to the derivative is calculated using the chain rule. This approach has been adapted from a [similar approach](https://en.wikipedia.org/wiki/Automatic_differentiation) used in neural networks.
 
-NLME engine (https://www.certara.com/software/phoenix-nlme/)
+The ADPO method remains under active development with expected release in Phoenix 8.6 and RsNLME 3.1. At this time, we have supplied a set of scripts in the repository to compare the performance across a standard set of models for the currently released NLME-Engine (available in Phoenix 8.5 and RsNLME 3.0) versus NONMEM. Additional scripts to compare ADPO, No Hessian, and No Cache methods will be provided once the next version of the NLME-Engine has been officially released.
 
-  A complimentary 30 day NLME engine license is avaiable from support@Certara.com.
-  
-## ADPOBenchmark
-ADPOBenchmark runs performance benchmarks in NONMEM (Icon PLC - https://www.iconplc.com/solutions/technologies/nonmem) and NLME (Certara - https://www.certara.com/app/uploads/2020/06/BR_PhoenixNLME-v4.pdf) for 72 ODE models (ADVAN6 and DVERK ODE solvers). These models
-are fit to simulated data. The simulate data is generate from the same 72 models, so the estimation model is fitting, to the extent possible, the "true" model in all 72 cases. Further, the initial estimates for each model are those used for the simulation.
+## Software requirements
 
+-   R/RStudio
+-   R package `Certara.RsNLME` (<https://certara.github.io/R-RsNLME/>)
+-   NLME engine (<https://www.certara.com/software/phoenix-nlme/>)
 
-It is likely that some customization of the script will be needed. At minimum, the path the nmfe??.bat (batch file for executing NONMEM) and the paths for NLME for Windows and/or Linux must be provided. These are specified in the first few lines of the
-"RunNONMEM.R" and "RunNLME.R" file and default values are given below
+*A free 30 day trial license for the NLME engine to be used with `Certara.RsNLME` is available. Click [here](https://www.certara.com/software/r-speaks-nlme-rsnlme/free-trial/) to request.*
 
-For RunNONMEM.R:
+-   NONMEM (<https://www.iconplc.com/solutions/technologies/nonmem>)
 
-  Windowsnmfe_path <- "C:/nm74g64/util/nmfe74.bat" 
+*NONMEM is run using the nmfe??.bat command, where ?? is the version of NONMEM (e.g., 7.5 -\> nmfe75.bat)*
 
-For RunNLME.R: 
+## Usage
 
-  Windowsnlme_dir <- "C:/Program Files/Certara/NLME_Engine"
-  
-  Linuxnlme_dir <- "/home/user/InstallDirNLME/" 
-  
-  gcc_dir <- "C:\\Program Files\\Certara\\mingw64"
+The scripts provided in the repository run performance benchmarks for "Standard" NLME against NONMEM for 72 ODE models (ADVAN6 and DVERK ODE solvers). These models are fit to simulated data. The simulated data is generated from the same 72 models, so the estimation model is fitting, to the extent possible, the "true" model in all 72 cases. Further, the initial estimates for each model are those used for the simulation.
 
+It is likely that some customization of the script will be needed. At minimum, the path to nmfe??.bat (batch file for executing NONMEM) and the path to the NLME-Engine installation directory should be reviewed for accuracy.
 
-Three R script can be run. First run RunNONMEM.R (after confirming that the nmfe??.bat path is correct). After this is done, the user may want to reboot the computer, to insure that there is no sequence effect. Certara testing suggests that for the present # of models there is no signficant unreleased memory, but the user should feel free to reboot.
-Next, run RunNLME.R, again after confirming that the paths are correct.
-When these are done, the MakePlots.R can be run to generate the plot and table.
+After cloning the repository or downloading local `.zip` archive, open `ADPOBenchmark.Rproj`.
 
-Please feel free to contact support@Certara.com for a complimentary 30 day NLME license to the NLME engine, or any questions.
+### Run Standard NLME
+
+Open `RunNLME.R` and ensure that the path to the NLME-Engine installation directory in line 4 (Linux) or line 5 (Windows) is correct. After ensuring the path is correct, you may interactively run all lines in the script or `source(RunNLME.R)` from your R console. If you have not used `Certara.RsNLME` previously, there is an initial function to authenticate your license (line 46).
+
+*Note: Estimated execution time for Standard NLME benchmark is \~24 hours*
+
+### Run NONMEM
+
+Open `RunNONMEM.R` and ensure that the path to the nmfe batch file line 6 (Linux) or line 8 (Windows) is correct. After ensuring the path is correct, you may interactively run all lines in the script or `source(RunNONMEM.R)` from your R console.
+
+*Note: Estimated execution time for NONMEM benchmark is \~5 days*
+
+### Make Plots
+
+After the benchmark analysis for NLME and NONMEM is complete, run `MakePlots.R` to generate plot and table comparisons.
+
+![](TimeNParm.png)
+
+|   | Algorithm       | Converge | Covar   |
+|---|-----------------|----------|---------|
+| 1 | NLME Standard   | 100      | 97.22   |
+| 2 | NONMEM          | 70.83    | 83.33   |
+
