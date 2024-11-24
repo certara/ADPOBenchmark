@@ -208,17 +208,15 @@ run_NONMEM <- function(home_dir, nmfe_path) {
             Results <- rbind(Results, This_Result)
             write.csv(
               Results,
-              file.path(home_dir, "NONMEMResultsjust72.csv"),
+              file.path(home_dir, "NONMEMResults.csv"),
               quote = FALSE,
               row.names = FALSE
             )
             try({
               file.copy(
-               # file.path(home_dir, "NONMEMResults.csv"),
-               # file.path(home_dir, "NONMEMResults_bak.csv")
-                file.path(home_dir, "NONMEMResultsjust72.csv"),
-                file.path(home_dir, "NONMEMResultjust72bak.csv")
-              )
+                file.path(home_dir, "NONMEMResults.csv"),
+                file.path(home_dir, "NONMEMResults_bak.csv")
+               )
             })
           }
         }
